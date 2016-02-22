@@ -132,6 +132,10 @@ system functions, along with examples in common programming languages.</p>
 
 <p>General Information about Bitso&rsquo;s APIs</p>
 
+<h2 id="http-and-websocket-apis">HTTP and WebSocket APIs</h2>
+
+<p>Bitso offers a HTTP API, and a WebSocket API. The HTTP API exposes both public and private functions. The WebSocket API offers realtime streaming of market-data, such as the Bitso orderbook state.</p>
+
 <h2 id="notations">Notations</h2>
 
 <p><strong>Major</strong> denotes the cryptocurrency, in our case Bitcoin (BTC).</p>
@@ -1727,6 +1731,299 @@ These <strong>withdrawals are immediate</strong> during banking hours (M-F 9:00A
 <h3 id="http-response">HTTP Response</h3>
 
 <p>Returns “ok” (quotation marks included) if the withdrawal was successfully triggered. Otherwise it returns a JSON dictionary indicating the error</p>
+
+<h1 id="websocket-api">WebSocket API</h1>
+
+<h2 id="general">General</h2>
+
+<h3 id="how-to-connect">How to connect</h3>
+
+<blockquote>
+<p>Create a WebSocket instance:</p>
+</blockquote>
+<pre class="highlight plaintext"><code>websocket = new WebSocket('wss://ws.bitso.com');
+</code></pre>
+
+<blockquote>
+<p>Subscribe to each channel you wish to connect to:</p>
+</blockquote>
+<pre class="highlight plaintext"><code>websocket.onopen = function() {
+    websocket.send(JSON.stringify({ action: 'subscribe', book: 'btc_mxn', type: 'trades' }));
+    websocket.send(JSON.stringify({ action: 'subscribe', book: 'btc_mxn', type: 'diff-orders' }));
+    websocket.send(JSON.stringify({ action: 'subscribe', book: 'btc_mxn', type: 'orders' }));
+};
+</code></pre>
+
+<blockquote>
+<p>The server will acknowledge each subscription to a channel with a message. For example, a successful subscription to the &lsquo;trades&rsquo; channel
+will be acknowledged in the following manner:</p>
+</blockquote>
+<pre class="highlight plaintext"><code>{action: "subscribe", response: "ok", time: 1455831538045, type: "trades"}
+</code></pre>
+
+<blockquote>
+<p>Once you&rsquo;ve succesfuly subscribed to a channel, listen for messages and handle them appropriately:</p>
+</blockquote>
+<pre class="highlight plaintext"><code>websocket.onmessage = function(message){
+                var data = JSON.parse(message.data);
+
+                if (data.type == 'trades' &amp;&amp; data.payload) {
+
+                }
+                else if (data.type == 'diff-orders' &amp;&amp; data.payload) {
+
+                }
+                else if (data.type == 'orders' &amp;&amp; data.payload) {
+
+                }
+            };
+</code></pre>
+
+<h3 id="example-implementation">Example Implementation</h3>
+
+<p>Use this example native javascript implementation for your reference:
+<a href="https://bitso.com/ws_demo.html">https://bitso.com/ws_demo.html</a></p>
+
+<h2 id="trades-channel">Trades Channel</h2>
+
+<blockquote>
+<p>Messages on this channel look like this:</p>
+</blockquote>
+<pre class="highlight plaintext"><code>{
+  "type": "trades",
+  "book": "btc_mxn",
+  "payload": [
+    {
+      "i": 72022,
+      "a": 0.0035,
+      "r": 7190,
+      "v": 25.16
+    }
+  ]
+}
+</code></pre>
+
+<h3 id="client-subscription-message">Client subscription message</h3>
+
+<p><code class="prettyprint">{ action: &#39;subscribe&#39;, book: &#39;btc_mxn&#39;, type: &#39;trades&#39; }</code></p>
+
+<h3 id="server-subscription-response-message">Server subscription response message</h3>
+
+<p><code class="prettyprint">{action: &quot;subscribe&quot;, response: &quot;ok&quot;, time: 1455831538045, type: &quot;trades&quot;}</code></p>
+
+<h3 id="server-json-message">Server JSON message</h3>
+
+<p>The payload contains an array with one or more trades of the following form:</p>
+
+<table><thead>
+<tr>
+<th>Field Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Units</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>i</strong></td>
+<td>Number</td>
+<td>A unique number identifying the transaction</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>a</strong></td>
+<td>Number</td>
+<td>Amount</td>
+<td>Major</td>
+</tr>
+<tr>
+<td><strong>r</strong></td>
+<td>String</td>
+<td>Rate</td>
+<td>Minor</td>
+</tr>
+<tr>
+<td><strong>v</strong></td>
+<td>String</td>
+<td>Value</td>
+<td>Minor</td>
+</tr>
+</tbody></table>
+
+<h2 id="diff-orders">Diff-Orders</h2>
+
+<blockquote>
+<p>Messages on this channel look like this:</p>
+</blockquote>
+<pre class="highlight plaintext"><code>{
+  "type": "diff-orders",
+  "book": "btc_mxn",
+  "payload": [
+    {
+      "d": 1455315979682,
+      "r": 7251.1,
+      "t": 1,
+      "a": 0.29437179,
+      "v": 2134.51
+    }
+  ]
+}
+</code></pre>
+
+<h3 id="client-subscription-message">Client subscription message</h3>
+
+<p><code class="prettyprint">websocket.send(JSON.stringify({ action: &#39;subscribe&#39;, book: &#39;btc_mxn&#39;, type: &#39;diff-orders&#39; }));</code></p>
+
+<h3 id="server-subscription-response-message">Server subscription response message</h3>
+
+<p><code class="prettyprint">{action: &quot;subscribe&quot;, response: &quot;ok&quot;, time: 1455831538047, type: &quot;diff-orders&quot;}</code></p>
+
+<h3 id="server-json-message">Server JSON Message</h3>
+
+<p>The payload contains an array with one or more orders of the following form:</p>
+
+<table><thead>
+<tr>
+<th>Field Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Units</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>d</strong></td>
+<td>Number</td>
+<td>Unix timestamp</td>
+<td>Milliseconds</td>
+</tr>
+<tr>
+<td><strong>r</strong></td>
+<td>String</td>
+<td>Rate</td>
+<td>Minor</td>
+</tr>
+<tr>
+<td><strong>t</strong></td>
+<td>Number</td>
+<td>0 indicates buy 1 indicates sell</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>a</strong></td>
+<td>Number</td>
+<td>Amount</td>
+<td>Major</td>
+</tr>
+<tr>
+<td><strong>v</strong></td>
+<td>String</td>
+<td>Value</td>
+<td>Minor</td>
+</tr>
+</tbody></table>
+
+<h2 id="orders">Orders</h2>
+
+<blockquote>
+<p>Messages on this channel look like this:</p>
+</blockquote>
+<pre class="highlight plaintext"><code>{
+  "type": "orders",
+  "book": "btc_mxn",
+  "payload": {
+    "bids": [
+      {
+        "r": 7185,
+        "a": 0.001343,
+        "v": 9.64,
+        "t": 1,
+        "d": 1455315394039
+      },
+      {
+        "r": 7183.01,
+        "a": 0.007715,
+        "v": 55.41,
+        "t": 1,
+        "d": 1455314938419
+      },
+      {
+        "r": 7183,
+        "a": 1.59667303,
+        "v": 11468.9,
+        "t": 1,
+        "d": 1455314894615
+      }
+    ],
+    "asks": [
+      {
+        "r": 7251.1,
+        "a": 0.29437179,
+        "v": 2134.51,
+        "t": 0,
+        "d": 1455315979682
+      },
+      {
+        "r": 7251.72,
+        "a": 1.32057812,
+        "v": 9576.46,
+        "t": 0,
+        "d": 1455303931277
+      }
+    ]
+  }
+}
+</code></pre>
+
+<h3 id="client-subscription-message">Client Subscription message</h3>
+
+<p><code class="prettyprint">{ websocket.send(JSON.stringify({ action: &#39;subscribe&#39;, book: &#39;btc_mxn&#39;, type: &#39;orders&#39; }));</code></p>
+
+<h3 id="server-subscription-response-message">Server subscription response message</h3>
+
+<p><code class="prettyprint">{action: &quot;subscribe&quot;, response: &quot;ok&quot;, time: 1455831538048, type: &quot;orders&quot;}</code></p>
+
+<h3 id="server-json-message">Server JSON message</h3>
+
+<p>The payload contains a JSON with two keys, one for the bids and the other for asks on the order book. Both bids and asks contain orders of the following form:</p>
+
+<table><thead>
+<tr>
+<th>Field Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Units</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>r</strong></td>
+<td>String</td>
+<td>Rate</td>
+<td>Minor</td>
+</tr>
+<tr>
+<td><strong>a</strong></td>
+<td>Number</td>
+<td>Amount</td>
+<td>Major</td>
+</tr>
+<tr>
+<td><strong>v</strong></td>
+<td>String</td>
+<td>Value</td>
+<td>Minor</td>
+</tr>
+<tr>
+<td><strong>t</strong></td>
+<td>Number</td>
+<td>0 indicates buy 1 indicates sell</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>d</strong></td>
+<td>Number</td>
+<td>Unix timestamp</td>
+<td>Milliseconds</td>
+</tr>
+</tbody></table>
 
       </div>
       <div class="dark-box">
