@@ -2029,6 +2029,335 @@ will be acknowledged in the following manner:</p>
 </tr>
 </tbody></table>
 
+<h1 id="transfer-api">Transfer API</h1>
+
+<h2 id="general">General</h2>
+
+<p>Bitso’s powerful Transfer API allows for simple integration for routing Bitcoin payments directly through to a choice of Mexican Peso end-points.</p>
+
+<p>The workflow breaks down in the following steps:</p>
+
+<ol>
+<li>Request quote</li>
+<li>Create transfer using quote</li>
+<li>Send bitcoins to address given</li>
+<li>After 1 confirmation, pesos are delivered</li>
+</ol>
+
+<p>The quote acquired in step #1 is valid for 60 seconds. Once this is used to create a transfer (#2), that transfer is then valid for 60 seconds from creation (within which time the Bitcoin transaction to satisfy it must be ‘seen’ by our servers – this typically happens within 20 seconds).</p>
+
+<p>Once the transfer is satisfied, the Bitcoin transaction must be confirmed before a further action takes place. Typically this takes around a maximum of 10 minutes, but can be a little longer.</p>
+
+<p>The transfer can be monitored throughout the process by making a request to the URL returned with the transfer creation.</p>
+
+<h3 id="authentication">Authentication</h3>
+
+<p>The Transfer API is accessible via an API key created for your account. For full details on creating an API key and how to sign your API requests, please refer to the Trade API documentation, here:
+<a href="https://bitso.com/api_info">https://bitso.com/api_info</a></p>
+
+<h2 id="requesting-a-quote">Requesting a Quote</h2>
+
+<blockquote>
+<p>The JSON dictionary retuned by the API looks like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+   </span><span class="nt">"quote"</span><span class="p">:{</span><span class="w">
+      </span><span class="nt">"btc_amount"</span><span class="p">:</span><span class="s2">"0.14965623"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"currency"</span><span class="p">:</span><span class="s2">"MXN"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"rate"</span><span class="p">:</span><span class="s2">"3340.99"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"gross"</span><span class="p">:</span><span class="err">”</span><span class="mf">500.00</span><span class="err">”</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"outlets"</span><span class="p">:{</span><span class="w">
+         </span><span class="nt">"sp"</span><span class="p">:{</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="s2">"sp"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"SPEI Transfer"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"required_fields"</span><span class="p">:[</span><span class="w">
+               </span><span class="s2">"recipient_given_names"</span><span class="p">,</span><span class="w">
+               </span><span class="s2">"recipient_family_names"</span><span class="p">,</span><span class="w">
+               </span><span class="s2">"clabe"</span><span class="p">,</span><span class="w">
+               </span><span class="s2">"bank_name"</span><span class="w">
+            </span><span class="p">],</span><span class="w">
+            </span><span class="nt">"minimum_transaction"</span><span class="p">:</span><span class="s2">"500.00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"maximum_transaction"</span><span class="p">:</span><span class="s2">"2500000.00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"daily_limit"</span><span class="p">:</span><span class="s2">"10000.00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"fee"</span><span class="p">:</span><span class="s2">"12.00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"net"</span><span class="p">:</span><span class="s2">"488.00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"available"</span><span class="p">:</span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"verification_level_requirement"</span><span class="p">:</span><span class="s2">"0"</span><span class="w">
+         </span><span class="p">},</span><span class="w">
+         </span><span class="nt">"vo"</span><span class="p">:{</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="s2">"vo"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"Voucher"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"required_fields"</span><span class="p">:[</span><span class="w">
+               </span><span class="s2">"email_address"</span><span class="w">
+            </span><span class="p">],</span><span class="w">
+            </span><span class="nt">"minimum_transaction"</span><span class="p">:</span><span class="s2">"25.00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"maximum_transaction"</span><span class="p">:</span><span class="s2">"9999.00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"fee"</span><span class="p">:</span><span class="s2">"0.00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"daily_limit"</span><span class="p">:</span><span class="s2">"0.00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"net"</span><span class="p">:</span><span class="s2">"500.00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"available"</span><span class="p">:</span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"verification_level_requirement"</span><span class="p">:</span><span class="s2">"0"</span><span class="w">
+         </span><span class="p">},</span><span class="w">
+         </span><span class="nt">"rp"</span><span class="p">:{</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="s2">"rp"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"Ripple"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"required_fields"</span><span class="p">:[</span><span class="w">
+               </span><span class="s2">"ripple_address"</span><span class="w">
+            </span><span class="p">],</span><span class="w">
+            </span><span class="nt">"minimum_transaction"</span><span class="p">:</span><span class="s2">"0.00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"maximum_transaction"</span><span class="p">:</span><span class="s2">"10000000.00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"fee"</span><span class="p">:</span><span class="s2">"5.00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"daily_limit"</span><span class="p">:</span><span class="s2">"0.00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"net"</span><span class="p">:</span><span class="s2">"495.00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"available"</span><span class="p">:</span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"verification_level_requirement"</span><span class="p">:</span><span class="s2">"0"</span><span class="w">
+         </span><span class="p">},</span><span class="w">
+         </span><span class="nt">"pm"</span><span class="p">:{</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="s2">"pm"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"Pademobile"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"required_fields"</span><span class="p">:[</span><span class="w">
+               </span><span class="s2">"phone_number"</span><span class="w">
+            </span><span class="p">],</span><span class="w">
+            </span><span class="nt">"minimum_transaction"</span><span class="p">:</span><span class="s2">"1.00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"maximum_transaction"</span><span class="p">:</span><span class="s2">"1000000.00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"fee"</span><span class="p">:</span><span class="s2">"0.00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"daily_limit"</span><span class="p">:</span><span class="s2">"0.00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"net"</span><span class="p">:</span><span class="s2">"500.00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"available"</span><span class="p">:</span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"verification_level_requirement"</span><span class="p">:</span><span class="s2">"0"</span><span class="w">
+         </span><span class="p">},</span><span class="w">
+         </span><span class="nt">"bw"</span><span class="p">:{</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="s2">"bw"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"Bank Wire"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"required_fields"</span><span class="p">:[</span><span class="w">
+               </span><span class="s2">"recipient_full_name"</span><span class="p">,</span><span class="w">
+               </span><span class="s2">"account_holder_address"</span><span class="p">,</span><span class="w">
+               </span><span class="s2">"bank_name"</span><span class="p">,</span><span class="w">
+               </span><span class="s2">"bank_address"</span><span class="p">,</span><span class="w">
+               </span><span class="s2">"account_number"</span><span class="p">,</span><span class="w">
+               </span><span class="s2">"swift"</span><span class="p">,</span><span class="w">
+               </span><span class="s2">"other_instructions"</span><span class="w">
+            </span><span class="p">],</span><span class="w">
+            </span><span class="nt">"minimum_transaction"</span><span class="p">:</span><span class="s2">"1000.00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"maximum_transaction"</span><span class="p">:</span><span class="s2">"2500000.00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"daily_limit"</span><span class="p">:</span><span class="s2">"2500000.00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"fee"</span><span class="p">:</span><span class="s2">"500.00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"net"</span><span class="p">:</span><span class="s2">"0.00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"available"</span><span class="p">:</span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"verification_level_requirement"</span><span class="p">:</span><span class="s2">"0"</span><span class="w">
+         </span><span class="p">}</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"timestamp"</span><span class="p">:</span><span class="s2">"1425101044"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"expires_epoch"</span><span class="p">:</span><span class="err">”</span><span class="mi">1425101104</span><span class="err">”</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="nt">"success"</span><span class="p">:</span><span class="kc">true</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST https://api.bitso.com/v2/transfer_quote</code></p>
+
+<h3 id="body-parameters">Body Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>btc_amount</strong></td>
+<td>No</td>
+<td>Mutually exclusive with amount. Either this, or amount should be present in the request. The total amount in Bitcoins, as provided by the user. NOTE: The amount is in BTC format (900mbtc = .9 BTC).</td>
+</tr>
+<tr>
+<td><strong>amount</strong></td>
+<td>No</td>
+<td>Mutually exclusive with btc_amount. Either this, or btc_amount should be present in the request. The total amount in Fiat currency. Use this if you prefer specifying amounts in fiat instead of BTC.</td>
+</tr>
+<tr>
+<td><strong>currency</strong></td>
+<td>Yes</td>
+<td>An ISO 4217 fiat currency symbol (ie, “MXN”). If btc_amount is provided instead of amount, this is the currency to which the BTC price will be converted into. Otherwise, if amount is specified instead of btc_amount, this is the currency of the specified amount.</td>
+</tr>
+<tr>
+<td><strong>full</strong></td>
+<td>No</td>
+<td>(optional, defaults to False) - Show the required_fields for each payment outlet as an array of {id, name} objects. This accepts either True or False. When not provided or if the value is False, the required_fields for each Payment Outlet are returned as an array of id strings. For more information about required_fields, please refer to the Payment Outlet Documentation.</td>
+</tr>
+<tr>
+<td><strong>key</strong></td>
+<td>Yes</td>
+<td>API key (see Authentication)</td>
+</tr>
+<tr>
+<td><strong>signature</strong></td>
+<td>Yes</td>
+<td>Signature (see Authentication)</td>
+</tr>
+<tr>
+<td><strong>nonce</strong></td>
+<td>Yes</td>
+<td>nonce (see Authentication)</td>
+</tr>
+</tbody></table>
+
+<h2 id="creating-a-transfer">Creating a Transfer</h2>
+
+<blockquote>
+<p>The JSON dictionary retuned by the API looks like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+   </span><span class="nt">"order"</span><span class="p">:{</span><span class="w">
+      </span><span class="nt">"btc_amount"</span><span class="p">:</span><span class="s2">"0.14965623"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"btc_pending"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"btc_received"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"confirmation_code"</span><span class="p">:</span><span class="s2">"9b2a4"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"created_at"</span><span class="p">:</span><span class="s2">"1425101044"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"currency"</span><span class="p">:</span><span class="s2">"MXN"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"currency_amount"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"currency_fees"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"currency_settled"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"expires_epoch"</span><span class="p">:</span><span class="mi">1425101104</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"fields"</span><span class="p">:{</span><span class="w">
+         </span><span class="nt">"phone_number"</span><span class="p">:</span><span class="s2">"5554181042"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="s2">"9b2a431b98597312e99cbff1ba432cbf"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"payment_outlet_id"</span><span class="p">:</span><span class="s2">"pm"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"qr_img_uri"</span><span class="p">:</span><span class="s2">"https:\/\/chart.googleapis.com\/chart?chl=bitcoin%3AmgKZfNdFJgztvfvhEaGgMTQRQ2iHCadHGa%3Famount%3D0.14965623&amp;chs=400x400&amp;cht=qr&amp;choe=UTF-8&amp;chld=L%7C0"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"user_uri"</span><span class="p">:</span><span class="s2">"https:\/\/api.bitso.com\/v2\/transfer\/9b2a431b98597312e99cbff1ba432cbf"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"wallet_address"</span><span class="p">:</span><span class="s2">"mgKZfNdFJgztvfvhEaGgMTQRQ2iHCadHGa"</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="nt">"success"</span><span class="p">:</span><span class="kc">true</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST https://api.bitso.com/v2/transfer_create</code></p>
+
+<h3 id="body-parameters">Body Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>btc_amount</strong></td>
+<td>No</td>
+<td>Mutually exclusive with amount. Either this, or amount should be present in the request. The total amount in Bitcoins, as provided by the user. NOTE: The amount is in BTC format (900mbtc = .9 BTC).</td>
+</tr>
+<tr>
+<td><strong>amount</strong></td>
+<td>No</td>
+<td>Mutually exclusive with btc_amount. Either this, or btc_amount should be present in the request. The total amount in Fiat currency. Use this if you prefer specifying amounts in fiat instead of BTC.</td>
+</tr>
+<tr>
+<td><strong>currency</strong></td>
+<td>Yes</td>
+<td>An ISO 4217 fiat currency symbol (ie, “MXN”). If btc_amount is provided instead of amount, this is the currency to which the BTC price will be converted into. Otherwise, if amount is specified instead of btc_amount, this is the currency of the specified amount.</td>
+</tr>
+<tr>
+<td><strong>rate</strong></td>
+<td>Yes</td>
+<td>This is the rate (e.g. BTC/MXN), as acquired from the transfer_quote method. You must request a quote in this way before creating a transfer.</td>
+</tr>
+<tr>
+<td><strong>payment_outlet</strong></td>
+<td>Yes</td>
+<td>The outlet_id as provided by quote method. See below for more information on available outlets.</td>
+</tr>
+<tr>
+<td><strong><required_field1></strong></td>
+<td>Yes</td>
+<td>Each of the other ‘required fields’, as stipulated in the quote method for the chosen payment_outlet.</td>
+</tr>
+<tr>
+<td><strong><required_field2></strong></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>etc&hellip;</strong></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>key</strong></td>
+<td>Yes</td>
+<td>API key (see Authentication)</td>
+</tr>
+<tr>
+<td><strong>signature</strong></td>
+<td>Yes</td>
+<td>Signature (see Authentication)</td>
+</tr>
+<tr>
+<td><strong>nonce</strong></td>
+<td>Yes</td>
+<td>nonce (see Authentication)</td>
+</tr>
+</tbody></table>
+
+<h2 id="reviewing-a-transfer">Reviewing a Transfer</h2>
+
+<p>Make requests to the transfer review end point at any time to monitor the status of your transfer.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://api.bitso.com/v2/transfer/&lt;transfer_id&gt;</code></p>
+
+<h3 id="response">Response</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>status</strong></td>
+<td>Yes</td>
+<td>pending: waiting for the bitcoin transaction to be seen, confirming: transaction has been seen, and now waiting for a network confirmation, completed: transaction has completed, and funds dispatched via the outlet specified.</td>
+</tr>
+</tbody></table>
+
+<h2 id="currently-available-outlets">Currently Available Outlets</h2>
+
+<h3 id="spei">SPEI</h3>
+
+<p>SPEI is Mexico’s lightning fast and inexpensive inter-bank transfer system (akin to SEPA in Europe, and vastly superior to ACH).</p>
+
+<p>All bank accounts in Mexico can be identified by their special 18-digit SPEI account number, otherwise known as a ‘CLABE’.</p>
+
+<p>Transfers executed via SPEI are typically concluded within a few seconds.</p>
+
+<h3 id="pademobile">Pademobile</h3>
+
+<p>Pademobile is a popular mobile wallet and payments system in Latin America and beyond. Users running the Pademobile wallet on their cellphone can carry a balance in local currency, and spend it at a variety of locations, including cash-out at stores such as 7-Eleven (this is limited to 300 MXN per day, per location).</p>
+
+<p>Pademobile accounts are identified simply by the user’s phone number. Recipients who do not have smart phones, or who have not installed the wallet app, will receive a text message containing instructions on how to access the received funds.</p>
+
+<p>For more information, please see:  https://www.pademobile.com/en/mx/</p>
+
+<h3 id="ripple">Ripple</h3>
+
+<p>As a Ripple Gateway, Bitso is able to issue currencies such as the Mexican Peso directly into the Ripple Network. For more information on Ripple, please see: https://ripple.com/</p>
+
+<h3 id="voucher">Voucher</h3>
+
+<p>Bitso offers the ability to issue voucher codes redeemable on Bitso.com, and delivered by email. Simply specify the amount and email address, and the recipient can at any time register on Bitso.com and redeem their code.</p>
+
+<h3 id="bank-wire">Bank Wire</h3>
+
+<p>Execute a standard international bank wire via this outlet.</p>
+
       </div>
       <div class="dark-box">
           <div class="lang-selector">
