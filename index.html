@@ -1740,6 +1740,12 @@ These <strong>withdrawals are immediate</strong> during banking hours (M-F 9:00A
 
 <h2 id="general">General</h2>
 
+<p>The Orders channel maintains an up-to-date list of the top 20 asks and the top 20 bids, new messages are sent across the channel whenever there is a change in either top 20.</p>
+
+<p>The Diff-Orders channel will send across any modifications to the order book. Specifically, any state changes in existing orders (including orders not in the top 20), and any new orders. An order could be removed, in which case it won&rsquo;t have an &lsquo;a&rsquo; field (amount), or am order could have been partially filled (you can look up an order&rsquo;s state via the lookup_order endpoint) which will be reflected in the amount field. In theory, you can get a copy of the full order book via REST once, and keep it up to date by using the diff-orders channel.</p>
+
+<p>An order&rsquo;s timestamp field is immutable. Even if the amount field is mutated, or the order removed, the timestamp field remains as it was when the order was created. Note that a timestamp is not unique. Different orders can have the same timestamp.</p>
+
 <h3 id="how-to-connect">How to connect</h3>
 
 <blockquote>
@@ -1759,7 +1765,7 @@ These <strong>withdrawals are immediate</strong> during banking hours (M-F 9:00A
 </code></pre>
 
 <blockquote>
-<p>The server will acknowledge each subscription to a channel with a message. For example, a successful subscription to the &lsquo;trades&rsquo; channel
+<p>The server will acknowledge each subscription to a channel with a message. For example, a successful subscription to the &#39;trades&rsquo; channel
 will be acknowledged in the following manner:</p>
 </blockquote>
 <pre class="highlight plaintext"><code>{action: "subscribe", response: "ok", time: 1455831538045, type: "trades"}
@@ -2056,8 +2062,8 @@ Access to this API is available on request, and not enabled by default. Users wo
 
 <h3 id="authentication">Authentication</h3>
 
-<p>The Transfer API is accessible via an API key created for your account. For full details on creating an API key and how to sign your API requests, please refer to the following:
-<a href="http://bitsoex.github.io/slate/#generating-api-keys">http://bitsoex.github.io/slate/#generating-api-keys</a></p>
+<p>The Transfer API is accessible via an API key created for your account. For full details on creating an API key and how to sign your API requests, please refer to:
+<a href="#creating-and-signing-requests">the authentication section</a></p>
 
 <h2 id="requesting-a-quote">Requesting a Quote</h2>
 
