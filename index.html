@@ -1282,15 +1282,17 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
 <td><strong>amount</strong></td>
 <td>-</td>
 <td>Yes</td>
-<td>For limit orders, this indicates the amount of major currency to buy. For market orders, this indicates the amount of minor currency to spend</td>
+<td>The amount of major currency to buy.</td>
 </tr>
 <tr>
 <td><strong>price</strong></td>
 <td>-</td>
 <td>No</td>
-<td>If supplied, this will place a <strong>limit order</strong> to buy at the specified price. If not supplied, this will place a <strong>market order</strong> and spend the amount of minor currency specified in <strong>amount</strong> to buy major currency at the market rate.</td>
+<td>If supplied, this will place a <strong>limit order</strong> to</td>
 </tr>
 </tbody></table>
+
+<p>buy at the specified price. If not supplied, this will place a <strong>market order</strong> to buy the amount of major currency specified in <strong>amount</strong> at the market rate</p>
 
 <h3 id="json-response">JSON Response</h3>
 
