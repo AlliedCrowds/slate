@@ -91,7 +91,7 @@
       <script src="javascripts/all.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;javascript&quot;,&quot;ruby&quot;,&quot;java&quot;,&quot;php&quot;]">
+  <body class="index" data-languages="[&quot;shell&quot;,&quot;javascript&quot;,&quot;python&quot;,&quot;ruby&quot;,&quot;java&quot;,&quot;php&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -101,8 +101,9 @@
     <div class="tocify-wrapper">
       <img src="images/logo.png" />
         <div class="lang-selector">
-              <a href="#" data-language-name="shell">cURL</a>
+              <a href="#" data-language-name="shell">Shell</a>
               <a href="#" data-language-name="javascript">NodeJS</a>
+              <a href="#" data-language-name="python">Python</a>
               <a href="#" data-language-name="ruby">Ruby</a>
               <a href="#" data-language-name="java">Java</a>
               <a href="#" data-language-name="php">PHP</a>
@@ -140,11 +141,32 @@ system functions, along with examples in common programming languages.</p>
 
 <p>Bitso’s powerful Transfer API allows for simple integration for routing Bitcoin payments directly through to a choice of Mexican Peso end-points. Please contact us if you&rsquo;re interested in using this API, access is available on request.</p>
 
+<h2 id="http-api-responses">HTTP API Responses</h2>
+
+<p>Our REST-like API will always return a JSON Object.</p>
+
+<p>For successful API calls, we should always return something that looks like:</p>
+
+<p><code class="prettyprint">
+{   &quot;success&quot;: true,
+    &quot;payload&quot;: {RELEVANT_DATA_HERE}
+}
+</code></p>
+
+<p>For unsuccessful API calls, we should always return something that looks like:</p>
+
+<p><code class="prettyprint">
+{
+    &quot;success&quot;: false,
+    &quot;error&quot;: {&quot;message&quot;: ERROR_MESSAGE, &quot;code&quot;: ERROR_CODE}
+}
+</code></p>
+
 <h2 id="notations">Notations</h2>
 
-<p><strong>Major</strong> denotes the cryptocurrency, in our case Bitcoin (BTC).</p>
+<p><strong>Major</strong> denotes the cryptocurrency, in our case Bitcoin (BTC) or Ether (ETH).</p>
 
-<p><strong>Minor</strong> denotes fiat currencies such as Mexican Peso (MXN), etc</p>
+<p><strong>Minor</strong> denotes fiat currencies, in our case Mexican Peso (MXN)</p>
 
 <p>An order book is always referred to in the API as &ldquo;Major_Minor&rdquo;. For example: &ldquo;<strong>btc_mxn</strong>&rdquo;</p>
 
@@ -170,22 +192,116 @@ system functions, along with examples in common programming languages.</p>
 
 <h1 id="public-endpoints">Public Endpoints</h1>
 
-<h2 id="ticker">Ticker</h2>
-<pre class="highlight shell"><code>curl <span class="s2">"https://bitso.com/api/v2/ticker?book=btc_mxn"</span>
+<h2 id="available-books">Available Books</h2>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.bitso.com/v3/available_books/"</span>
 </code></pre>
 
 <blockquote>
-<p>The JSON dictionary returned by the API looks like this:</p>
+<p>The JSON object returned by the API looks like this:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"volume"</span><span class="p">:</span><span class="w"> </span><span class="s2">"22.31349615"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"high"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5750.00"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"last"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5633.98"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"low"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5450.00"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"vwap"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5393.45"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"ask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5632.24"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"bid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5520.01"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1447348096"</span><span class="w">
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+        </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"minimum_amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">".003"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"maximum_amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1000.00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"minimum_price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"100.00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"maximum_price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1000000.00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"minimum_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"25.00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"maximum_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1000000.00"</span><span class="w">
+    </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mxn_eth"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"minimum_amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">".003"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"maximum_amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1000.00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"minimum_price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"100.0"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"maximum_price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1000000.0"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"minimum_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"25.0"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"maximum_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1000000.0"</span><span class="w">
+    </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>This endpoint returns a list of existing exchange order books and
+their respective order placement limits.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://api.bitso.com/v3/available_books/</code></p>
+
+<h3 id="json-response">JSON Response</h3>
+
+<table><thead>
+<tr>
+<th>Field Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Units</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>book</strong></td>
+<td>String</td>
+<td>Order book symbol</td>
+<td>Major_Minor</td>
+</tr>
+<tr>
+<td><strong>minimum_amount</strong></td>
+<td>String</td>
+<td>Minimum amount of major when placing orders</td>
+<td>Major</td>
+</tr>
+<tr>
+<td><strong>maximum_amount</strong></td>
+<td>String</td>
+<td>Maximum amount of major when placing orders</td>
+<td>Major</td>
+</tr>
+<tr>
+<td><strong>minimum_price</strong></td>
+<td>String</td>
+<td>Minimum price when placing orders</td>
+<td>Minor</td>
+</tr>
+<tr>
+<td><strong>maximum_price</strong></td>
+<td>String</td>
+<td>Maximum price when placing orders</td>
+<td>Minor</td>
+</tr>
+<tr>
+<td><strong>minimum_value</strong></td>
+<td>String</td>
+<td>Minimum value amount (amount*price) when placing orders</td>
+<td>Minor</td>
+</tr>
+<tr>
+<td><strong>maximum_value</strong></td>
+<td>String</td>
+<td>Maximum value amount (amount*price) when placing orders</td>
+<td>Minor</td>
+</tr>
+</tbody></table>
+
+<h2 id="ticker">Ticker</h2>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.bitso.com/v3/ticker/?book=btc_mxn"</span>
+</code></pre>
+
+<blockquote>
+<p>The JSON object returned by the API looks like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"volume"</span><span class="p">:</span><span class="w"> </span><span class="s2">"22.31349615"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"high"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5750.00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"last"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5633.98"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"low"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5450.00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"vwap"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5393.45"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"ask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5632.24"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"bid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5520.01"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -193,7 +309,7 @@ system functions, along with examples in common programming languages.</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">GET https://api.bitso.com/v2/ticker</code></p>
+<p><code class="prettyprint">GET https://api.bitso.com/v3/ticker/</code></p>
 
 <h3 id="query-parameters">Query Parameters</h3>
 
@@ -207,8 +323,8 @@ system functions, along with examples in common programming languages.</p>
 </thead><tbody>
 <tr>
 <td><strong>book</strong></td>
-<td>btc_mxn</td>
-<td>No</td>
+<td></td>
+<td>YES</td>
 <td>Specifies which book to use</td>
 </tr>
 </tbody></table>
@@ -224,15 +340,27 @@ system functions, along with examples in common programming languages.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><strong>last</strong></td>
+<td><strong>book</strong></td>
 <td>String</td>
-<td>Last traded price</td>
-<td>Minor/Major</td>
+<td>Order book symbol</td>
+<td>Major_Minor</td>
+</tr>
+<tr>
+<td><strong>volume</strong></td>
+<td>String</td>
+<td>Last 24 hours volume</td>
+<td>Major</td>
 </tr>
 <tr>
 <td><strong>high</strong></td>
 <td>String</td>
 <td>Last 24 hours price high</td>
+<td>Minor/Major</td>
+</tr>
+<tr>
+<td><strong>last</strong></td>
+<td>String</td>
+<td>Last traded price</td>
 <td>Minor/Major</td>
 </tr>
 <tr>
@@ -248,10 +376,10 @@ system functions, along with examples in common programming languages.</p>
 <td>Minor/Major</td>
 </tr>
 <tr>
-<td><strong>volume</strong></td>
+<td><strong>ask</strong></td>
 <td>String</td>
-<td>Last 24 hours volume</td>
-<td>Major</td>
+<td>Lowest sell order</td>
+<td>Minor/Major</td>
 </tr>
 <tr>
 <td><strong>bid</strong></td>
@@ -260,32 +388,57 @@ system functions, along with examples in common programming languages.</p>
 <td>Minor/Major</td>
 </tr>
 <tr>
-<td><strong>ask</strong></td>
+<td><strong>created_at</strong></td>
 <td>String</td>
-<td>Lowest sell order</td>
-<td>Minor/Major</td>
+<td>Timestamp at wich the ticker was generated</td>
+<td>ISO 8601 timestamp</td>
 </tr>
 </tbody></table>
 
 <h2 id="order-book">Order Book</h2>
-<pre class="highlight shell"><code>curl <span class="s2">"https://api.bitso.com/v2/order_book?book=btc_mxn&amp;group=1"</span>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.bitso.com/v3/order_book/?book=btc_mxn"</span>
 </code></pre>
 
 <blockquote>
-<p>The JSON dictionary returned by the API looks like this:</p>
+<p>The JSON object returned by the API looks like this:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"asks"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">[</span><span class="s2">"5632.24"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1.34491802"</span><span class="p">],</span><span class="w">
-        </span><span class="p">[</span><span class="s2">"5632.25"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1.00000000"</span><span class="p">],</span><span class="w">
-        </span><span class="p">[</span><span class="s2">"5633.99"</span><span class="p">,</span><span class="w"> </span><span class="s2">"0.61980799"</span><span class="p">]</span><span class="w">
-    </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"bids"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">[</span><span class="s2">"5520.01"</span><span class="p">,</span><span class="w"> </span><span class="s2">"0.34493053"</span><span class="p">],</span><span class="w">
-        </span><span class="p">[</span><span class="s2">"5520.00"</span><span class="p">,</span><span class="w"> </span><span class="s2">"0.08000000"</span><span class="p">],</span><span class="w">
-        </span><span class="p">[</span><span class="s2">"5486.01"</span><span class="p">,</span><span class="w"> </span><span class="s2">"0.00250000"</span><span class="p">]</span><span class="w">
-    </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1447348416"</span><span class="w">
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"asks"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5632.24"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.34491802"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+        </span><span class="p">},{</span><span class="w">
+            </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5633.44"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.4259"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T18:43:11.000+00:00"</span><span class="w">
+        </span><span class="p">},{</span><span class="w">
+            </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5642.14"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.21642"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+        </span><span class="p">}],</span><span class="w">
+        </span><span class="nt">"bids"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6123.55"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.12560000"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+        </span><span class="p">},{</span><span class="w">
+            </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6121.55"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.23976"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T19:34:23.000+00:00"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T19:54:21.000+00:00"</span><span class="w">
+        </span><span class="p">}],</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -293,7 +446,7 @@ system functions, along with examples in common programming languages.</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">GET https://api.bitso.com/v2/order_book</code></p>
+<p><code class="prettyprint">GET https://api.bitso.com/v3/order_book/</code></p>
 
 <h3 id="query-parameters">Query Parameters</h3>
 
@@ -307,21 +460,16 @@ system functions, along with examples in common programming languages.</p>
 </thead><tbody>
 <tr>
 <td><strong>book</strong></td>
-<td>btc_mxn</td>
-<td>No</td>
+<td></td>
+<td>YES</td>
 <td>Specifies which book to use</td>
-</tr>
-<tr>
-<td><strong>group</strong></td>
-<td>1</td>
-<td>No</td>
-<td>Group orders with the same price (0 - false; 1 - true)</td>
 </tr>
 </tbody></table>
 
 <h3 id="json-response">JSON Response</h3>
 
-<p>Returns JSON dictionary with &ldquo;bids&rdquo; and &ldquo;asks&rdquo;. Each is a JSON Array of open orders and each open order is represented as a JSON Array of price (minor) and amount (major).</p>
+<p>Returns JSON object with &ldquo;bids&rdquo; and &ldquo;asks&rdquo;. Each is a JSON Array
+of open orders and each open order is represented as a JSON object</p>
 
 <table><thead>
 <tr>
@@ -342,60 +490,80 @@ system functions, along with examples in common programming languages.</p>
 </tr>
 </tbody></table>
 
-<p><strong>asks</strong> and <strong>bids</strong> JSON Array format:</p>
+<p><strong>asks</strong> and <strong>bids</strong> JSON Dictionary with the follwing fields:</p>
 
 <table><thead>
 <tr>
-<th>Array Position</th>
+<th>Field Name</th>
 <th>Type</th>
 <th>Description</th>
 <th>Units</th>
 </tr>
 </thead><tbody>
 <tr>
-<td><strong>0</strong></td>
+<td><strong>book</strong></td>
 <td>String</td>
-<td>Order Price</td>
+<td>Order book symbol</td>
+<td>Major_Minor</td>
+</tr>
+<tr>
+<td><strong>price</strong></td>
+<td>String</td>
+<td>Price per unit of major</td>
 <td>Minor</td>
 </tr>
 <tr>
-<td><strong>1</strong></td>
+<td><strong>amount</strong></td>
 <td>String</td>
-<td>Order Amount</td>
+<td>Major amount in order</td>
 <td>Major</td>
+</tr>
+<tr>
+<td><strong>created_at</strong></td>
+<td>String</td>
+<td>Timestamp at wich the order was created</td>
+<td>ISO 8601 timestamp</td>
+</tr>
+<tr>
+<td><strong>updated_at</strong></td>
+<td>String</td>
+<td>Timestamp at wich the order was updated</td>
+<td>ISO 8601 timestamp</td>
 </tr>
 </tbody></table>
 
-<h2 id="transactions">Transactions</h2>
-<pre class="highlight shell"><code>curl <span class="s2">"https://api.bitso.com/v2/transactions?book=btc_mxn&amp;time=minute"</span>
+<h2 id="trades">Trades</h2>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.bitso.com/v3/trades/?book=btc_mxn"</span>
 </code></pre>
 
 <blockquote>
 <p>The JSON Array returned by the API looks like this:</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1447350465"</span><span class="p">,</span><span class="w">
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+        </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.02000000"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5545.01"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"tid"</span><span class="p">:</span><span class="w"> </span><span class="mi">55845</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1447347533"</span><span class="p">,</span><span class="w">
+    </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.33723939"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sell"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5633.98"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"tid"</span><span class="p">:</span><span class="w"> </span><span class="mi">55844</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
+    </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre>
 
 <p>This endpoint returns a list of recent trades from the specified book.</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">GET https://api.bitso.com/v2/transactions</code></p>
+<p><code class="prettyprint">GET https://api.bitso.com/v3/trades/</code></p>
 
 <h3 id="query-parameters">Query Parameters</h3>
 
@@ -409,8 +577,8 @@ system functions, along with examples in common programming languages.</p>
 </thead><tbody>
 <tr>
 <td><strong>book</strong></td>
-<td>btc_mxn</td>
-<td>No</td>
+<td></td>
+<td>Yes</td>
 <td>Specifies which book to use</td>
 </tr>
 <tr>
@@ -419,11 +587,29 @@ system functions, along with examples in common programming languages.</p>
 <td>No</td>
 <td>Time frame for transaction export (&ldquo;minute&rdquo; - 1 minute, &ldquo;hour&rdquo; - 1 hour)</td>
 </tr>
+<tr>
+<td><strong>marker</strong></td>
+<td></td>
+<td>No</td>
+<td>Returns objects that are older or newer (depending on &lsquo;sort&rsquo;) than the object with this ID</td>
+</tr>
+<tr>
+<td><strong>sort</strong></td>
+<td>desc</td>
+<td>No</td>
+<td>Specifies ordering direction of returned objects</td>
+</tr>
+<tr>
+<td><strong>limit</strong></td>
+<td>25</td>
+<td>No</td>
+<td>Specifis number of objects to return. (Max is 100)</td>
+</tr>
 </tbody></table>
 
 <h3 id="json-response">JSON Response</h3>
 
-<p>Returns descending JSON Array of transactions. Every element in the array is a JSON dictionary:</p>
+<p>Returns descending JSON Array of transactions. Every element in the array is a JSON object:</p>
 
 <table><thead>
 <tr>
@@ -434,22 +620,16 @@ system functions, along with examples in common programming languages.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><strong>date</strong></td>
+<td><strong>book</strong></td>
 <td>String</td>
-<td>Unix timestamp</td>
-<td>Seconds</td>
+<td>Order book symbol</td>
+<td>Major_Minor</td>
 </tr>
 <tr>
-<td><strong>tid</strong></td>
-<td>Long</td>
-<td>transaction id</td>
-<td>-</td>
-</tr>
-<tr>
-<td><strong>price</strong></td>
+<td><strong>created_at</strong></td>
 <td>String</td>
-<td>Price per unit of major</td>
-<td>Minor</td>
+<td>Timestamp at wich the trade was executed</td>
+<td>ISO 8601 timestamp</td>
 </tr>
 <tr>
 <td><strong>amount</strong></td>
@@ -461,13 +641,137 @@ system functions, along with examples in common programming languages.</p>
 <td><strong>side</strong></td>
 <td>String</td>
 <td>Indicates the maker order side (maker order is the order that was open on the order book)</td>
-<td>-</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>price</strong></td>
+<td>String</td>
+<td>Price per unit of major</td>
+<td>Minor</td>
+</tr>
+<tr>
+<td><strong>tid</strong></td>
+<td>Long</td>
+<td>Trade ID</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<h2 id="account-required-fields">Account Required Fields</h2>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.bitso.com/v3/account_required_fields/"</span>
+</code></pre>
+
+<blockquote>
+<p>The JSON Array returned by the API looks like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="nt">"field_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email_address"</span><span class="p">,</span><span class="w"> </span><span class="nt">"field_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="nt">"field_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mobile_phone_number"</span><span class="p">,</span><span class="w"> </span><span class="nt">"field_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="nt">"field_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"given_names"</span><span class="p">,</span><span class="w"> </span><span class="nt">"field_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="nt">"field_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"family_names"</span><span class="p">,</span><span class="w"> </span><span class="nt">"field_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>This endpoint returns a list of required fields and their descriptions
+for use in the &ldquo;Account Creation&rdquo; endpoint.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://api.bitso.com/v3/account_required_fields/</code></p>
+
+<h3 id="json-response">JSON Response</h3>
+
+<p>Returns descending JSON Array. Every element in the array is a JSON object with the following fields.</p>
+
+<table><thead>
+<tr>
+<th>Field Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>field_name</strong></td>
+<td>String</td>
+<td>Field name that will be user for &ldquo;account_creation&rdquo; endpoint</td>
+</tr>
+<tr>
+<td><strong>field_description</strong></td>
+<td>String</td>
+<td>Describes each field</td>
+</tr>
+</tbody></table>
+
+<h2 id="account-creation">Account Creation</h2>
+<pre class="highlight shell"><code>curl --data <span class="s2">"email_address=value1&amp;mobile_phone_number=value2&amp;given_names=value3&amp;family_names=value4"</span> <span class="s2">"https://api.bitso.com/v3/accounts/"</span>
+</code></pre>
+
+<blockquote>
+<p>The JSON Array returned by the API looks like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1234</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"account_level"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>This endpoint returns a list of required field and their descriptions
+for use in the &ldquo;Account Creation&rdquo; endpoint.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST https://api.bitso.com/v3/accounts/</code></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<p>All parameters as returned by the &ldquo;Account Required
+Fields[#account-required-fields]&rdquo; endpoint</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+</tbody></table>
+
+<h3 id="json-response">JSON Response</h3>
+
+<p>Returns descending JSON Array. Every element in the array is a JSON object with the following fields.</p>
+
+<table><thead>
+<tr>
+<th>Field Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Units</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>client_id</strong></td>
+<td>Long</td>
+<td>Designated Bitso User ID</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>account_level</strong></td>
+<td>String</td>
+<td>Account Verification Level</td>
+<td></td>
 </tr>
 </tbody></table>
 
 <h1 id="private-endpoints">Private Endpoints</h1>
 
-<p>Private endpoints are used to manage your account and your orders. These requests must be signed (more about this below).</p>
+<p>Private endpoints are used to manage your account and your orders. These requests must be signed (more ont this below).</p>
 
 <aside class="notice">
 Private endpoints require API Keys. Make sure you read more about obtaining your private keys <a href="#generating-api-keys">here</a>
@@ -491,9 +795,21 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
 </ul>
 
 <h2 id="creating-and-signing-requests">Creating and Signing Requests</h2>
+<pre class="highlight shell"><code><span class="c">#!/bin/bash</span>
+<span class="c"># requires:</span>
+<span class="c"># -httpie: https://github.com/jkbrzt/httpie</span>
+<span class="c"># -openssl</span>
+
+<span class="nv">URL</span><span class="o">=</span><span class="s2">"https://api.bitso.com/v3/balance/"</span>
+<span class="nv">CLIENT_ID</span><span class="o">=</span><span class="s2">"BITSO_CLIENT_ID"</span>
+<span class="nv">API_KEY</span><span class="o">=</span><span class="s2">"BITSO_KEY"</span>
+<span class="nv">API_SECRET</span><span class="o">=</span><span class="s2">"BITSO_SECRET"</span>
+<span class="nv">DNONCE</span><span class="o">=</span><span class="k">$(</span>date +%s<span class="k">)</span>
+http GET <span class="nv">$URL</span> Authorization:<span class="nv">$API_KEY</span>:<span class="nv">$DNONCE</span>:<span class="k">$(</span><span class="nb">echo</span> -n <span class="nv">$DNONCE$CLIENT_ID$API_KEY</span> | openssl dgst -sha256 -hmac <span class="nv">$API_SECRET</span><span class="k">)</span>
+</code></pre>
 <pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">secret</span> <span class="o">=</span> <span class="s2">"BITSO API SECRET"</span><span class="p">;</span>
 <span class="kd">var</span> <span class="nx">key</span> <span class="o">=</span> <span class="s2">"BITSO API KEY"</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">client_id</span> <span class="o">=</span> <span class="s2">"BITSO CLIENT ID"</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">client_id</span> <span class="o">=</span> <span class="s2">"BITSO_CLIENT_ID"</span><span class="p">;</span>
 <span class="kd">var</span> <span class="nx">nonce</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">getTime</span><span class="p">();</span>
 
 <span class="c1">// Create the signature</span>
@@ -501,20 +817,17 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
 <span class="kd">var</span> <span class="nx">crypto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crypto'</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">signature</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createHmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nx">secret</span><span class="p">).</span><span class="nx">update</span><span class="p">(</span><span class="nx">Data</span><span class="p">).</span><span class="nx">digest</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">);</span>
 
-<span class="c1">// Build the request parameters</span>
-<span class="kd">var</span> <span class="nx">querystring</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'querystring'</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">querystring</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
-  <span class="na">key</span><span class="p">:</span> <span class="nx">key</span><span class="p">,</span>
-  <span class="na">nonce</span><span class="p">:</span> <span class="nx">nonce</span><span class="p">,</span>
-  <span class="na">signature</span><span class="p">:</span> <span class="nx">signature</span>
-<span class="p">});</span>
+<span class="c1">// Build the auth header</span>
+<span class="kd">var</span> <span class="nx">auth_header</span> <span class="o">=</span> <span class="s2">"Bitso "</span><span class="o">+</span><span class="nx">bitso_key</span><span class="o">+</span><span class="s2">":"</span> <span class="o">+</span><span class="nx">nonce</span><span class="o">+</span><span class="s2">":"</span><span class="o">+</span><span class="nx">signature</span><span class="p">;</span>
+
+
 <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
   <span class="na">host</span><span class="p">:</span> <span class="s1">'api.bitso.com'</span><span class="p">,</span>
   <span class="na">port</span><span class="p">:</span> <span class="mi">443</span><span class="p">,</span>
-  <span class="na">path</span><span class="p">:</span> <span class="s1">'/v2/balance'</span><span class="p">,</span>
-  <span class="na">method</span><span class="p">:</span> <span class="s1">'POST'</span><span class="p">,</span>
+  <span class="na">path</span><span class="p">:</span> <span class="s1">'/v3/balance/'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="nx">GET</span><span class="p">,</span>
   <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s1">'Content-Type'</span><span class="p">:</span> <span class="s1">'application/x-www-form-urlencoded'</span>
+        <span class="s1">'Authorization'</span><span class="p">:</span> <span class="nx">auth_header</span>
     <span class="p">}</span>
 <span class="p">};</span>
 
@@ -525,8 +838,32 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"body: "</span> <span class="o">+</span> <span class="nx">chunk</span><span class="p">);</span>
     <span class="p">});</span>
 <span class="p">});</span>
-<span class="nx">req</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
 <span class="nx">req</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+</code></pre>
+<pre class="highlight python"><code><span class="c">#!/usr/bin/python</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">hmac</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">bitso_key</span> <span class="o">=</span> <span class="s">"BITSO_KEY"</span>
+<span class="n">bitso_secret</span> <span class="o">=</span> <span class="s">"BITSO_SECRET"</span>
+<span class="n">bitso_client_id</span> <span class="o">=</span> <span class="s">"BITSO_CLIENT_ID"</span>
+<span class="n">nonce</span> <span class="o">=</span>  <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)))</span>
+
+<span class="c"># Create signature</span>
+<span class="n">message</span> <span class="o">=</span> <span class="n">nonce</span> <span class="o">+</span> <span class="n">bitso_key</span> <span class="o">+</span> <span class="n">bitso_client_id</span>
+<span class="n">signature</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">bitso_secret</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">),</span><span class="n">message</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+
+
+<span class="c"># Build the auth header</span>
+<span class="n">auth_header</span> <span class="o">=</span> <span class="s">'Bitso </span><span class="si">%</span><span class="s">s:</span><span class="si">%</span><span class="s">s:</span><span class="si">%</span><span class="s">s'</span> <span class="o">%</span> <span class="p">(</span><span class="n">bitso_key</span><span class="p">,</span> <span class="n">nonce</span><span class="p">,</span> <span class="n">signature</span><span class="p">)</span>
+
+<span class="c"># Send request</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"https://api.bitso.com/v3/balance/"</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s">"Authorization"</span><span class="p">:</span> <span class="n">auth_header</span><span class="p">})</span>
+
+<span class="k">print</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span>
 </code></pre>
 <pre class="highlight ruby"><code><span class="c1">#!/usr/bin/ruby</span>
 
@@ -544,20 +881,14 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
 <span class="n">message</span> <span class="o">=</span> <span class="n">nonce</span> <span class="o">+</span> <span class="n">bitso_key</span> <span class="o">+</span> <span class="n">bitso_client_id</span>
 <span class="n">signature</span> <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">HMAC</span><span class="p">.</span><span class="nf">hexdigest</span><span class="p">(</span><span class="no">OpenSSL</span><span class="o">::</span><span class="no">Digest</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">),</span> <span class="n">bitso_secret</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
 
-<span class="c1"># Build the request parameters</span>
-<span class="n">o</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="ss">:key</span> <span class="o">=&gt;</span> <span class="n">bitso_key</span><span class="p">,</span>
-  <span class="ss">:nonce</span> <span class="o">=&gt;</span> <span class="n">nonce</span><span class="p">.</span><span class="nf">to_i</span><span class="p">,</span>
-  <span class="ss">:signature</span> <span class="o">=&gt;</span> <span class="n">signature</span>
-<span class="p">}</span>
-<span class="n">body</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+<span class="c1"># Build the auth header</span>
+<span class="n">auth_header</span> <span class="o">=</span> <span class="s2">"'Bitso </span><span class="si">#{</span><span class="n">bitso_key</span><span class="si">}</span><span class="s2">:</span><span class="si">#{</span><span class="n">nonce</span><span class="si">}</span><span class="s2">:</span><span class="si">#{</span><span class="n">signature</span><span class="si">}</span><span class="s2">"</span>
 
 <span class="c1"># Send request</span>
 <span class="n">response</span> <span class="o">=</span> <span class="no">Typhoeus</span><span class="o">::</span><span class="no">Request</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>
-  <span class="s2">"https://api.bitso.com/v2/balance"</span><span class="p">,</span>
-  <span class="ss">method: </span><span class="s2">"post"</span><span class="p">,</span>
-  <span class="ss">body: </span><span class="n">body</span><span class="p">,</span>
-  <span class="ss">headers: </span><span class="p">{</span> <span class="s2">"Content-Type"</span> <span class="o">=&gt;</span> <span class="s2">"application/json"</span> <span class="p">}</span>
+  <span class="s2">"https://api.bitso.com/v3/balance/"</span><span class="p">,</span>
+  <span class="ss">method: </span><span class="s2">"get"</span><span class="p">,</span>
+  <span class="ss">headers: </span><span class="p">{</span><span class="s2">"Authorization"</span> <span class="o">=&gt;</span>  <span class="n">auth_header</span><span class="p">}</span>
 <span class="p">).</span><span class="nf">run</span>
 
 <span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">body</span>
@@ -595,19 +926,15 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
         <span class="n">BigInteger</span> <span class="n">localBigInteger</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BigInteger</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">arrayOfByte</span><span class="o">);</span>
         <span class="n">signature</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"%0"</span> <span class="o">+</span> <span class="o">(</span><span class="n">arrayOfByte</span><span class="o">.</span><span class="na">length</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="o">)</span> <span class="o">+</span> <span class="s">"x"</span><span class="o">,</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[]</span> <span class="o">{</span> <span class="n">localBigInteger</span> <span class="o">});</span>
 
-        <span class="c1">// Build the request parameters</span>
-        <span class="n">JSONObject</span> <span class="n">o</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JSONObject</span><span class="o">();</span>
-        <span class="n">o</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"key"</span><span class="o">,</span> <span class="n">bitsoKey</span><span class="o">);</span>
-        <span class="n">o</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"nonce"</span><span class="o">,</span> <span class="n">nonce</span><span class="o">);</span>
-        <span class="n">o</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"signature"</span><span class="o">,</span> <span class="n">signature</span><span class="o">);</span>
-        <span class="n">String</span> <span class="n">body</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
-        <span class="n">String</span> <span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.bitso.com/v2/balance"</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.bitso.com/v3/balance/"</span><span class="o">;</span>
+
+        <span class="c1">// Build the auth header</span>
+        <span class="n">String</span> <span class="n">authHeader</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"Bitso %s:%s:%s"</span><span class="o">,</span> <span class="n">bitsoKey</span><span class="o">,</span> <span class="n">nonce</span><span class="o">,</span> <span class="n">signature</span><span class="o">);</span>
+
 
         <span class="c1">// Send request</span>
         <span class="n">HttpPost</span> <span class="n">postRequest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HttpPost</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
-        <span class="n">postRequest</span><span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">"Content-Type"</span><span class="o">,</span> <span class="s">"application/json"</span><span class="o">);</span>
-        <span class="n">postRequest</span><span class="o">.</span><span class="na">setEntity</span><span class="o">(</span><span class="k">new</span> <span class="n">StringEntity</span><span class="o">(</span><span class="n">body</span><span class="o">));</span>
-
+        <span class="n">postRequest</span><span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">"Authorization"</span><span class="o">,</span> <span class="n">authHeader</span><span class="o">);</span>
         <span class="n">CloseableHttpResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">HttpClients</span><span class="o">.</span><span class="na">createDefault</span><span class="o">().</span><span class="na">execute</span><span class="o">(</span><span class="n">postRequest</span><span class="o">);</span>
         <span class="n">BufferedReader</span> <span class="n">in</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="n">InputStreamReader</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">getEntity</span><span class="o">().</span><span class="na">getContent</span><span class="o">()));</span>
 
@@ -618,10 +945,10 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
             <span class="n">responseBody</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">inputLine</span><span class="o">);</span>
         <span class="o">}</span>
         <span class="n">in</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
-
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">responseBody</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
     <span class="o">}</span>
 <span class="o">}</span>
+
 </code></pre>
 <pre class="highlight php"><code><span class="cp">&lt;?php</span>
   <span class="nv">$bitsoKey</span>       <span class="o">=</span> <span class="s1">'BITSO_API_KEY'</span><span class="p">;</span>
@@ -633,22 +960,17 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
 </span>  <span class="nv">$message</span> <span class="o">=</span> <span class="nv">$nonce</span> <span class="o">.</span> <span class="nv">$bitsoClientId</span> <span class="o">.</span> <span class="nv">$bitsoKey</span><span class="p">;</span>
   <span class="nv">$signature</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nv">$message</span><span class="p">,</span> <span class="nv">$bitsoSecret</span><span class="p">);</span>
 
-  <span class="c1">// Build the request parameters
-</span>  <span class="nv">$o</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-      <span class="s1">'key'</span>       <span class="o">=&gt;</span> <span class="nv">$bitsoKey</span><span class="p">,</span>
-      <span class="s1">'nonce'</span>     <span class="o">=&gt;</span> <span class="nv">$nonce</span><span class="p">,</span>
-      <span class="s1">'signature'</span> <span class="o">=&gt;</span> <span class="nv">$signature</span>
-  <span class="p">);</span>
-  <span class="nv">$body</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$o</span><span class="p">);</span>
+  <span class="c1">// Build the auth header
+</span>  <span class="nv">$format</span> <span class="o">=</span> <span class="s1">'Bitso %s:%s:%s'</span><span class="p">;</span>
+  <span class="nv">$authHeader</span> <span class="o">=</span>  <span class="nb">sprintf</span><span class="p">(</span><span class="nv">$format</span><span class="p">,</span> <span class="p">(</span><span class="nv">$bitsoKey</span><span class="p">,</span> <span class="nv">$nonce</span><span class="p">,</span> <span class="nv">$signature</span><span class="p">);</span>
+
 
   <span class="c1">// Send request
 </span>  <span class="nv">$ch</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
-  <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_URL</span><span class="p">,</span> <span class="s1">'https://api.bitso.com/v2/balance'</span><span class="p">);</span>
-  <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_CUSTOMREQUEST</span><span class="p">,</span> <span class="s2">"POST"</span><span class="p">);</span>
-  <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$body</span><span class="p">);</span>
+  <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_URL</span><span class="p">,</span> <span class="s1">'https://api.bitso.com/v3/balance/'</span><span class="p">);</span>
+  <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_CUSTOMREQUEST</span><span class="p">,</span> <span class="s2">"GET"</span><span class="p">);</span>
   <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
-      <span class="s1">'Content-Type: application/json; charset=utf-8'</span><span class="p">,</span>
-      <span class="s1">'Content-Length: '</span> <span class="o">.</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$body</span><span class="p">))</span>
+      <span class="s1">'Authorization: '</span> <span class="o">.</span>  <span class="nv">$authHeader</span><span class="p">)</span>
   <span class="p">);</span>
   <span class="nv">$result</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
 
@@ -656,7 +978,8 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
 <span class="cp">?&gt;</span>
 </code></pre>
 
-<p>All REST requests should be valid JSON. You need to POST 3 fields as a JSON payload to the API in order to perform authentication:</p>
+<p>All REST requests should be valid JSON. You must include 3 fields as a
+payload in the &ldquo;Authorization&rdquo; header for all Private API Endpoints in order to perform authentication:</p>
 
 <ul>
 <li><strong>key</strong> – The API Key you generated</li>
@@ -668,29 +991,48 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
 
 <p>The signature is generated by creating a SHA256 HMAC using the <strong>Bitso API Secret</strong> on the concatenation of <strong>nonce</strong> + <strong>Bitso Client ID</strong> + <strong>Bitso API Key</strong> (no &rsquo;+&rsquo; signs in the concatenated string) and hex-encode the output. The <strong>nonce</strong> value should be the same as the <strong>nonce</strong> field in the json dictionary.</p>
 
-<h2 id="account-balance">Account balance</h2>
+<h3 id="authorization-header">Authorization Header</h3>
+
+<p>The header should be constructed, using the fields described above, in
+the following form:</p>
+
+<p><strong>Authorization: Bitso &lt;key&gt;:&lt;nonce&gt;:&lt;signature&gt;</strong></p>
+
+<h2 id="account-balance">Account Balance</h2>
 
 <blockquote>
-<p>The JSON dictionary returned by the API looks like this:</p>
+<p>The JSON object returned by the API looks like this:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"btc_available"</span><span class="p">:</span><span class="w"> </span><span class="s2">"46.67902107"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"fee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0000"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"mxn_available"</span><span class="p">:</span><span class="w"> </span><span class="s2">"26864.57"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"btc_balance"</span><span class="p">:</span><span class="w"> </span><span class="s2">"46.67902107"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"mxn_reserved"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"mxn_balance"</span><span class="p">:</span><span class="w"> </span><span class="s2">"26864.57"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"btc_reserved"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00000000"</span><span class="w">
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"balances"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mxn"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="s2">"100.1234"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"locked"</span><span class="p">:</span><span class="w"> </span><span class="s2">"25.1234"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"available"</span><span class="p">:</span><span class="w"> </span><span class="s2">"75.0000"</span><span class="w">
+        </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4.12345678"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"locked"</span><span class="p">:</span><span class="w"> </span><span class="s2">"25.00000000"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"available"</span><span class="p">:</span><span class="w"> </span><span class="s2">"75.12345678"</span><span class="w">
+        </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eth"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="s2">"50.1234"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"locked"</span><span class="p">:</span><span class="w"> </span><span class="s2">"40.1234"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"available"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10.0000"</span><span class="w">
+        </span><span class="p">}]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>This endpoint returns information of all balances.</p>
+<p>This endpoint returns information concering the user&rsquo;s balances for all supported currencies.</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">POST https://api.bitso.com/v2/balance</code></p>
+<p><code class="prettyprint">GET https://api.bitso.com/v3/balance/</code></p>
 
-<h3 id="body-parameters">Body Parameters</h3>
+<h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
 
 <table><thead>
 <tr>
@@ -722,6 +1064,8 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
 
 <h3 id="json-response">JSON Response</h3>
 
+<p>Returns a JSON Array. Every element in the array is a JSON object with the following fields.</p>
+
 <table><thead>
 <tr>
 <th>Field Name</th>
@@ -731,86 +1075,64 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
 </tr>
 </thead><tbody>
 <tr>
-<td><strong>mxn_balance</strong></td>
+<td><strong>currency</strong></td>
 <td>String</td>
-<td>MXN balance</td>
-<td>MXN</td>
+<td>Currency symbol</td>
+<td></td>
 </tr>
 <tr>
-<td><strong>btc_balance</strong></td>
+<td><strong>total</strong></td>
 <td>String</td>
-<td>BTC balance</td>
-<td>BTC</td>
+<td>Total balance</td>
+<td>Currency</td>
 </tr>
 <tr>
-<td><strong>mxn_reserved</strong></td>
+<td><strong>locked</strong></td>
 <td>String</td>
-<td>MXN locked in open orders</td>
-<td>MXN</td>
+<td>Currency balance locked in open orders</td>
+<td>Currency</td>
 </tr>
 <tr>
-<td><strong>btc_reserved</strong></td>
+<td><strong>available</strong></td>
 <td>String</td>
-<td>BTC locked in open orders</td>
-<td>BTC</td>
-</tr>
-<tr>
-<td><strong>mxn_available</strong></td>
-<td>String</td>
-<td>MXN available for trading (balance - reserved)</td>
-<td>MXN</td>
-</tr>
-<tr>
-<td><strong>btc_available</strong></td>
-<td>String</td>
-<td>BTC available for trading (balance - reserved)</td>
-<td>BTC</td>
-</tr>
-<tr>
-<td><strong>fee</strong></td>
-<td>String</td>
-<td>Customer trading fee as a <em>percentage</em></td>
-<td>-</td>
+<td>Currency balance available for use</td>
+<td>Currency</td>
 </tr>
 </tbody></table>
 
-<h2 id="user-transactions">User Transactions</h2>
+<h2 id="fees">Fees</h2>
 
 <blockquote>
-<p>The JSON dictionary returned by the API looks like this:</p>
+<p>The JSON object returned by the API looks like this:</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-10-10 16:19:33"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bitcoin"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"btc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.48650929"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-10-09 13:49:00"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SPEI Transfer"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"mxn"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-1800.15"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"btc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-0.25232073"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-10-09 13:45:46"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"mxn"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1023.77"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"rate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4057.45"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">51756</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"order_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19vaqiv72drbphig81d3y1ywri0yg8miihs80ng217drpw7xyl0wmytdhtby2ygk"</span><span class="w">
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"fees"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mxn_btc"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"fee_decimal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.0001"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"fee_percent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.01"</span><span class="w">
+        </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mxn_eth"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"fee_decimal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.001"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"fee_percent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.1"</span><span class="w">
+        </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cop_btc"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"fee_decimal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.01"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"fee_percent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="w">
+        </span><span class="p">}]</span><span class="w">
     </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>Returns a list of the user&rsquo;s transactions.</p>
+<p>This endpoint returns information on customer fees for all available
+order books</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">POST https://api.bitso.com/v2/user_transactions</code></p>
+<p><code class="prettyprint">GET https://api.bitso.com/v3/fees/</code></p>
 
-<h3 id="body-parameters">Body Parameters</h3>
+<h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
 
 <table><thead>
 <tr>
@@ -838,35 +1160,223 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
 <td>Yes</td>
 <td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
 </tr>
+</tbody></table>
+
+<h3 id="json-response">JSON Response</h3>
+
+<p>Returns a JSON Array. Every element in the array is a JSON object with the following fields.</p>
+
+<table><thead>
 <tr>
-<td><strong>offset</strong></td>
-<td>0</td>
-<td>No</td>
-<td>Skip that many transactions before beginning to return results</td>
+<th>Field Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Units</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>book</strong></td>
+<td>String</td>
+<td>Order book symbol</td>
+<td>Major_Minor</td>
 </tr>
 <tr>
-<td><strong>limit</strong></td>
-<td>100</td>
+<td><strong>fee_decimal</strong></td>
+<td>String</td>
+<td>Customer trading fee as a decimal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>fee_percent</strong></td>
+<td>String</td>
+<td>Customer trading fee as a percentage</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<h2 id="ledger">Ledger</h2>
+
+<blockquote>
+<p>The JSON object returned by the API looks like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+        </span><span class="nt">"eid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"c4ca4238a0b923820dcc509a6f75849b"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"trade"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"balance_updates"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-0.25232073"</span><span class="w">
+        </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mxn"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1013.540958479115"</span><span class="w">
+        </span><span class="p">}],</span><span class="w">
+        </span><span class="nt">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"tid"</span><span class="p">:</span><span class="w"> </span><span class="mi">51756</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"oid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19vaqiv72drbphig81d3y1ywri0yg8miihs80ng217drpw7xyl0wmytdhtby2ygk"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"eid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6512bd43d9caa6e02c990b0a82652dca"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fee"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"balance_updates"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mxn"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-10.237787459385"</span><span class="w">
+        </span><span class="p">}],</span><span class="w">
+        </span><span class="nt">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"tid"</span><span class="p">:</span><span class="w"> </span><span class="mi">51756</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"oid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19vaqiv72drbphig81d3y1ywri0yg8miihs80ng217drpw7xyl0wmytdhtby2ygk"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"trade"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"balance_updates"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eth"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4.86859395"</span><span class="w">
+        </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mxn"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-626.77"</span><span class="w">
+        </span><span class="p">}],</span><span class="w">
+        </span><span class="nt">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"tid"</span><span class="p">:</span><span class="w"> </span><span class="mi">51757</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"oid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19vaqiv72drbphig81d3y1ywri0yg8miihs80ng217drpw7xyl0wmytdhtby2ygk"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"eid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"698d51a19d8a121ce581499d7b701668"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fee"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"balance_updates"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eth"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.04917771"</span><span class="w">
+        </span><span class="p">}],</span><span class="w">
+        </span><span class="nt">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"tid"</span><span class="p">:</span><span class="w"> </span><span class="mi">51757</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"oid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19vaqiv72drbphig81d3y1ywri0yg8miihs80ng217drpw7xyl0wmytdhtby2ygk"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"eid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"b59c67bf196a4758191e42f76670ceba"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"funding"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"balance_updates"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.48650929"</span><span class="w">
+        </span><span class="p">}],</span><span class="w">
+        </span><span class="nt">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"fid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fc23c28a23905d8614499816c3ade455"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bitcoin"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"funding_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"18MsnATiNiKLqUHDTRKjurwMg7inCrdNEp"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"eid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"b0baee9d279d34fa1dfd71aadb908c3f"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"funding"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"balance_updates"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mxn"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"300.15"</span><span class="w">
+        </span><span class="p">}],</span><span class="w">
+        </span><span class="nt">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"fid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3ef729ccf0cc56079ca546d58083dc12"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SPEI Transfer"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"sender_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MANUEL OROZCO Y BERRA"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"sender_bank"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BBVA Bancomer"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"sender_clabe"</span><span class="p">:</span><span class="w"> </span><span class="s2">"012610001967722183"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"numeric_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"80416"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"concepto"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Para el regalo"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"clave_rastreo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BNET01001604080002076841"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+
+    </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"eid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"96e79218965eb72c92a549dd5a330112"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"withdrawal"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"balance_updates"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mxn"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-200.15"</span><span class="w">
+        </span><span class="p">}],</span><span class="w">
+        </span><span class="nt">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"wid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"c5b8d7f0768ee91d3b33bee648318688"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SPEI Transfer"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"beneficiary_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DANIEL COSIO VILLEGAS"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"beneficiary_bank"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BANAMEX"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"beneficiary_clabe"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5204165009315197"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"numeric_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"99548"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"concepto"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Por los tacos del viernes"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"clave_rastreo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BNET01001604080002076841"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Returns a list of all the user&rsquo;s registered operations.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://api.bitso.com/v3/ledger/</code></p>
+
+<h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>key</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>signature</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>nonce</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+</tbody></table>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>marker</strong></td>
+<td></td>
 <td>No</td>
-<td>Limit result to that many transactions</td>
+<td>Returns objects that are older or newer (depending on &#39;sort&rsquo;) than the object with this ID</td>
 </tr>
 <tr>
 <td><strong>sort</strong></td>
 <td>desc</td>
-<td>Sorting by date and time (asc - ascending; desc - descending)</td>
-<td></td>
+<td>No</td>
+<td>Specifies ordering direction of returned objects</td>
 </tr>
 <tr>
-<td><strong>book</strong></td>
-<td>btc_mxn</td>
+<td><strong>limit</strong></td>
+<td>25</td>
 <td>No</td>
-<td>Specifies which book to use</td>
+<td>Specifis number of objects tu return. (Max is 100)</td>
 </tr>
 </tbody></table>
 
 <h3 id="json-response">JSON Response</h3>
 
-<p>Returns a descending JSON Array of transactions. Every element in the array is a JSON dictionary:</p>
+<p>Returns a descending JSON Array of transactions. Every element in the array is a JSON object:</p>
 
 <table><thead>
 <tr>
@@ -877,95 +1387,122 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
 </tr>
 </thead><tbody>
 <tr>
-<td><strong>datetime</strong></td>
+<td><strong>eid</strong></td>
 <td>String</td>
-<td>Date and time</td>
+<td>Entry ID</td>
 <td>-</td>
 </tr>
 <tr>
-<td><strong>id</strong></td>
-<td>long</td>
+<td><strong>operation</strong></td>
+<td>String</td>
 <td>Unique identifier (only for trades)</td>
 <td>-</td>
 </tr>
 <tr>
-<td><strong>type</strong></td>
-<td>int</td>
-<td>Transaction type (0 - deposit; 1 - withdrawal; 2 - trade)</td>
+<td><strong>created_at</strong></td>
+<td>String</td>
+<td>Timestamp at wich the order was created</td>
+<td>ISO 8601 timestamp</td>
+</tr>
+<tr>
+<td><strong>balance_updates</strong></td>
+<td>JSON object</td>
+<td>Updates to user balances for this opertion (See dictionary specification below)</td>
 <td>-</td>
 </tr>
 <tr>
-<td><strong>method</strong></td>
-<td>String</td>
-<td>Deposit or withdrawal method</td>
+<td><strong>details</strong></td>
+<td>JSON object</td>
+<td>Specific operation  details</td>
 <td>-</td>
-</tr>
-<tr>
-<td><strong>(minor currency code)</strong></td>
-<td>String</td>
-<td>The minor currency amount</td>
-<td>Minor</td>
-</tr>
-<tr>
-<td><strong>(major currency code)</strong></td>
-<td>String</td>
-<td>The major currency amount</td>
-<td>Major</td>
-</tr>
-<tr>
-<td><strong>order_id</strong></td>
-<td>String</td>
-<td>A 64 character long hexadecimal string representing the order that was fully or partially filled (only for trades)</td>
-<td>-</td>
-</tr>
-<tr>
-<td><strong>rate</strong></td>
-<td>String</td>
-<td>Price per minor (only for trades)</td>
-<td>Minor</td>
 </tr>
 </tbody></table>
+
+<h3 id="json-object-for-balance_updates">JSON Object for balance_updates</h3>
+
+<table><thead>
+<tr>
+<th>Field Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Units</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>currency</strong></td>
+<td>String</td>
+<td>Currency for this balance update</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>balance</strong></td>
+<td>String</td>
+<td>Amount added or substracted to user balance</td>
+<td>Currency</td>
+</tr>
+</tbody></table>
+
+<h3 id="filter-ledger-by-operation-type">Filter Ledger by operation type</h3>
+
+<p>You can specify that the ledger endpoint return only objects that are
+a specific operation type.</p>
+
+<p><code class="prettyprint">GET https://api.bitso.com/v3/ledger/trades/</code></p>
+
+<p><code class="prettyprint">GET https://api.bitso.com/v3/ledger/fundings/</code></p>
+
+<p><code class="prettyprint">GET https://api.bitso.com/v3/ledger/withdrawals/</code></p>
+
+<p><code class="prettyprint">GET https://api.bitso.com/v3/ledger/fees/</code></p>
 
 <h2 id="open-orders">Open Orders</h2>
 
 <blockquote>
-<p>The JSON dictionary returned by the API looks like this:</p>
+<p>The JSON object returned by the API looks like this:</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+        </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.01000000"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-11-12 12:37:01"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:51.000+00:00"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5600.00"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"543cr2v32a1h684430tvcqx1b0vkr93wd694957cg8umhyrlzkgbaedmf976ia3v"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"oid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"543cr2v32a1h684430tvcqx1b0vkr93wd694957cg8umhyrlzkgbaedmf976ia3v"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"partial-fill"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="w">
+    </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.12680000"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-11-12 12:33:47"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:41.000+00:00"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4000.00"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"qlbga6b600n3xta7actori10z19acfb20njbtuhtu5xry7z8jswbaycazlkc0wf1"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"oid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"qlbga6b600n3xta7actori10z19acfb20njbtuhtu5xry7z8jswbaycazlkc0wf1"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sell"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="w">
+    </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.12560000"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-11-12 12:33:23"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:41.000+00:00"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6123.55"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"d71e3xy2lowndkfmde6bwkdsvw62my6058e95cbr08eesu0687i5swyot4rf2yf8"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
+        </span><span class="nt">"oid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"d71e3xy2lowndkfmde6bwkdsvw62my6058e95cbr08eesu0687i5swyot4rf2yf8"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sell"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="w">
+    </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre>
 
 <p>Returns a list of the user&rsquo;s open orders.</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">POST https://api.bitso.com/v2/open_orders</code></p>
+<p><code class="prettyprint">GET https://api.bitso.com/v2/open_orders?book=btc_mxn</code></p>
 
-<h3 id="body-parameters">Body Parameters</h3>
+<h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
 
 <table><thead>
 <tr>
@@ -993,17 +1530,29 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
 <td>Yes</td>
 <td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
 </tr>
+</tbody></table>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
 <tr>
 <td><strong>book</strong></td>
-<td>btc_mxn</td>
-<td>No</td>
+<td>-</td>
+<td>YES</td>
 <td>Specifies which book to use</td>
 </tr>
 </tbody></table>
 
 <h3 id="json-response">JSON Response</h3>
 
-<p>Returns a JSON Array of open orders. Every element in the array is a JSON dictionary:</p>
+<p>Returns a JSON Array of open orders. Every element in the array is a JSON object:</p>
 
 <table><thead>
 <tr>
@@ -1014,28 +1563,16 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
 </tr>
 </thead><tbody>
 <tr>
-<td><strong>datetime</strong></td>
+<td><strong>oid</strong></td>
 <td>String</td>
-<td>Date and time</td>
+<td>The Order ID</td>
 <td>-</td>
 </tr>
 <tr>
-<td><strong>id</strong></td>
+<td><strong>book</strong></td>
 <td>String</td>
-<td>The order ID</td>
-<td>-</td>
-</tr>
-<tr>
-<td><strong>type</strong></td>
-<td>String</td>
-<td>The order type (0 - buy; 1 - sell)</td>
-<td>-</td>
-</tr>
-<tr>
-<td><strong>price</strong></td>
-<td>String</td>
-<td>The order&rsquo;s price</td>
-<td>Minor</td>
+<td>Order book symbol</td>
+<td>Major_Minor</td>
 </tr>
 <tr>
 <td><strong>amount</strong></td>
@@ -1044,37 +1581,94 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
 <td>Major</td>
 </tr>
 <tr>
+<td><strong>created_at</strong></td>
+<td>String</td>
+<td>Timestamp at wich the trade was executed</td>
+<td>ISO 8601 timestamp</td>
+</tr>
+<tr>
+<td><strong>updated_at</strong></td>
+<td>String</td>
+<td>Timestamp at wich the trade was updated</td>
+<td>ISO 8601 timestamp</td>
+</tr>
+<tr>
+<td><strong>price</strong></td>
+<td>String</td>
+<td>The order&rsquo;s price</td>
+<td>Minor</td>
+</tr>
+<tr>
+<td><strong>side</strong></td>
+<td>String</td>
+<td>The order side (buy, sell)</td>
+<td>-</td>
+</tr>
+<tr>
 <td><strong>status</strong></td>
 <td>String</td>
-<td>The order&rsquo;s status (0 - active; 1 - partially filled)</td>
+<td>The order&rsquo;s status (open, partial-fill)</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>type</strong></td>
+<td>String</td>
+<td>The order type (will always be &#39;limit&rsquo; for open orders)</td>
 <td>-</td>
 </tr>
 </tbody></table>
 
-<h2 id="lookup-order">Lookup Order</h2>
+<h2 id="lookup-orders">Lookup Orders</h2>
 
 <blockquote>
-<p>The JSON dictionary returned by the API looks like this:</p>
+<p>The JSON object returned by the API looks like this:</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">[{</span><span class="w">
-    </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.01000000"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-11-12 12:37:01"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5600.00"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"543cr2v32a1h684430tvcqx1b0vkr93wd694957cg8umhyrlzkgbaedmf976ia3v"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"updated"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-11-12 12:37:40"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-1"</span><span class="w">
-</span><span class="p">}]</span><span class="w">
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+        </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.01000000"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:51.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5600.00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"oid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"543cr2v32a1h684430tvcqx1b0vkr93wd694957cg8umhyrlzkgbaedmf976ia3v"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"partial-fill"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="w">
+    </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.12680000"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:58:31.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4000.00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"oid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"qlbga6b600n3xta7actori10z19acfb20njbtuhtu5xry7z8jswbaycazlkc0wf1"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sell"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="w">
+
+    </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.12560000"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:53:31.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6123.55"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"oid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"d71e3xy2lowndkfmde6bwkdsvw62my6058e95cbr08eesu0687i5swyot4rf2yf8"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sell"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="w">
+    </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre>
 
 <p>Returns a list of details for 1 or more orders</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">POST https://api.bitso.com/v2/lookup_order</code></p>
+<p><code class="prettyprint">GET https://api.bitso.com/v3/orders/&lt;oid&gt;/</code></p>
 
-<h3 id="body-parameters">Body Parameters</h3>
+<p><code class="prettyprint">GET https://api.bitso.com/v3/orders/&lt;oid&gt;-&lt;oid&gt;-&lt;oid&gt;/</code></p>
+
+<h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
 
 <table><thead>
 <tr>
@@ -1102,17 +1696,11 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
 <td>Yes</td>
 <td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
 </tr>
-<tr>
-<td><strong>id</strong></td>
-<td>-</td>
-<td>Yes</td>
-<td>A single or array of 64 characters long hexadecimal strings taken from the list of orders</td>
-</tr>
 </tbody></table>
 
 <h3 id="json-response">JSON Response</h3>
 
-<p>Returns a JSON Array with details about 1 or more orders. Each order is represented by a JSON dictionary:</p>
+<p>Returns a JSON Array of open orders. Every element in the array is a JSON object:</p>
 
 <table><thead>
 <tr>
@@ -1123,22 +1711,16 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
 </tr>
 </thead><tbody>
 <tr>
-<td><strong>id</strong></td>
+<td><strong>oid</strong></td>
 <td>String</td>
-<td>The order ID  passed to the API</td>
+<td>The Order ID</td>
 <td>-</td>
 </tr>
 <tr>
 <td><strong>book</strong></td>
 <td>String</td>
-<td>Which orderbook the order belongs to (not shown when status = 0)</td>
-<td>-</td>
-</tr>
-<tr>
-<td><strong>price</strong></td>
-<td>String</td>
-<td>The order&rsquo;s price</td>
-<td>Minor</td>
+<td>Order book symbol</td>
+<td>Major_Minor</td>
 </tr>
 <tr>
 <td><strong>amount</strong></td>
@@ -1147,28 +1729,40 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
 <td>Major</td>
 </tr>
 <tr>
-<td><strong>type</strong></td>
+<td><strong>created_at</strong></td>
 <td>String</td>
-<td>The order type (0 - buy; 1 - sell)</td>
+<td>Timestamp at wich the order was created</td>
+<td>ISO 8601 timestamp</td>
+</tr>
+<tr>
+<td><strong>updated_at</strong></td>
+<td>String</td>
+<td>Timestamp at wich the order was updated</td>
+<td>ISO 8601 timestamp</td>
+</tr>
+<tr>
+<td><strong>price</strong></td>
+<td>String</td>
+<td>The order&rsquo;s price</td>
+<td>Minor</td>
+</tr>
+<tr>
+<td><strong>side</strong></td>
+<td>String</td>
+<td>The order side (buy, sell)</td>
 <td>-</td>
 </tr>
 <tr>
 <td><strong>status</strong></td>
 <td>String</td>
-<td>The order&rsquo;s status (-1 - cancelled; 0 - active; 1 - partially filled; 2 - complete)</td>
-<td>-</td>
-</tr>
-<tr>
-<td><strong>created</strong></td>
-<td>String</td>
-<td>The date the order was created</td>
-<td>-</td>
-</tr>
-<tr>
-<td><strong>updated</strong></td>
-<td>String</td>
-<td>The date the order was last updated (not shown when status = 0)</td>
+<td>The order&rsquo;s status (open, partial-fill, closed)</td>
 <td></td>
+</tr>
+<tr>
+<td><strong>type</strong></td>
+<td>String</td>
+<td>The order type (market, limit)</td>
+<td>-</td>
 </tr>
 </tbody></table>
 
@@ -1177,78 +1771,27 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
 <blockquote>
 <p>The string returned by the API looks like this:</p>
 </blockquote>
-<pre class="highlight json"><code><span class="s2">"true"</span><span class="w">
-</span></code></pre>
-
-<p>Cancels an open order</p>
-
-<h3 id="http-request">HTTP Request</h3>
-
-<p><code class="prettyprint">POST https://api.bitso.com/v2/cancel_order</code></p>
-
-<h3 id="body-parameters">Body Parameters</h3>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><strong>key</strong></td>
-<td>-</td>
-<td>Yes</td>
-<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
-</tr>
-<tr>
-<td><strong>signature</strong></td>
-<td>-</td>
-<td>Yes</td>
-<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
-</tr>
-<tr>
-<td><strong>nonce</strong></td>
-<td>-</td>
-<td>Yes</td>
-<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
-</tr>
-<tr>
-<td><strong>id</strong></td>
-<td>-</td>
-<td>Yes</td>
-<td>A 64 characters long hexadecimal string taken from the list of orders</td>
-</tr>
-</tbody></table>
-
-<h3 id="http-response">HTTP Response</h3>
-
-<p>Returns &ldquo;true&rdquo; (quotation marks included) if the order has been found and canceled. Otherwise it returns a JSON dictionary indicating the error</p>
-
-<h2 id="place-a-buy-order">Place a Buy Order</h2>
-
-<blockquote>
-<p>The JSON dictionary returned by the API looks like this:</p>
-</blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.10000000"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-11-12 12:53:28"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"100.00"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kidxgibf009w85qykad1sdoktdmdlbo6t23akepkfzgn56mphzracfv6thjfs8lm"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="w">
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:[</span><span class="w">
+        </span><span class="s2">"543cr2v32a1h684430tvcqx1b0vkr93wd694957cg8umhyrlzkgbaedmf976ia3v"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"qlbga6b600n3xta7actori10z19acfb20njbtuhtu5xry7z8jswbaycazlkc0wf1"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"d71e3xy2lowndkfmde6bwkdsvw62my6058e95cbr08eesu0687i5swyot4rf2yf8"</span><span class="w">
+        </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>Places a buy order (both limit and market orders are available)</p>
+<p>Cancels open order(s)</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">POST https://api.bitso.com/v2/buy</code></p>
+<p><code class="prettyprint">DELETE https://api.bitso.com/v3/orders/&lt;oid&gt;/</code></p>
 
-<h3 id="body-parameters">Body Parameters</h3>
+<p><code class="prettyprint">DELETE https://api.bitso.com/v3/orders/&lt;oid&gt;-&lt;oid&gt;-&lt;oid&gt;/</code></p>
+
+<p><code class="prettyprint">DELETE https://api.bitso.com/v3/orders/all/</code></p>
+
+<h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
 
 <table><thead>
 <tr>
@@ -1275,30 +1818,121 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
 <td>-</td>
 <td>Yes</td>
 <td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
-</tr>
-<tr>
-<td><strong>book</strong></td>
-<td>btc_mxn</td>
-<td>No</td>
-<td>Specifies which book to use</td>
-</tr>
-<tr>
-<td><strong>amount</strong></td>
-<td>-</td>
-<td>Yes</td>
-<td>The amount of major currency to buy.</td>
-</tr>
-<tr>
-<td><strong>price</strong></td>
-<td>-</td>
-<td>No</td>
-<td>If supplied, this will place a <strong>limit order</strong> to buy at the specified price. If not supplied, this will place a <strong>market order</strong> to buy the amount of major currency specified in <strong>amount</strong> at the market rate</td>
 </tr>
 </tbody></table>
 
 <h3 id="json-response">JSON Response</h3>
 
-<p>Returns a JSON dictionary representing the order:</p>
+<p>The response is a list of Order IDs (OIDs) for the canceled orders. Orders may not be successfully cancelled if they have been filled, have been already cancelled, or the OIDs are incorrect.</p>
+
+<h2 id="place-an-order">Place an Order</h2>
+
+<blockquote>
+<p>The JSON object returned by the API looks like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.01000000"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5600.00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"oid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"543cr2v32a1h684430tvcqx1b0vkr93wd694957cg8umhyrlzkgbaedmf976ia3v"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Places a buy or sell order (both limit and market orders are available)</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST https://api.bitso.com/v3/orders/</code></p>
+
+<h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>key</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>signature</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>nonce</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See [Creating and Signing Requests](#creating-and-signing-</td>
+</tr>
+</tbody></table>
+
+<h3 id="body-parameters">Body Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>book</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>Specifies which book to use</td>
+</tr>
+<tr>
+<td><strong>side</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The order side (buy, sell)</td>
+</tr>
+<tr>
+<td><strong>type</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The order type (market, limit)</td>
+</tr>
+<tr>
+<td><strong>major</strong></td>
+<td>-</td>
+<td>No</td>
+<td>The amount of major currency for this order. An order could be specified in terms of major or minor, never both.</td>
+</tr>
+<tr>
+<td><strong>minor</strong></td>
+<td>-</td>
+<td>No</td>
+<td>The amount of minor currency for this order. An order could be specified in terms of major or minor, never both.</td>
+</tr>
+<tr>
+<td><strong>price</strong></td>
+<td>-</td>
+<td>No</td>
+<td>Price per unit of major. For use only with limit orders</td>
+</tr>
+</tbody></table>
+
+<h3 id="json-response">JSON Response</h3>
+
+<p>Returns a JSON object representing the order:</p>
 
 <table><thead>
 <tr>
@@ -1309,72 +1943,82 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
 </tr>
 </thead><tbody>
 <tr>
-<td><strong>id</strong></td>
+<td><strong>oid</strong></td>
 <td>String</td>
-<td>The order ID</td>
+<td>The Order ID</td>
 <td>-</td>
 </tr>
 <tr>
 <td><strong>book</strong></td>
 <td>String</td>
-<td>Which orderbook the order belongs to (not shown when status = 0)</td>
-<td>-</td>
+<td>Order book symbol</td>
+<td>Major_Minor</td>
 </tr>
 <tr>
-<td><strong>datetime</strong></td>
+<td><strong>amount</strong></td>
 <td>String</td>
-<td>The date and time</td>
-<td></td>
+<td>The order&rsquo;s major currency amount</td>
+<td>Major</td>
 </tr>
 <tr>
-<td><strong>type</strong></td>
+<td><strong>created_at</strong></td>
 <td>String</td>
-<td>The order type (0 - buy; 1 - sell)</td>
+<td>Timestamp at wich the order was created</td>
+<td>ISO 8601 timestamp</td>
+</tr>
+<tr>
+<td><strong>updated_at</strong></td>
+<td>String</td>
+<td>Timestamp at wich the order was updated</td>
+<td>ISO 8601 timestamp</td>
+</tr>
+<tr>
+<td><strong>price</strong></td>
+<td>String</td>
+<td>The order&rsquo;s price</td>
+<td>Minor</td>
+</tr>
+<tr>
+<td><strong>side</strong></td>
+<td>String</td>
+<td>The order side (buy, sell)</td>
 <td>-</td>
 </tr>
 <tr>
 <td><strong>status</strong></td>
 <td>String</td>
-<td><strong>(Only for limit orders)</strong> The order&rsquo;s status (-1 - cancelled; 0 - active; 1 - partially filled; 2 - complete)</td>
+<td>The order&rsquo;s status (open, partial-fill, closed)</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>type</strong></td>
+<td>String</td>
+<td>The order type (market, limit)</td>
 <td>-</td>
-</tr>
-<tr>
-<td><strong>price</strong></td>
-<td>String</td>
-<td><strong>(Only for limit orders)</strong> The order&rsquo;s price</td>
-<td>Minor</td>
-</tr>
-<tr>
-<td><strong>amount</strong></td>
-<td>String</td>
-<td><strong>(Only for limit orders)</strong> The order&rsquo;s major amount</td>
-<td>Major</td>
 </tr>
 </tbody></table>
 
-<h2 id="place-a-sell-order">Place a Sell Order</h2>
+<h2 id="funding-destination">Funding Destination</h2>
 
 <blockquote>
-<p>The JSON dictionary returned by the API looks like this:</p>
+<p>The JSON object returned by the API looks like this:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.01000000"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-11-12 13:29:33"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10000.00"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5umhs73uxry9ykblk923xxi48j4jhcwm7i40q7vnztxxd8jyil1gjkkr4obl1789"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="w">
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"account_identifier_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SPEI CLABE"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"account_identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"646180115400346012"</span><span class="w">             
+    </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>Places a sell order (both limit and market orders are available)</p>
+<p>Returns account funding information for specified currencies.</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">POST https://api.bitso.com/v2/sell</code></p>
+<p><code class="prettyprint">GET https://api.bitso.com/v3/funding_destination/</code></p>
 
-<h3 id="body-parameters">Body Parameters</h3>
+<h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
 
 <table><thead>
 <tr>
@@ -1402,29 +2046,35 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
 <td>Yes</td>
 <td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
 </tr>
+</tbody></table>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
 <tr>
-<td><strong>book</strong></td>
-<td>btc_mxn</td>
-<td>No</td>
-<td>Specifies which book to use</td>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
 </tr>
+</thead><tbody>
 <tr>
-<td><strong>amount</strong></td>
+<td><strong>fund_currency</strong></td>
 <td>-</td>
 <td>Yes</td>
-<td>Amount of major currency to sell</td>
+<td>Specifies which currency to fund with.</td>
 </tr>
 <tr>
-<td><strong>price</strong></td>
+<td><strong>converted_currency</strong></td>
 <td>-</td>
 <td>No</td>
-<td>If supplied, this will place a <strong>limit order</strong> to sell at the specified price. If not supplied, this will place a <strong>market order</strong> to sell the amount of major currency specified in <strong>amount</strong> at the market rate</td>
+<td>Specifies what currency to auto-trade for. Funds received will be automatically traded for this currency.</td>
 </tr>
 </tbody></table>
 
 <h3 id="json-response">JSON Response</h3>
 
-<p>Returns a JSON dictionary representing the order:</p>
+<p>Returns a JSON object representing the order:</p>
 
 <table><thead>
 <tr>
@@ -1435,112 +2085,48 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
 </tr>
 </thead><tbody>
 <tr>
-<td><strong>id</strong></td>
+<td><strong>account_identifier_name</strong></td>
 <td>String</td>
-<td>The order ID</td>
+<td>Account identifier name to fund with the specified currency.</td>
 <td>-</td>
 </tr>
 <tr>
-<td><strong>book</strong></td>
+<td><strong>account_identifier</strong></td>
 <td>String</td>
-<td>Which orderbook the order belongs to (not shown when status = 0)</td>
+<td>Identifier to where the funds can be sent to.</td>
 <td>-</td>
-</tr>
-<tr>
-<td><strong>datetime</strong></td>
-<td>String</td>
-<td>The date and time</td>
-<td></td>
-</tr>
-<tr>
-<td><strong>type</strong></td>
-<td>String</td>
-<td>The order type (0 - buy; 1 - sell)</td>
-<td>-</td>
-</tr>
-<tr>
-<td><strong>status</strong></td>
-<td>String</td>
-<td><strong>(Only for limit orders)</strong> The order&rsquo;s status (-1 - cancelled; 0 - active; 1 - partially filled; 2 - complete)</td>
-<td>-</td>
-</tr>
-<tr>
-<td><strong>price</strong></td>
-<td>String</td>
-<td><strong>(Only for limit orders)</strong> The order&rsquo;s price</td>
-<td>Minor</td>
-</tr>
-<tr>
-<td><strong>amount</strong></td>
-<td>String</td>
-<td><strong>(Only for limit orders)</strong> The order&rsquo;s major amount</td>
-<td>Major</td>
 </tr>
 </tbody></table>
-
-<h2 id="bitcoin-deposit">Bitcoin Deposit</h2>
-
-<blockquote>
-<p>The string returned by the API looks like this:</p>
-</blockquote>
-<pre class="highlight json"><code><span class="s2">"3CaPt93nYFzapDHMk6zZsXqiD8dJqKjWvb"</span><span class="w">
-</span></code></pre>
-
-<p>Gets a Bitcoin deposit address to fund your account</p>
-
-<h3 id="http-request">HTTP Request</h3>
-
-<p><code class="prettyprint">POST https://api.bitso.com/v2/bitcoin_deposit_address</code></p>
-
-<h3 id="body-parameters">Body Parameters</h3>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><strong>key</strong></td>
-<td>-</td>
-<td>Yes</td>
-<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
-</tr>
-<tr>
-<td><strong>signature</strong></td>
-<td>-</td>
-<td>Yes</td>
-<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
-</tr>
-<tr>
-<td><strong>nonce</strong></td>
-<td>-</td>
-<td>Yes</td>
-<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
-</tr>
-</tbody></table>
-
-<h3 id="http-response">HTTP Response</h3>
-
-<p>Returns a bitcoin deposit address (quotation marks included) that can be used to fund your account</p>
 
 <h2 id="bitcoin-withdrawal">Bitcoin Withdrawal</h2>
 
 <blockquote>
 <p>The string returned by the API looks like this:</p>
 </blockquote>
-<pre class="highlight json"><code><span class="s2">"ok"</span><span class="w">
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"wid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"c5b8d7f0768ee91d3b33bee648318688"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pending"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bitcoin"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-0.48650929"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"withdrawal_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3EW92Ajg6sMT4hxK8ngEc7Ehrqkr9RoDt7"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"tx_hash"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>Triggers a bitcoin withdrawal from your account</p>
+<p>Triggers a bitcoin withdrawal from the user&rsquo;s account</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">POST https://api.bitso.com/v2/bitcoin_withdrawal</code></p>
+<p><code class="prettyprint">POST https://api.bitso.com/v3/bitcoin_withdrawal/</code></p>
 
-<h3 id="body-parameters">Body Parameters</h3>
+<h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
 
 <table><thead>
 <tr>
@@ -1568,6 +2154,18 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
 <td>Yes</td>
 <td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
 </tr>
+</tbody></table>
+
+<h3 id="body-parameters">Body Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
 <tr>
 <td><strong>amount</strong></td>
 <td>-</td>
@@ -1578,29 +2176,95 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
 <td><strong>address</strong></td>
 <td>-</td>
 <td>Yes</td>
-<td>The Bitcoin address we will send the amount to</td>
+<td>The Bitcoin address to send the amount to</td>
 </tr>
 </tbody></table>
 
-<h3 id="http-response">HTTP Response</h3>
+<h3 id="json-response">JSON Response</h3>
 
-<p>Returns “ok” (quotation marks included) if the withdrawal was successfully triggered. Otherwise it returns a JSON dictionary indicating the error</p>
+<p>Returns a JSON object representing the order:</p>
 
-<h2 id="ripple-withdrawal">Ripple Withdrawal</h2>
+<table><thead>
+<tr>
+<th>Field Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Units</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>wid</strong></td>
+<td>String</td>
+<td>Unique Withdrawal ID</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>status</strong></td>
+<td>String</td>
+<td>Status of the withdrawal request (pending, complete)</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>created_at</strong></td>
+<td>String</td>
+<td>Timestamp at wich the withdrawal request was created</td>
+<td>ISO 8601 timestamp</td>
+</tr>
+<tr>
+<td><strong>currency</strong></td>
+<td>String</td>
+<td>Currency specified for this withdrawal (BTC)</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>method</strong></td>
+<td>String</td>
+<td>Method for this withdrawal (BTC).</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>amount</strong></td>
+<td>String</td>
+<td>Amount to withdraw.</td>
+<td>BTC</td>
+</tr>
+<tr>
+<td><strong>details</strong></td>
+<td>String</td>
+<td>Method specific details for this withdrawal</td>
+<td>-</td>
+</tr>
+</tbody></table>
+
+<h2 id="ether-withdrawal">Ether Withdrawal</h2>
 
 <blockquote>
 <p>The string returned by the API looks like this:</p>
 </blockquote>
-<pre class="highlight json"><code><span class="s2">"ok"</span><span class="w">
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"wid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"c5b8d7f0768ee91d3b33bee648318698"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pending"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ether"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-10.00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"withdrawal_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x55f03a62acc946dedcf8a0c47f16ec3892b29e6d"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"tx_hash"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>Triggers a Ripple withdrawal from your account</p>
+<p>Triggers an Ethereum withdrawal from the user&rsquo;s account</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">POST https://api.bitso.com/v2/ripple_withdrawal</code></p>
+<p><code class="prettyprint">POST https://api.bitso.com/v3/ether_withdrawal/</code></p>
 
-<h3 id="body-parameters">Body Parameters</h3>
+<h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
 
 <table><thead>
 <tr>
@@ -1628,29 +2292,232 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
 <td>Yes</td>
 <td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
 </tr>
+</tbody></table>
+
+<h3 id="body-parameters">Body Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>amount</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The amount of ETH to withdraw from your account</td>
+</tr>
+<tr>
+<td><strong>address</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The ETH address to send the amount to</td>
+</tr>
+</tbody></table>
+
+<h3 id="json-response">JSON Response</h3>
+
+<p>Returns a JSON object representing the order:</p>
+
+<table><thead>
+<tr>
+<th>Field Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Units</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>wid</strong></td>
+<td>String</td>
+<td>Unique Withdrawal ID</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>status</strong></td>
+<td>String</td>
+<td>Status of the withdrawal request (pending, complete)</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>created_at</strong></td>
+<td>String</td>
+<td>Timestamp at wich the withdrawal request was created</td>
+<td>ISO 8601 timestamp</td>
+</tr>
+<tr>
+<td><strong>currency</strong></td>
+<td>String</td>
+<td>Currency specified for this withdrawal (ETH)</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>method</strong></td>
+<td>String</td>
+<td>Method for this withdrawal (ETH).</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>amount</strong></td>
+<td>String</td>
+<td>Amount to withdraw.</td>
+<td>ETH</td>
+</tr>
+<tr>
+<td><strong>details</strong></td>
+<td>String</td>
+<td>Method specific details for this withdrawal</td>
+<td>-</td>
+</tr>
+</tbody></table>
+
+<h2 id="ripple-withdrawal">Ripple Withdrawal</h2>
+
+<blockquote>
+<p>The string returned by the API looks like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"wid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"c5b8d7f0768ee91d3b33bee648318688"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pending"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ripple"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-0.48650929"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"withdrawal_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rG1QQv2nh2gr7RCZ1P8YYcBUKCCN633jCn"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"tx_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre>
+
+<p>Triggers a Ripple withdrawal from your account</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST https://api.bitso.com/v3/ripple_withdrawal/</code></p>
+
+<h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>key</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>signature</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>nonce</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+</tbody></table>
+
+<h3 id="body-parameters">Body Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>amount</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The amount of ETH to withdraw from your account</td>
+</tr>
+<tr>
+<td><strong>address</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The ETH address to send the amount to</td>
+</tr>
 <tr>
 <td><strong>currency</strong></td>
 <td>-</td>
 <td>Yes</td>
 <td>The currency to withdraw</td>
 </tr>
-<tr>
-<td><strong>amount</strong></td>
-<td>-</td>
-<td>Yes</td>
-<td>The amount of currency to withdraw from your account</td>
-</tr>
-<tr>
-<td><strong>address</strong></td>
-<td>-</td>
-<td>Yes</td>
-<td>The ripple address we will send the amount to</td>
-</tr>
 </tbody></table>
 
-<h3 id="http-response">HTTP Response</h3>
+<h3 id="json-response">JSON Response</h3>
 
-<p>Returns “ok” (quotation marks included) if the withdrawal was successfully triggered. Otherwise it returns a JSON dictionary indicating the error</p>
+<p>Returns a JSON object representing the order:</p>
+
+<table><thead>
+<tr>
+<th>Field Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Units</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>wid</strong></td>
+<td>String</td>
+<td>Unique Withdrawal ID</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>status</strong></td>
+<td>String</td>
+<td>Status of the withdrawal request (pending, complete)</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>created_at</strong></td>
+<td>String</td>
+<td>Timestamp at wich the withdrawal request was created</td>
+<td>ISO 8601 timestamp</td>
+</tr>
+<tr>
+<td><strong>currency</strong></td>
+<td>String</td>
+<td>Currency specified for this withdrawal</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>method</strong></td>
+<td>String</td>
+<td>Method for this withdrawal</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>amount</strong></td>
+<td>String</td>
+<td>Amount to withdraw</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>details</strong></td>
+<td>String</td>
+<td>Method specific details for this withdrawal</td>
+<td>-</td>
+</tr>
+</tbody></table>
 
 <aside class="warning">
 <b>The Ripple address associated to your account for deposits will be updated accordingly!</br>
@@ -1662,7 +2529,26 @@ Please ensure that any subsequent Ripple funding emanates from this address.</b>
 <blockquote>
 <p>The string returned by the API looks like this:</p>
 </blockquote>
-<pre class="highlight json"><code><span class="s2">"ok"</span><span class="w">
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"wid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p4u8d7f0768ee91d3b33bee6483132i8"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pending"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mxn"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SPEI Transfer"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-300.15"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"sender_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"JUAN ESCUTIA"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"receive_clabe"</span><span class="p">:</span><span class="w"> </span><span class="s2">"012610001967722183"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"sender_clabe"</span><span class="p">:</span><span class="w"> </span><span class="s2">"646180115400467548"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"numeric_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"80416"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"concepto"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tacos del viernes"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"clave_rastreo"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"beneficiary_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FRANCISCO MARQUEZ"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre>
 
 <p>Triggers a SPEI withdrawal from your account.
@@ -1670,9 +2556,9 @@ These <strong>withdrawals are immediate</strong> during banking hours (M-F 9:00A
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">POST https://api.bitso.com/v2/spei_withdrawal</code></p>
+<p><code class="prettyprint">POST https://api.bitso.com/v3/spei_withdrawal/</code></p>
 
-<h3 id="body-parameters">Body Parameters</h3>
+<h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
 
 <table><thead>
 <tr>
@@ -1700,11 +2586,23 @@ These <strong>withdrawals are immediate</strong> during banking hours (M-F 9:00A
 <td>Yes</td>
 <td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
 </tr>
+</tbody></table>
+
+<h3 id="body-parameters">Body Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
 <tr>
 <td><strong>amount</strong></td>
 <td>-</td>
 <td>Yes</td>
-<td>The amount of MXN to withdraw from your account</td>
+<td>The amount of ETH to withdraw from your account</td>
 </tr>
 <tr>
 <td><strong>recipient_given_names</strong></td>
@@ -1738,9 +2636,61 @@ These <strong>withdrawals are immediate</strong> during banking hours (M-F 9:00A
 </tr>
 </tbody></table>
 
-<h3 id="http-response">HTTP Response</h3>
+<h3 id="json-response">JSON Response</h3>
 
-<p>Returns “ok” (quotation marks included) if the withdrawal was successfully triggered. Otherwise it returns a JSON dictionary indicating the error</p>
+<p>Returns a JSON object representing the order:</p>
+
+<table><thead>
+<tr>
+<th>Field Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Units</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>wid</strong></td>
+<td>String</td>
+<td>Unique Withdrawal ID</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>status</strong></td>
+<td>String</td>
+<td>Status of the withdrawal request (pending, complete)</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>created_at</strong></td>
+<td>String</td>
+<td>Timestamp at wich the withdrawal request was created</td>
+<td>ISO 8601 timestamp</td>
+</tr>
+<tr>
+<td><strong>currency</strong></td>
+<td>String</td>
+<td>Currency specified for this withdrawal (MXN)</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>method</strong></td>
+<td>String</td>
+<td>Method for this withdrawal (SPEI Transfer)</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>amount</strong></td>
+<td>String</td>
+<td>Amount to withdraw</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>details</strong></td>
+<td>String</td>
+<td>Method specific details for this withdrawal</td>
+<td>-</td>
+</tr>
+</tbody></table>
 
 <h1 id="websocket-api">WebSocket API</h1>
 
@@ -1748,7 +2698,7 @@ These <strong>withdrawals are immediate</strong> during banking hours (M-F 9:00A
 
 <p>The Orders channel maintains an up-to-date list of the top 20 asks and the top 20 bids, new messages are sent across the channel whenever there is a change in either top 20.</p>
 
-<p>The Diff-Orders channel will send across any modifications to the order book. Specifically, any state changes in existing orders (including orders not in the top 20), and any new orders. An order could be removed, in which case it won&rsquo;t have an &lsquo;a&rsquo; field (amount), or am order could have been partially filled (you can look up an order&rsquo;s state via the lookup_order endpoint) which will be reflected in the amount field. In theory, you can get a copy of the full order book via REST once, and keep it up to date by using the diff-orders channel.</p>
+<p>The Diff-Orders channel will send across any modifications to the order book. Specifically, any state changes in existing orders (including orders not in the top 20), and any new orders. An order could be removed, in which case it won&rsquo;t have an &#39;a&rsquo; field (amount), or am order could have been partially filled (you can look up an order&rsquo;s state via the lookup_order endpoint) which will be reflected in the amount field. In theory, you can get a copy of the full order book via REST once, and keep it up to date by using the diff-orders channel.</p>
 
 <p>An order&rsquo;s timestamp field is immutable. Even if the amount field is mutated, or the order removed, the timestamp field remains as it was when the order was created. Note that a timestamp is not unique. Different orders can have the same timestamp.</p>
 
@@ -2074,7 +3024,7 @@ Access to this API is available on request, and not enabled by default. Users wo
 <h2 id="requesting-a-quote">Requesting a Quote</h2>
 
 <blockquote>
-<p>The JSON dictionary returned by the API looks like this:</p>
+<p>The JSON object returned by the API looks like this:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
    </span><span class="nt">"quote"</span><span class="p">:{</span><span class="w">
@@ -2223,7 +3173,7 @@ Access to this API is available on request, and not enabled by default. Users wo
 <h2 id="creating-a-transfer">Creating a Transfer</h2>
 
 <blockquote>
-<p>The JSON dictionary returned by the API looks like this:</p>
+<p>The JSON object returned by the API looks like this:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
    </span><span class="nt">"order"</span><span class="p">:{</span><span class="w">
@@ -2372,8 +3322,9 @@ Access to this API is available on request, and not enabled by default. Users wo
       </div>
       <div class="dark-box">
           <div class="lang-selector">
-                <a href="#" data-language-name="shell">cURL</a>
+                <a href="#" data-language-name="shell">Shell</a>
                 <a href="#" data-language-name="javascript">NodeJS</a>
+                <a href="#" data-language-name="python">Python</a>
                 <a href="#" data-language-name="ruby">Ruby</a>
                 <a href="#" data-language-name="java">Java</a>
                 <a href="#" data-language-name="php">PHP</a>
