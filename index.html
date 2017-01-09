@@ -823,13 +823,13 @@ You have the option of adding a <strong>Withdrawal Bitcoin Address</strong>, whi
 <span class="c"># requires:</span>
 <span class="c"># -httpie: https://github.com/jkbrzt/httpie</span>
 
-<span class="nv">URL</span><span class="o">=</span>https://dev.bitso.com/api/v3/balance/
+<span class="nv">URL</span><span class="o">=</span>https://api.bitso.com/v3/balance/
 <span class="nv">API_KEY</span><span class="o">=</span><span class="s2">"BITSO_KEY"</span>
 <span class="nv">API_SECRET</span><span class="o">=</span><span class="s2">"BITSO_SECRET"</span>
 <span class="nv">DNONCE</span><span class="o">=</span><span class="k">$(</span>date +%s<span class="k">)</span>
 <span class="nv">HTTPmethod</span><span class="o">=</span>GET
 <span class="nv">JSONPayload</span><span class="o">=</span><span class="s2">""</span>
-<span class="nv">RequestPath</span><span class="o">=</span><span class="s2">"/api/v3/balance/"</span>
+<span class="nv">RequestPath</span><span class="o">=</span><span class="s2">"/v3/balance/"</span>
 <span class="nv">SIGNATURE</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> -n <span class="nv">$DNONCE$HTTPmethod$RequestPath$JSONPayload</span> | openssl dgst -hex -sha256 -hmac <span class="nv">$API_SECRET</span> <span class="k">)</span>
 <span class="nv">AUTH_HEADER</span><span class="o">=</span><span class="s2">"Bitso </span><span class="nv">$API_KEY</span><span class="s2">:</span><span class="nv">$DNONCE</span><span class="s2">:</span><span class="nv">$SIGNATURE</span><span class="s2">"</span>
 http GET <span class="nv">$URL</span> Authorization:<span class="s2">"</span><span class="nv">$AUTH_HEADER</span><span class="s2">"</span>
@@ -839,7 +839,7 @@ http GET <span class="nv">$URL</span> Authorization:<span class="s2">"</span><sp
 <span class="kd">var</span> <span class="nx">nonce</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">getTime</span><span class="p">();</span>
 <span class="kd">var</span> <span class="nx">http_method</span><span class="o">=</span><span class="s2">"GET"</span><span class="p">;</span>
 <span class="kd">var</span> <span class="nx">json_payload</span><span class="o">=</span><span class="s2">""</span>
-<span class="kd">var</span> <span class="nx">request_path</span><span class="o">=</span><span class="s2">"/api/v3/balance/"</span>
+<span class="kd">var</span> <span class="nx">request_path</span><span class="o">=</span><span class="s2">"/v3/balance/"</span>
 
 <span class="c1">// Create the signature</span>
 <span class="kd">var</span> <span class="nx">Data</span> <span class="o">=</span> <span class="nx">nonce</span><span class="o">+</span><span class="nx">http_method</span><span class="o">+</span><span class="nx">request_path</span><span class="o">+</span><span class="nx">json_payload</span><span class="p">;</span>
@@ -881,7 +881,7 @@ http GET <span class="nv">$URL</span> Authorization:<span class="s2">"</span><sp
 <span class="n">bitso_secret</span> <span class="o">=</span> <span class="s">"BITSO_SECRET"</span>
 <span class="n">nonce</span> <span class="o">=</span>  <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)))</span>
 <span class="n">http_method</span> <span class="o">=</span> <span class="s">"GET"</span>
-<span class="n">request_path</span> <span class="o">=</span> <span class="s">"/api/v3/balance/"</span>
+<span class="n">request_path</span> <span class="o">=</span> <span class="s">"/v3/balance/"</span>
 <span class="n">json_payload</span> <span class="o">=</span> <span class="s">""</span>
 
 <span class="c"># Create signature</span>
@@ -908,7 +908,7 @@ http GET <span class="nv">$URL</span> Authorization:<span class="s2">"</span><sp
 <span class="n">bitso_secret</span> <span class="o">=</span> <span class="s2">"API_SECRET"</span>
 <span class="n">nonce</span> <span class="o">=</span> <span class="no">DateTime</span><span class="p">.</span><span class="nf">now</span><span class="p">.</span><span class="nf">strftime</span><span class="p">(</span><span class="s1">'%Q'</span><span class="p">)</span>
 <span class="n">http_method</span> <span class="o">=</span> <span class="s2">"GET"</span>
-<span class="n">request_path</span> <span class="o">=</span> <span class="s2">"/api/v3/balance/"</span>
+<span class="n">request_path</span> <span class="o">=</span> <span class="s2">"/v3/balance/"</span>
 <span class="n">json_payload</span> <span class="o">=</span> <span class="s2">""</span>
 
 <span class="c1"># Create signature</span>
@@ -943,7 +943,7 @@ http GET <span class="nv">$URL</span> Authorization:<span class="s2">"</span><sp
     <span class="n">String</span> <span class="n">bitsoSecret</span> <span class="o">=</span> <span class="s">"BITSO API SECRET"</span><span class="o">;</span>
     <span class="kt">long</span> <span class="n">nonce</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
     <span class="n">String</span> <span class="n">HTTPMethod</span> <span class="o">=</span> <span class="s">"GET"</span><span class="o">;</span>
-    <span class="n">String</span> <span class="n">RequestPath</span> <span class="o">=</span> <span class="s">"/api/v3/balance/"</span><span class="o">;</span>
+    <span class="n">String</span> <span class="n">RequestPath</span> <span class="o">=</span> <span class="s">"/v3/balance/"</span><span class="o">;</span>
     <span class="n">String</span> <span class="n">JSONPayload</span> <span class="o">=</span> <span class="s">""</span><span class="o">;</span>
 
     <span class="c1">// Create the signature</span>
@@ -988,7 +988,7 @@ http GET <span class="nv">$URL</span> Authorization:<span class="s2">"</span><sp
   <span class="nv">$bitsoSecret</span> <span class="o">=</span> <span class="s1">'BITSO_API_SECRET'</span><span class="p">;</span>
   <span class="nv">$nonce</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">microtime</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
   <span class="nv">$HTTPMethod</span> <span class="o">=</span> <span class="s2">"GET"</span><span class="p">;</span>
-  <span class="nv">$RequestPath</span> <span class="o">=</span> <span class="s2">"/api/v3/balance/"</span><span class="p">;</span>
+  <span class="nv">$RequestPath</span> <span class="o">=</span> <span class="s2">"/v3/balance/"</span><span class="p">;</span>
   <span class="nv">$JSONPayload</span> <span class="o">=</span> <span class="s2">""</span><span class="p">;</span>
 
   <span class="c1">// Create signature
@@ -1765,6 +1765,14 @@ order books</p>
 
 <p><code class="prettyprint">GET https://api.bitso.com/v3/ledger/</code></p>
 
+<p><code class="prettyprint">GET https://api.bitso.com/v3/ledger/trades/</code></p>
+
+<p><code class="prettyprint">GET https://api.bitso.com/v3/ledger/fees/</code></p>
+
+<p><code class="prettyprint">GET https://api.bitso.com/v3/ledger/fundings/</code></p>
+
+<p><code class="prettyprint">GET https://api.bitso.com/v3/ledger/withdrawals/</code></p>
+
 <h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
 
 <table><thead>
@@ -2180,7 +2188,7 @@ a specific operation type.</p>
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>Returns detailed info on a user&rsquo;s fund withdrawals.</p>
+<p>Returns detailed info on a user&rsquo;s fundings.</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
@@ -2341,7 +2349,7 @@ a specific operation type.</p>
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>This endpoint returns a list of recent trades from the specified book.</p>
+<p>This endpoint returns a list of the user&rsquo;s trades.</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
@@ -2470,7 +2478,9 @@ a specific operation type.</p>
     </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
         </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.01000000"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"original_amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.01000000"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"unfilled_amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00500000"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"original_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"56.0"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:51.000+00:00"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5600.00"</span><span class="p">,</span><span class="w">
@@ -2480,7 +2490,9 @@ a specific operation type.</p>
         </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="w">
     </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.12680000"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"original_amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.12680000"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"unfilled_amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.12680000"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"original_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"507.2"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:41.000+00:00"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4000.00"</span><span class="p">,</span><span class="w">
@@ -2490,7 +2502,9 @@ a specific operation type.</p>
         </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="w">
     </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.12560000"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"original_amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.12560000"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"unfilled_amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.12560000"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"original_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6892.66788"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:41.000+00:00"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6123.55"</span><span class="p">,</span><span class="w">
@@ -2550,9 +2564,27 @@ a specific operation type.</p>
 </thead><tbody>
 <tr>
 <td><strong>book</strong></td>
-<td>-</td>
-<td>YES</td>
+<td>all</td>
+<td>No</td>
 <td>Specifies which book to use</td>
+</tr>
+<tr>
+<td><strong>marker</strong></td>
+<td></td>
+<td>No</td>
+<td>Returns objects that are older or newer (depending on &#39;sort&rsquo;) than the object with this ID</td>
+</tr>
+<tr>
+<td><strong>sort</strong></td>
+<td>desc</td>
+<td>No</td>
+<td>Specifies ordering direction of returned objects</td>
+</tr>
+<tr>
+<td><strong>limit</strong></td>
+<td>25</td>
+<td>No</td>
+<td>Specifies number of objects to return. (Max is 100)</td>
 </tr>
 </tbody></table>
 
@@ -2581,10 +2613,22 @@ a specific operation type.</p>
 <td>Major_Minor</td>
 </tr>
 <tr>
-<td><strong>amount</strong></td>
+<td><strong>original_amount</strong></td>
 <td>String</td>
-<td>The order&rsquo;s major currency amount</td>
+<td>The order&rsquo;s initial major currency amount</td>
 <td>Major</td>
+</tr>
+<tr>
+<td><strong>unfilled_amount</strong></td>
+<td>String</td>
+<td>The order&rsquo;s unfilled major currency amount</td>
+<td>Major</td>
+</tr>
+<tr>
+<td><strong>original_value</strong></td>
+<td>String</td>
+<td>The order&rsquo;s initial minor currency amount</td>
+<td>Minor</td>
 </tr>
 <tr>
 <td><strong>created_at</strong></td>
@@ -2633,7 +2677,9 @@ a specific operation type.</p>
     </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
         </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.01000000"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"original_amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.01000000"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"unfilled_amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00500000"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"original_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"56.0"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:51.000+00:00"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5600.00"</span><span class="p">,</span><span class="w">
@@ -2643,22 +2689,13 @@ a specific operation type.</p>
         </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="w">
     </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.12680000"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"original_amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.12680000"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"unfilled_amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.12680000"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"original_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"507.2"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:58:31.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:41.000+00:00"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4000.00"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"oid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"qlbga6b600n3xta7actori10z19acfb20njbtuhtu5xry7z8jswbaycazlkc0wf1"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sell"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="w">
-
-    </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.12560000"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:53:31.000+00:00"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6123.55"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"oid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"d71e3xy2lowndkfmde6bwkdsvw62my6058e95cbr08eesu0687i5swyot4rf2yf8"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sell"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="w">
@@ -2729,10 +2766,22 @@ a specific operation type.</p>
 <td>Major_Minor</td>
 </tr>
 <tr>
-<td><strong>amount</strong></td>
+<td><strong>original_amount</strong></td>
 <td>String</td>
-<td>The order&rsquo;s major currency amount</td>
+<td>The order&rsquo;s initial major currency amount</td>
 <td>Major</td>
+</tr>
+<tr>
+<td><strong>unfilled_amount</strong></td>
+<td>String</td>
+<td>The order&rsquo;s unfilled major currency amount</td>
+<td>Major</td>
+</tr>
+<tr>
+<td><strong>original_value</strong></td>
+<td>String</td>
+<td>The order&rsquo;s initial minor currency amount</td>
+<td>Minor</td>
 </tr>
 <tr>
 <td><strong>created_at</strong></td>
@@ -3258,7 +3307,7 @@ a specific operation type.</p>
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>Triggers an Ethereum withdrawal from the user&rsquo;s account</p>
+<p>Triggers an Ethereum withdrawal from the user&rsquo;s account [<strong>Coming Soon</strong>]</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
@@ -3397,7 +3446,7 @@ a specific operation type.</p>
 
 </span></code></pre>
 
-<p>Triggers a Ripple withdrawal from your account</p>
+<p>Triggers a Ripple withdrawal from your account [<strong>Coming Soon</strong>]</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
@@ -3447,13 +3496,13 @@ a specific operation type.</p>
 <td><strong>amount</strong></td>
 <td>-</td>
 <td>Yes</td>
-<td>The amount of ETH to withdraw from your account</td>
+<td>The amount of currency to withdraw from your account</td>
 </tr>
 <tr>
 <td><strong>address</strong></td>
 <td>-</td>
 <td>Yes</td>
-<td>The ETH address to send the amount to</td>
+<td>The ripple address we will send the amount to</td>
 </tr>
 <tr>
 <td><strong>currency</strong></td>
@@ -4395,6 +4444,36 @@ Access to this API is available on request, and not enabled by default. Users wo
 
 <p><code class="prettyprint">POST https://api.bitso.com/v2/transfer_quote</code></p>
 
+<h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>key</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>signature</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>nonce</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+</tbody></table>
+
 <h3 id="body-parameters">Body Parameters</h3>
 
 <table><thead>
@@ -4474,6 +4553,36 @@ Access to this API is available on request, and not enabled by default. Users wo
 <h3 id="http-request">HTTP Request</h3>
 
 <p><code class="prettyprint">POST https://api.bitso.com/v2/transfer_create</code></p>
+
+<h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>key</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>signature</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>nonce</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+</tbody></table>
 
 <h3 id="body-parameters">Body Parameters</h3>
 
@@ -4617,6 +4726,36 @@ for use in the &ldquo;Account Creation&rdquo; endpoint.</p>
 
 <p><code class="prettyprint">GET https://api.bitso.com/v3/account_required_fields/</code></p>
 
+<h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>key</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>signature</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>nonce</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+</tbody></table>
+
 <h3 id="json-response-payload">JSON Response Payload</h3>
 
 <p>Returns descending JSON Array. Every element in the array is a JSON object with the following fields.</p>
@@ -4662,6 +4801,36 @@ for use in the &ldquo;Account Creation&rdquo; endpoint.</p>
 <h3 id="http-request">HTTP Request</h3>
 
 <p><code class="prettyprint">POST https://api.bitso.com/v3/accounts/</code></p>
+
+<h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>key</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>signature</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>nonce</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+</tbody></table>
 
 <h3 id="body-parameters">Body Parameters</h3>
 
