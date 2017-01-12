@@ -961,6 +961,7 @@ http GET <span class="nv">$URL</span> Authorization:<span class="s2">"</span><sp
     <span class="n">String</span> <span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.bitso.com/v3/balance/"</span><span class="o">;</span>
     <span class="n">URL</span> <span class="n">obj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
     <span class="n">HttpURLConnection</span> <span class="n">con</span> <span class="o">=</span> <span class="o">(</span><span class="n">HttpURLConnection</span><span class="o">)</span> <span class="n">obj</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
+    <span class="n">con</span><span class="o">.</span><span class="na">setRequestProperty</span><span class="o">(</span><span class="s">"User-Agent"</span><span class="o">,</span> <span class="s">"Bitso Java Example"</span><span class="o">);</span>
     <span class="n">con</span><span class="o">.</span><span class="na">setRequestMethod</span><span class="o">(</span><span class="s">"GET"</span><span class="o">);</span>
     <span class="n">con</span><span class="o">.</span><span class="na">setRequestProperty</span><span class="o">(</span><span class="s">"Authorization"</span><span class="o">,</span> <span class="n">authHeader</span><span class="o">);</span>
 
