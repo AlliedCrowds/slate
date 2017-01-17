@@ -3849,7 +3849,8 @@ These <strong>withdrawals are immediate</strong> during banking hours (M-F 9:00A
 </span></code></pre>
 
 <p>Triggers a Debit Cards withdrawal from your account.
-These <strong>withdrawals are immediate</strong> during banking hours (M-F 9:00AM - 5:00PM Mexico City Time).</p>
+These <strong>withdrawals are immediate</strong> during banking hours for some
+banks (M-F 9:00AM - 5:00PM Mexico City Time), 24 hours for others. </p>
 
 <h3 id="http-request">HTTP Request</h3>
 
@@ -3920,6 +3921,173 @@ These <strong>withdrawals are immediate</strong> during banking hours (M-F 9:00A
 <td>-</td>
 <td>Yes</td>
 <td>The debit card number where the funds will be sent to</td>
+</tr>
+<tr>
+<td><strong>bank_code</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The bank code for this card&rsquo;s issuer as returned by the &ldquo;Bank Codes&rdquo; endpoint</td>
+</tr>
+</tbody></table>
+
+<h3 id="json-response-payload">JSON Response Payload</h3>
+
+<p>Returns a JSON object representing the order:</p>
+
+<table><thead>
+<tr>
+<th>Field Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Units</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>wid</strong></td>
+<td>String</td>
+<td>Unique Withdrawal ID</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>status</strong></td>
+<td>String</td>
+<td>Status of the withdrawal request (pending, complete)</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>created_at</strong></td>
+<td>String</td>
+<td>Timestamp at which the withdrawal request was created</td>
+<td>ISO 8601 timestamp</td>
+</tr>
+<tr>
+<td><strong>currency</strong></td>
+<td>String</td>
+<td>Currency specified for this withdrawal (MXN)</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>method</strong></td>
+<td>String</td>
+<td>Method for this withdrawal (Debit Card Withdrawal)</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>amount</strong></td>
+<td>String</td>
+<td>Amount to withdraw</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>details</strong></td>
+<td>String</td>
+<td>Method specific details for this withdrawal</td>
+<td>-</td>
+</tr>
+</tbody></table>
+
+<h2 id="phone-number-withdrawal">Phone Number Withdrawal</h2>
+
+<blockquote>
+<p>The string returned by the API looks like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"wid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p4u8d7f0768ee91d3b33bee6483132i8"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pending"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mxn"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SPEI Transfer"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"300.15"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"sender_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"JUAN ESCUTIA"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"receive_clabe"</span><span class="p">:</span><span class="w"> </span><span class="s2">"012610001967722183"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"sender_clabe"</span><span class="p">:</span><span class="w"> </span><span class="s2">"646180115400467548"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"numeric_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"80416"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"concepto"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tacos del viernes"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"clave_rastreo"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"beneficiary_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FRANCISCO MARQUEZ"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Triggers a withdrawal from your account to a phone number. (Phone
+number must be registered for SPEI Transfers with their corresponding bank)
+These <strong>withdrawals are immediate</strong> during banking hours for some
+banks (M-F 9:00AM - 5:00PM Mexico City Time), 24 hours for
+others. </p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST https://api.bitso.com/v3/phone_withdrawal/</code></p>
+
+<h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>key</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>signature</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>nonce</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+</tbody></table>
+
+<p>amount, recipient_given_names, recipient_family_names, card_number, bank_code</p>
+
+<h3 id="body-parameters">Body Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>amount</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The amount of MXN to withdraw from your account</td>
+</tr>
+<tr>
+<td><strong>recipient_given_names</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The recipient&rsquo;s first and middle name(s)</td>
+</tr>
+<tr>
+<td><strong>recipient_family_names</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The recipient&rsquo;s last name</td>
+</tr>
+<tr>
+<td><strong>phone_number</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The phone number associated with the account where the funds will be sent to</td>
 </tr>
 <tr>
 <td><strong>bank_code</strong></td>
