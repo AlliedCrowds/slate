@@ -152,6 +152,15 @@ system functions, along with examples in common programming languages.</p>
 }
 </code></p>
 
+<h2 id="developer-testing-server">Developer Testing Server</h2>
+
+<p>When working on integrations, we recommend that you use our dev server
+before running your code against production. The URL for this server
+is <code class="prettyprint">https://api-dev.bitso.com/v3/</code></p>
+
+<p>You can fund accounts on the dev server with Testnet Bitcoin and
+&ldquo;Morden&rdquo; test network Eth.</p>
+
 <h2 id="notations">Notations</h2>
 
 <p><strong>Major</strong> denotes the cryptocurrency, in our case Bitcoin (BTC) or Ether (ETH).</p>
@@ -1260,7 +1269,6 @@ status, documents uploaded, and transaction limits.</p>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
     </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1234"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5554181042"</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -1268,11 +1276,11 @@ status, documents uploaded, and transaction limits.</p>
 </span></code></pre>
 
 <p>This endpoint is used to register Mobile phone number for
-verification.  [<strong>Coming Soon</strong>]</p>
+verification. </p>
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">POST https://api.bitso.com/v3/phone_numbers/</code></p>
+<p><code class="prettyprint">POST https://api.bitso.com/v3/phone_number/</code></p>
 
 <h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
 
@@ -1362,7 +1370,6 @@ verification.  [<strong>Coming Soon</strong>]</p>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
     </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1234"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5554181042"</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -1370,7 +1377,7 @@ verification.  [<strong>Coming Soon</strong>]</p>
 </span></code></pre>
 
 <p>This endpoint is used to register Mobile phone number for
-verification. [<strong>Coming Soon</strong>]</p>
+verification.</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
@@ -3312,7 +3319,7 @@ a specific operation type.</p>
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>Triggers an Ethereum withdrawal from the user&rsquo;s account [<strong>Coming Soon</strong>]</p>
+<p>Triggers an Ethereum withdrawal from the user&rsquo;s account </p>
 
 <h3 id="http-request">HTTP Request</h3>
 
@@ -3451,7 +3458,7 @@ a specific operation type.</p>
 
 </span></code></pre>
 
-<p>Triggers a Ripple withdrawal from your account [<strong>Coming Soon</strong>]</p>
+<p>Triggers a Ripple withdrawal from your account </p>
 
 <h3 id="http-request">HTTP Request</h3>
 
