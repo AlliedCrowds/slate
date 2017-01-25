@@ -286,7 +286,7 @@ error categories, the last two digits define specific errors.</p>
         </span><span class="nt">"minimum_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"25.00"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"maximum_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1000000.00"</span><span class="w">
     </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mxn_eth"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eth_mxn"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"minimum_amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">".003"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"maximum_amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1000.00"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"minimum_price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"100.0"</span><span class="p">,</span><span class="w">
@@ -1561,17 +1561,13 @@ verification. </p>
     </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="nt">"fees"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
-            </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mxn_btc"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
             </span><span class="nt">"fee_decimal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.0001"</span><span class="p">,</span><span class="w">
             </span><span class="nt">"fee_percent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.01"</span><span class="w">
         </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mxn_eth"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"fee_decimal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.001"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"fee_percent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.1"</span><span class="w">
-        </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cop_btc"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"fee_decimal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.01"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"fee_percent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="w">
+            </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="err">eth_mxn</span><span class="s2">",
+            "</span><span class="err">fee_decimal</span><span class="s2">": "</span><span class="mf">0.001</span><span class="s2">",
+            "</span><span class="err">fee_percent</span><span class="s2">": "</span><span class="mf">0.1</span><span class="err">"</span><span class="w">
         </span><span class="p">}]</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -4955,7 +4951,7 @@ for use in the &ldquo;Account Creation&rdquo; endpoint.</p>
 </tr>
 </tbody></table>
 
-<h2 id="account-creation">Account Creation</h2>
+<h2 id="account-creation-coming-soon">Account Creation [Coming Soon]</h2>
 <pre class="highlight shell"><code>curl --data <span class="s2">"email_address=value1&amp;mobile_phone_number=value2&amp;given_names=value3&amp;family_names=value4"</span> <span class="s2">"https://api.bitso.com/v3/accounts/"</span>
 </code></pre>
 
@@ -4966,7 +4962,9 @@ for use in the &ldquo;Account Creation&rdquo; endpoint.</p>
     </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="nt">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1234"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"account_level"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="w">
+        </span><span class="nt">"account_level"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"api_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mawikCFwrw"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"api_secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"op39fe824f85fb85aexefpw22cbe758921da3"</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
