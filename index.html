@@ -185,7 +185,7 @@ error categories, the last two digits define specific errors.</p>
 <h3 id="unknown-errors-01-http-500">Unknown Errors: 01 (HTTP 500)</h3>
 
 <ul>
-<li>01001: &ldquo;Unknown Error&rdquo;</li>
+<li>0101: &ldquo;Unknown Error&rdquo;</li>
 </ul>
 
 <h3 id="authentication-errors-02-http-401">Authentication Errors: 02 (HTTP 401)</h3>
@@ -218,8 +218,16 @@ error categories, the last two digits define specific errors.</p>
 <li>0318: Invalid SPEI numeric_ref</li>
 <li>0319: Invalid SPEI notes_ref </li>
 <li>0320: Invalid pagination parameters</li>
-<li>0321: Incorrect TID (non-existent)
-### System Limit Errors: 04 (HTTP 400)</li>
+<li>0321: Incorrect TID (non-existent)</li>
+<li>0322: Not a Valid URL</li>
+<li>0323: No associated country code</li>
+<li>0324: Number already in use</li>
+<li>0325: Phone already verified</li>
+</ul>
+
+<h3 id="system-limit-errors-04-http-400">System Limit Errors: 04 (HTTP 400)</h3>
+
+<ul>
 <li>0401: Incorrect price, below the minimum</li>
 <li>0402: Incorrect price, above than maximum</li>
 <li>0403: Incorrect major, below the minimum</li>
@@ -265,7 +273,7 @@ error categories, the last two digits define specific errors.</p>
 
 <h2 id="legacy-api-docs">Legacy API Docs</h2>
 
-<p>Documentation for the v2 API avaialable at <a href="https://bitso.com/api_info/v2">https://bitso.com/api_info/v2</a></p>
+<p>Documentation for the v2 API available at <a href="https://bitso.com/api_info/v2">https://bitso.com/api_info/v2</a></p>
 
 <h1 id="public-rest-api">Public REST API</h1>
 
