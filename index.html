@@ -260,11 +260,12 @@ error categories, the last two digits define specific errors.</p>
 
 <ul>
 <li><a href="https://github.com/bitsoex/bitso-java">Java</a></li>
-<li><a href="https://github.com/etiennetatur/bitso-api">NodeJS</a></li>
-<li><a href="http://www.nuget.org/packages/Bitso">.NET</a></li>
 <li><a href="https://github.com/bitsoex/bitso-py">Python</a></li>
-<li><a href="https://github.com/bitsoex/bitso-ios-sdk">Objective-C</a></li>
 </ul>
+
+<h2 id="legacy-api-docs">Legacy API Docs</h2>
+
+<p>Documentation for the v2 API avaialable at <a href="https://bitso.com/api_info/v2">https://bitso.com/api_info/v2</a></p>
 
 <h1 id="public-rest-api">Public REST API</h1>
 
@@ -5008,7 +5009,7 @@ for use in the &ldquo;Account Creation&rdquo; endpoint.</p>
 <h3 id="body-parameters">Body Parameters</h3>
 
 <p>All parameters as returned by the <a href="#account-required-fields">Account Required
-Fields</a> endpoint in addition to the following optional paramter</p>
+Fields</a> endpoint in addition to the following optional parameter</p>
 
 <table><thead>
 <tr>
@@ -5019,14 +5020,12 @@ Fields</a> endpoint in addition to the following optional paramter</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><strong>callback_url</strong></td>
+<td><strong>webhook_url</strong></td>
 <td></td>
 <td>NO</td>
-<td>Specifies a url that will be hit on events</td>
+<td>Specifies a url that will be hit on events specified in the <a href="#webhooks">Webhooks Section</a></td>
 </tr>
 </tbody></table>
-
-<p>specified in the <a href="#callback_payloads">Callback API Section</a></p>
 
 <h3 id="json-response-payload">JSON Response Payload</h3>
 
@@ -5066,7 +5065,7 @@ Fields</a> endpoint in addition to the following optional paramter</p>
 </tr>
 </tbody></table>
 
-<h1 id="callback-api">Callback API</h1>
+<h1 id="webhooks">Webhooks</h1>
 
 <h2 id="registering-urls">Registering URLs</h2>
 
@@ -5083,7 +5082,7 @@ correspding to certain events described below. [<strong>Coming Soon</strong>]</p
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">POST https://api.bitso.com/v3/callbacks/</code></p>
+<p><code class="prettyprint">POST https://api.bitso.com/v3/webhooks/</code></p>
 
 <h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
 
@@ -5117,11 +5116,11 @@ correspding to certain events described below. [<strong>Coming Soon</strong>]</p
 
 <h2 id="fundings">Fundings</h2>
 
-<p>Users that register a callback will get a POST payload to that URL
+<p>Users that register a webhook  will get a POST payload to that URL
 with the following fields on SPEI deposits.  [<strong>Coming Soon</strong>]</p>
 
 <blockquote>
-<p>The JSON Array posted to the callback URL looks like this</p>
+<p>The JSON Array posted to the webhook URL looks like this</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
     </span><span class="nt">"event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"funding"</span><span class="p">,</span><span class="w">
