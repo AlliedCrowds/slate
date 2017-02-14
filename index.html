@@ -925,9 +925,19 @@ http GET <span class="nv">$URL</span> Authorization:<span class="s2">"</span><sp
 <span class="n">bitso_key</span> <span class="o">=</span> <span class="s2">"API_KEY"</span>
 <span class="n">bitso_secret</span> <span class="o">=</span> <span class="s2">"API_SECRET"</span>
 <span class="n">nonce</span> <span class="o">=</span> <span class="no">DateTime</span><span class="p">.</span><span class="nf">now</span><span class="p">.</span><span class="nf">strftime</span><span class="p">(</span><span class="s1">'%Q'</span><span class="p">)</span>
-<span class="n">http_method</span> <span class="o">=</span> <span class="s2">"GET"</span>
-<span class="n">request_path</span> <span class="o">=</span> <span class="s2">"/v3/balance/"</span>
-<span class="n">json_payload</span> <span class="o">=</span> <span class="s2">""</span>
+<span class="n">http_method</span> <span class="o">=</span> <span class="s2">"POST"</span>
+<span class="n">request_path</span> <span class="o">=</span> <span class="s2">"/v3/orders/"</span>
+
+
+<span class="n">payload_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"book"</span>  <span class="o">=&gt;</span> <span class="s2">"btc_mxn"</span><span class="p">,</span>
+                <span class="s2">"side"</span>  <span class="o">=&gt;</span> <span class="s2">"buy"</span><span class="p">,</span>
+                <span class="s2">"major"</span> <span class="o">=&gt;</span> <span class="s2">".01"</span><span class="p">,</span>
+                <span class="s2">"price"</span> <span class="o">=&gt;</span> <span class="s2">"1000"</span><span class="p">,</span>
+                <span class="s2">"type"</span>  <span class="o">=&gt;</span> <span class="s2">"limit"</span><span class="p">}</span>
+
+
+
+<span class="n">json_payload</span> <span class="o">=</span> <span class="n">payload_data</span><span class="p">.</span><span class="nf">to_json</span>
 
 <span class="c1"># Create signature</span>
 <span class="n">message</span> <span class="o">=</span> <span class="n">nonce</span><span class="o">+</span><span class="n">http_method</span><span class="o">+</span><span class="n">request_path</span><span class="o">+</span><span class="n">json_payload</span>
@@ -936,12 +946,13 @@ http GET <span class="nv">$URL</span> Authorization:<span class="s2">"</span><sp
 <span class="c1"># Build the auth header</span>
 <span class="n">auth_header</span> <span class="o">=</span> <span class="s2">"Bitso </span><span class="si">#{</span><span class="n">bitso_key</span><span class="si">}</span><span class="s2">:</span><span class="si">#{</span><span class="n">nonce</span><span class="si">}</span><span class="s2">:</span><span class="si">#{</span><span class="n">signature</span><span class="si">}</span><span class="s2">"</span>
 
-
 <span class="c1"># Send request</span>
 <span class="n">response</span> <span class="o">=</span> <span class="no">Typhoeus</span><span class="o">::</span><span class="no">Request</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>
-  <span class="s2">"https://api.bitso.com/v3/balance/"</span><span class="p">,</span>
-  <span class="ss">method: </span><span class="s2">"get"</span><span class="p">,</span>
-  <span class="ss">headers: </span><span class="p">{</span><span class="s2">"Authorization"</span> <span class="o">=&gt;</span>  <span class="n">auth_header</span><span class="p">}</span>
+  <span class="s2">"https://api.bitso.com/v3/orders/"</span><span class="p">,</span>
+   <span class="ss">method: </span><span class="s2">"POST"</span><span class="p">,</span>
+   <span class="ss">body: </span><span class="n">json_payload</span><span class="p">,</span>
+   <span class="ss">headers: </span><span class="p">{</span><span class="s2">"Authorization"</span> <span class="o">=&gt;</span> <span class="n">auth_header</span><span class="p">,</span>
+             <span class="s2">"Content-Type"</span>  <span class="o">=&gt;</span> <span class="s2">"application/json"</span><span class="p">}</span>
 <span class="p">).</span><span class="nf">run</span>
 
 <span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">body</span>
@@ -1003,12 +1014,16 @@ http GET <span class="nv">$URL</span> Authorization:<span class="s2">"</span><sp
 
 </code></pre>
 <pre class="highlight php"><code><span class="cp">&lt;?php</span>
-  <span class="nv">$bitsoKey</span> <span class="o">=</span> <span class="s2">"BITSO_API_KEY"</span><span class="p">;</span>
-  <span class="nv">$bitsoSecret</span> <span class="o">=</span> <span class="s1">'BITSO_API_SECRET'</span><span class="p">;</span>
+  <span class="nv">$bitsoKey</span> <span class="o">=</span> <span class="s2">"API_KEY"</span><span class="p">;</span>
+  <span class="nv">$bitsoSecret</span> <span class="o">=</span> <span class="s2">"API_SECRET"</span>
   <span class="nv">$nonce</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">microtime</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
-  <span class="nv">$HTTPMethod</span> <span class="o">=</span> <span class="s2">"GET"</span><span class="p">;</span>
-  <span class="nv">$RequestPath</span> <span class="o">=</span> <span class="s2">"/v3/balance/"</span><span class="p">;</span>
-  <span class="nv">$JSONPayload</span> <span class="o">=</span> <span class="s2">""</span><span class="p">;</span>
+  <span class="nv">$HTTPMethod</span> <span class="o">=</span> <span class="s2">"POST"</span><span class="p">;</span>
+  <span class="nv">$RequestPath</span> <span class="o">=</span> <span class="s2">"/v3/orders/"</span><span class="p">;</span>
+  <span class="nv">$JSONPayload</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">([</span><span class="s1">'book'</span>  <span class="o">=&gt;</span> <span class="s1">'btc_mxn'</span><span class="p">,</span>
+                              <span class="s1">'side'</span>  <span class="o">=&gt;</span> <span class="s1">'buy'</span><span class="p">,</span>
+                              <span class="s1">'major'</span> <span class="o">=&gt;</span> <span class="s1">'.01'</span><span class="p">,</span>
+                              <span class="s1">'price'</span> <span class="o">=&gt;</span> <span class="s1">'1000'</span><span class="p">,</span>
+                              <span class="s1">'type'</span>  <span class="o">=&gt;</span> <span class="s1">'limit'</span><span class="p">]);</span>
 
   <span class="c1">// Create signature
 </span>  <span class="nv">$message</span> <span class="o">=</span> <span class="nv">$nonce</span> <span class="o">.</span> <span class="nv">$HTTPMethod</span> <span class="o">.</span> <span class="nv">$RequestPath</span> <span class="o">.</span> <span class="nv">$JSONPayload</span><span class="p">;</span>
@@ -1021,11 +1036,12 @@ http GET <span class="nv">$URL</span> Authorization:<span class="s2">"</span><sp
 
   <span class="c1">// Send request
 </span>  <span class="nv">$ch</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
-  <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_URL</span><span class="p">,</span> <span class="s1">'https://api.bitso.com/v3/balance/'</span><span class="p">);</span>
-  <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_CUSTOMREQUEST</span><span class="p">,</span> <span class="s2">"GET"</span><span class="p">);</span>
+  <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_URL</span><span class="p">,</span> <span class="s1">'https://api.bitso.com/v3/orders/'</span><span class="p">);</span>
+  <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_CUSTOMREQUEST</span><span class="p">,</span> <span class="s2">"POST"</span><span class="p">);</span>
+  <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$JSONPayload</span><span class="p">);</span>
   <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
-      <span class="s1">'Authorization: '</span> <span class="o">.</span>  <span class="nv">$authHeader</span><span class="p">)</span>
-  <span class="p">);</span>
+      <span class="s1">'Authorization: '</span> <span class="o">.</span>  <span class="nv">$authHeader</span><span class="p">,</span>
+      <span class="s1">'Content-Type: application/json'</span><span class="p">));</span>
   <span class="nv">$result</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
 
   <span class="k">echo</span> <span class="nv">$result</span><span class="p">;</span>
