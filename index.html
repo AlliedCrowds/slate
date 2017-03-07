@@ -4584,34 +4584,6 @@ Access to this API is available on request, and not enabled by default. Users wo
             </span><span class="nt">"available"</span><span class="p">:</span><span class="s2">"1"</span><span class="p">,</span><span class="w">
             </span><span class="nt">"verification_level_requirement"</span><span class="p">:</span><span class="s2">"0"</span><span class="w">
          </span><span class="p">},</span><span class="w">
-         </span><span class="nt">"rp"</span><span class="p">:{</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="s2">"rp"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"Ripple"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"required_fields"</span><span class="p">:[</span><span class="w">
-               </span><span class="s2">"ripple_address"</span><span class="w">
-            </span><span class="p">],</span><span class="w">
-            </span><span class="nt">"minimum_transaction"</span><span class="p">:</span><span class="s2">"0.00"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"maximum_transaction"</span><span class="p">:</span><span class="s2">"10000000.00"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"fee"</span><span class="p">:</span><span class="s2">"5.00"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"daily_limit"</span><span class="p">:</span><span class="s2">"0.00"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"net"</span><span class="p">:</span><span class="s2">"495.00"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"available"</span><span class="p">:</span><span class="s2">"1"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"verification_level_requirement"</span><span class="p">:</span><span class="s2">"0"</span><span class="w">
-         </span><span class="p">},</span><span class="w">
-         </span><span class="nt">"pm"</span><span class="p">:{</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="s2">"pm"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"Pademobile"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"required_fields"</span><span class="p">:[</span><span class="w">
-               </span><span class="s2">"phone_number"</span><span class="w">
-            </span><span class="p">],</span><span class="w">
-            </span><span class="nt">"minimum_transaction"</span><span class="p">:</span><span class="s2">"1.00"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"maximum_transaction"</span><span class="p">:</span><span class="s2">"1000000.00"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"fee"</span><span class="p">:</span><span class="s2">"0.00"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"daily_limit"</span><span class="p">:</span><span class="s2">"0.00"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"net"</span><span class="p">:</span><span class="s2">"500.00"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"available"</span><span class="p">:</span><span class="s2">"1"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"verification_level_requirement"</span><span class="p">:</span><span class="s2">"0"</span><span class="w">
-         </span><span class="p">},</span><span class="w">
          </span><span class="nt">"bw"</span><span class="p">:{</span><span class="w">
             </span><span class="nt">"id"</span><span class="p">:</span><span class="s2">"bw"</span><span class="p">,</span><span class="w">
             </span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"Bank Wire"</span><span class="p">,</span><span class="w">
@@ -4854,17 +4826,11 @@ as the JSON payload used to construct the signature.</p>
 
 <p>Transfers executed via SPEI are typically concluded within a few seconds (within banking hours).</p>
 
-<h3 id="pademobile">Pademobile</h3>
+<h3 id="debit-cards">Debit Cards</h3>
 
-<p>Pademobile is a popular mobile wallet and payments system in Latin America and beyond. Users running the Pademobile wallet on their cellphone can carry a balance in local currency, and spend it at a variety of locations, including cash-out at stores such as 7-Eleven (this is limited to 300 MXN per day, per location).</p>
-
-<p>Pademobile accounts are identified simply by the user’s phone number. Recipients who do not have smart phones, or who have not installed the wallet app, will receive a text message containing instructions on how to access the received funds.</p>
-
-<p>For more information, please see:  https://www.pademobile.com/en/mx/</p>
-
-<h3 id="ripple">Ripple</h3>
-
-<p>As a Ripple Gateway, Bitso is able to issue currencies such as the Mexican Peso directly into the Ripple Network. For more information on Ripple, please see: https://ripple.com/</p>
+<p>Send tansfers directly to debit cards from any mexican bank. Note
+that the &ldquo;institution_code&rdquo; is obtained from the
+<a href="#bank-codes">bank_codes</a> endpoint.</p>
 
 <h3 id="voucher">Voucher</h3>
 
