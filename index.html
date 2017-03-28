@@ -175,7 +175,9 @@ is <code class="prettyprint">https://api-dev.bitso.com/v3/</code></p>
 
 <h2 id="rate-limits">Rate Limits</h2>
 
-<p>Rate limits are are based on one minute windows. If you do more than 30 requests in a minute, you get locked out for one minute.</p>
+<p>Rate limits are are based on one minute windows. If you do more than
+60 requests in a minute, you get locked out for one minute. Continuous
+one minute lockouts will result in a 24-hour block.</p>
 
 <h2 id="error-codes">Error Codes</h2>
 
