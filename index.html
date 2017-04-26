@@ -2464,6 +2464,139 @@ a specific operation type.</p>
 </tr>
 </tbody></table>
 
+<h2 id="order-trades">Order Trades</h2>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.bitso.com/v3/order_trades/Jvqrschkgdkc1go3"</span>
+</code></pre>
+
+<blockquote>
+<p>The JSON Array returned by the API looks like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+        </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"major"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-0.25232073"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"minor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1013.540958479115"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"fees_amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-10.237787459385"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"fees_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mxn"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4057.45"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"tid"</span><span class="p">:</span><span class="w"> </span><span class="mi">51756</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"oid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jvqrschkgdkc1go3"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sell"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"book"</span><span class="err">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"major"</span><span class="err">:</span><span class="w"> </span><span class="s2">"-0.25"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"created_at"</span><span class="err">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"minor"</span><span class="err">:</span><span class="w"> </span><span class="s2">"513.540958479115"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"fees_amount"</span><span class="err">:</span><span class="w"> </span><span class="s2">"-10.237787459385"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"fees_currency"</span><span class="err">:</span><span class="w"> </span><span class="s2">"mxn"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"price"</span><span class="err">:</span><span class="w"> </span><span class="s2">"4057.45"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"tid"</span><span class="err">:</span><span class="w"> </span><span class="mi">51755</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"oid"</span><span class="err">:</span><span class="w"> </span><span class="s2">"Jvqrschkgdkc1go3"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"side"</span><span class="err">:</span><span class="w"> </span><span class="s2">"sell"</span><span class="w">
+    </span><span class="err">}</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>This endpoint returns a list of the user&rsquo;s trades.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://api.bitso.com/v3/order_trades/oid/</code></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>oid</strong></td>
+<td></td>
+<td>Yes</td>
+<td>Specifies which order to get corresponding trades for</td>
+</tr>
+</tbody></table>
+
+<h3 id="json-response-payload">JSON Response Payload</h3>
+
+<p>Returns descending JSON Array of transactions. Every element in the array is a JSON object:</p>
+
+<table><thead>
+<tr>
+<th>Field Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Units</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>book</strong></td>
+<td>String</td>
+<td>Order book symbol</td>
+<td>Major_Minor</td>
+</tr>
+<tr>
+<td><strong>major</strong></td>
+<td>String</td>
+<td>Major amount traded</td>
+<td>Major</td>
+</tr>
+<tr>
+<td><strong>minor</strong></td>
+<td>String</td>
+<td>Minr amount traded</td>
+<td>Minor</td>
+</tr>
+<tr>
+<td><strong>price</strong></td>
+<td>String</td>
+<td>Price per unit of major</td>
+<td>Minor</td>
+</tr>
+<tr>
+<td><strong>side</strong></td>
+<td>String</td>
+<td>Indicates the user&rsquo;s side for this trade (buy, sell)</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>fees_currency</strong></td>
+<td>String</td>
+<td>Indicates the currency in which the trade fee was charged</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>fees_amount</strong></td>
+<td>String</td>
+<td>Indicates the amount charged as trade fee</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>tid</strong></td>
+<td>Long</td>
+<td>Trade ID</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>oid</strong></td>
+<td>String</td>
+<td>Users&rsquo; Order ID</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>created_at</strong></td>
+<td>String</td>
+<td>Timestamp at which the trade was executed</td>
+<td>ISO 8601 timestamp</td>
+</tr>
+</tbody></table>
+
 <h2 id="open-orders">Open Orders</h2>
 
 <blockquote>
