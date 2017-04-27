@@ -3498,15 +3498,12 @@ as the JSON payload used to construct the signature.</p>
 <td><strong>amount</strong></td>
 <td>-</td>
 <td>Yes</td>
-<td>The amount of ETH to withdraw from your account</td>
-</tr>
-<tr>
-<td><strong>address</strong></td>
-<td>-</td>
-<td>Yes</td>
-<td>The ETH address to send the amount to</td>
+<td>The amount of ETH to send to the destination account. A fixed fee on top of the amount specified will be deducted</td>
 </tr>
 </tbody></table>
+
+<p>from your balance as indicated in the <a href="https://bitso.com/fees?l=en">fees</a> page. This fee will be used to help cover blockchain network transaction fees.
+<strong>address</strong> | - | Yes | The ETH address to send the amount to</p>
 
 <h3 id="json-response-payload">JSON Response Payload</h3>
 
