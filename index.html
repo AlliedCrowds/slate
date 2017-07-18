@@ -1618,13 +1618,17 @@ as the JSON payload used to construct the signature.</p>
             </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eth_mxn"</span><span class="p">,</span><span class="w">
             </span><span class="nt">"fee_decimal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.001"</span><span class="p">,</span><span class="w">
             </span><span class="nt">"fee_percent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.1"</span><span class="w">
-        </span><span class="p">}]</span><span class="w">
+        </span><span class="p">}],</span><span class="w">
+        </span><span class="nt">"withdrawal_fees"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"btc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.001"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"eth"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.0025"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
 <p>This endpoint returns information on customer fees for all available
-order books</p>
+order books, and withdrawal fees for applicable currencies.</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
@@ -1662,7 +1666,9 @@ order books</p>
 
 <h3 id="json-response-payload">JSON Response Payload</h3>
 
-<p>Returns a JSON Array. Every element in the array is a JSON object with the following fields.</p>
+<p>Returns a JSON object with keys, <strong>&ldquo;fees&rdquo;</strong> and <strong>&ldquo;withdrawal_fees&rdquo;</strong>.</p>
+
+<p><strong>&ldquo;fees&rdquo;</strong> contains a JSON Array. Every element in the array is a JSON object with the following fields.</p>
 
 <table><thead>
 <tr>
@@ -1691,6 +1697,9 @@ order books</p>
 <td></td>
 </tr>
 </tbody></table>
+
+<p><strong>&ldquo;withdrawal_fees&rdquo;</strong> is an object keyed by each curency and value of
+net amount withdrawal fees denominated in the corresponding currency.</p>
 
 <h2 id="ledger">Ledger</h2>
 
