@@ -4875,7 +4875,7 @@ that the &ldquo;institution_code&rdquo; is obtained from the
 
 <p>Deliver cash for collection by a recipient at any of thousands of cash-out locations across Mexico</p>
 
-<h1 id="cash-out-api">Cash-out API</h1>
+<h1 id="remittance-api">Remittance API</h1>
 
 <aside class="notice">
 Access to this API is available on request, and not enabled by default. Users won&rsquo;t be able to use this API unless Bitso has enabled it on their account.
@@ -4883,7 +4883,7 @@ Access to this API is available on request, and not enabled by default. Users wo
 
 <h2 id="general">General</h2>
 
-<p>Using the cash-out API, partners can generate orders for cash pick-up at payment points across teh whole of Mexico. </p>
+<p>Using the Remittance API, partners can generate orders for cash pick-up at payment points across the length and breadth of Mexico. </p>
 
 <h3 id="authentication">Authentication</h3>
 
@@ -4996,16 +4996,55 @@ as the JSON payload used to construct the signature.</p>
 <td>Yes</td>
 <td>The sender&rsquo;s county or city</td>
 </tr>
+<tr>
+<td><strong>sender_state</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The sender&rsquo;s state</td>
+</tr>
+<tr>
+<td><strong>receiver_first_name</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The beneficiary&rsquo;s first and middle name(s)</td>
+</tr>
+<tr>
+<td><strong>receiver_last_name</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The beneficiary&rsquo;s family name(s)</td>
+</tr>
+<tr>
+<td><strong>receiver_address</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The beneficiary&rsquo;s address</td>
+</tr>
+<tr>
+<td><strong>receiver_phone</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The beneficiary&rsquo;s phone number</td>
+</tr>
+<tr>
+<td><strong>receiver_city</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The beneficiary&rsquo;s city</td>
+</tr>
+<tr>
+<td><strong>receiver_state</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The beneficiary&rsquo;s state</td>
+</tr>
+<tr>
+<td><strong>payout_point_id</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The specified payout point ID (taken from the cashout_locations endpoint)</td>
+</tr>
 </tbody></table>
-
-<p><strong>sender_state</strong> | - | Yes | The sender&rsquo;s state
-<strong>receiver_first_name</strong> | - | Yes | The beneficiary&rsquo;s first and middle name(s)
-<strong>receiver_last_name</strong> | - | Yes | The beneficiary&rsquo;s family name(s)
-<strong>receiver_address</strong> | - | Yes | The beneficiary&rsquo;s address
-<strong>receiver_phone</strong> | - | Yes | The beneficiary&rsquo;s phone number
-<strong>receiver_city</strong> | - | Yes | The beneficiary&rsquo;s city
-<strong>receiver_state</strong> | - | Yes | The beneficiary&rsquo;s state
-<strong>payout_point_id</strong> | - | Yes | The specified payout point ID (taken from the cashout_locations endpoint)</p>
 
 <h3 id="json-response-payload">JSON Response Payload</h3>
 
