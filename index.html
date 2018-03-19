@@ -1887,7 +1887,7 @@ net amount withdrawal fees denominated in the corresponding currency.</p>
 <td><strong>limit</strong></td>
 <td>25</td>
 <td>No</td>
-<td>Specifies number of objects tu return. (Max is 100)</td>
+<td>Specifies number of objects to return. (Max is 100)</td>
 </tr>
 </tbody></table>
 
@@ -2135,7 +2135,7 @@ a specific operation type.</p>
 <td><strong>limit</strong></td>
 <td>25</td>
 <td>No</td>
-<td>Specifies number of objects tu return. (Max is 100)</td>
+<td>Specifies number of objects to return. (Max is 100)</td>
 </tr>
 </tbody></table>
 
@@ -2288,7 +2288,7 @@ a specific operation type.</p>
 <td><strong>limit</strong></td>
 <td>25</td>
 <td>No</td>
-<td>Specifies number of objects tu return. (Max is 100)</td>
+<td>Specifies number of objects to return. (Max is 100)</td>
 </tr>
 </tbody></table>
 
@@ -4870,6 +4870,704 @@ that the &ldquo;institution_code&rdquo; is obtained from the
 <h3 id="bank-wire">Bank Wire</h3>
 
 <p>Execute a standard international bank wire via this outlet.</p>
+
+<h3 id="cash">Cash</h3>
+
+<p>Deliver cash for collection by a recipient at any of thousands of cash-out locations across Mexico</p>
+
+<h1 id="cash-out-api">Cash-out API</h1>
+
+<aside class="notice">
+Access to this API is available on request, and not enabled by default. Users won&rsquo;t be able to use this API unless Bitso has enabled it on their account.
+</aside>
+
+<h2 id="general">General</h2>
+
+<p>Using the cash-out API, partners can generate orders for cash pick-up at payment points across teh whole of Mexico. </p>
+
+<h3 id="authentication">Authentication</h3>
+
+<p>The Transfer API is accessible via an API key created for your account. For full details on creating an API key and how to sign your API requests, please refer to:
+<a href="#creating-and-signing-requests">the authentication section</a></p>
+
+<h2 id="cash-remittance-withdrawal">Cash Remittance (Withdrawal)</h2>
+
+<blockquote>
+<p>The string returned by the API looks like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"wid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p4u8d7f0768ee91d3b33bee6483132i8"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"complete"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mxn"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bt"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"300.15"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"XYZ123"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Triggers a withdrawal from your account to create a cash-out order for collection at a specified location.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST https://api.bitso.com/v3/withdrawal_cash_remittance/</code></p>
+
+<h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>key</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>signature</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>nonce</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+</tbody></table>
+
+<h3 id="body-parameters">Body Parameters</h3>
+
+<p>Body parameters should be JSON encoded and should be exactly the same
+as the JSON payload used to construct the signature.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>amount</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The amount of MXN to withdraw from your account</td>
+</tr>
+<tr>
+<td><strong>sender_first_name</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The sender&rsquo;s first and middle name(s)</td>
+</tr>
+<tr>
+<td><strong>sender_last_name</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The sender&rsquo;s family name(s)</td>
+</tr>
+<tr>
+<td><strong>sender_address</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The sender&rsquo;s address</td>
+</tr>
+<tr>
+<td><strong>sender_phone</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The sender&rsquo;s phone number</td>
+</tr>
+<tr>
+<td><strong>sender_countycity</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The sender&rsquo;s county or city</td>
+</tr>
+</tbody></table>
+
+<p><strong>sender_state</strong> | - | Yes | The sender&rsquo;s state
+<strong>receiver_first_name</strong> | - | Yes | The beneficiary&rsquo;s first and middle name(s)
+<strong>receiver_last_name</strong> | - | Yes | The beneficiary&rsquo;s family name(s)
+<strong>receiver_address</strong> | - | Yes | The beneficiary&rsquo;s address
+<strong>receiver_phone</strong> | - | Yes | The beneficiary&rsquo;s phone number
+<strong>receiver_city</strong> | - | Yes | The beneficiary&rsquo;s city
+<strong>receiver_state</strong> | - | Yes | The beneficiary&rsquo;s state
+<strong>payout_point_id</strong> | - | Yes | The specified payout point ID (taken from the cashout_locations endpoint)</p>
+
+<h3 id="json-response-payload">JSON Response Payload</h3>
+
+<p>Returns a JSON object representing the order:</p>
+
+<table><thead>
+<tr>
+<th>Field Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Units</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>wid</strong></td>
+<td>String</td>
+<td>Unique Withdrawal ID</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>status</strong></td>
+<td>String</td>
+<td>Status of the withdrawal request (pending, complete)</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>created_at</strong></td>
+<td>String</td>
+<td>Timestamp at which the withdrawal request was created</td>
+<td>ISO 8601 timestamp</td>
+</tr>
+<tr>
+<td><strong>currency</strong></td>
+<td>String</td>
+<td>Currency specified for this withdrawal (MXN)</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>method</strong></td>
+<td>String</td>
+<td>Method for this withdrawal (Debit Card Withdrawal)</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>amount</strong></td>
+<td>String</td>
+<td>Amount to withdraw</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>details</strong></td>
+<td>String</td>
+<td>Contains the reference for cash-out order</td>
+<td>-</td>
+</tr>
+</tbody></table>
+
+<h2 id="cash-remittance-cancel">Cash Remittance Cancel</h2>
+
+<blockquote>
+<p>The string returned by the API looks like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"XYZ123"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Triggers the cancellation of a previously created cash-out order.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST https://api.bitso.com/v3/withdrawal_cash_cancel/</code></p>
+
+<h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>key</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>signature</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>nonce</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+</tbody></table>
+
+<h3 id="body-parameters">Body Parameters</h3>
+
+<p>Body parameters should be JSON encoded and should be exactly the same
+as the JSON payload used to construct the signature.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>reference</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The reference code for the cash-out order</td>
+</tr>
+<tr>
+<td><strong>reason</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The reason for cancellation</td>
+</tr>
+</tbody></table>
+
+<h3 id="json-response-payload">JSON Response Payload</h3>
+
+<p>Returns a JSON object representing the order:</p>
+
+<table><thead>
+<tr>
+<th>Field Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Units</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>reference</strong></td>
+<td>String</td>
+<td>Reference of the order in question</td>
+<td>-</td>
+</tr>
+</tbody></table>
+
+<h2 id="cash-withdrawal-change-name">Cash Withdrawal Change Name</h2>
+
+<blockquote>
+<p>The string returned by the API looks like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"XYZ123"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Change the beneficiary name of a previously created cash-out order.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST https://api.bitso.com/v3/withdrawal_cash_change_name/</code></p>
+
+<h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>key</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>signature</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>nonce</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+</tbody></table>
+
+<h3 id="body-parameters">Body Parameters</h3>
+
+<p>Body parameters should be JSON encoded and should be exactly the same
+as the JSON payload used to construct the signature.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>reference</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The reference code for the cash-out order</td>
+</tr>
+<tr>
+<td><strong>new_name</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The new name for the beneficiary</td>
+</tr>
+<tr>
+<td><strong>reason</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The reason for change</td>
+</tr>
+</tbody></table>
+
+<h3 id="json-response-payload">JSON Response Payload</h3>
+
+<p>Returns a JSON object representing the order:</p>
+
+<table><thead>
+<tr>
+<th>Field Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Units</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>reference</strong></td>
+<td>String</td>
+<td>Reference of the order in question</td>
+<td>-</td>
+</tr>
+</tbody></table>
+
+<h2 id="cash-withdrawal-change-phone">Cash Withdrawal Change Phone</h2>
+
+<blockquote>
+<p>The string returned by the API looks like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"XYZ123"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Change the beneficiary phone number of a previously created cash-out order.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST https://api.bitso.com/v3/withdrawal_cash_change_phone/</code></p>
+
+<h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>key</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>signature</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>nonce</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+</tbody></table>
+
+<h3 id="body-parameters">Body Parameters</h3>
+
+<p>Body parameters should be JSON encoded and should be exactly the same
+as the JSON payload used to construct the signature.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>reference</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The reference code for the cash-out order</td>
+</tr>
+<tr>
+<td><strong>new_phone</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The new phone number for the beneficiary</td>
+</tr>
+<tr>
+<td><strong>reason</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The reason for change</td>
+</tr>
+</tbody></table>
+
+<h3 id="json-response-payload">JSON Response Payload</h3>
+
+<p>Returns a JSON object representing the order:</p>
+
+<table><thead>
+<tr>
+<th>Field Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Units</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>reference</strong></td>
+<td>String</td>
+<td>Reference of the order in question</td>
+<td>-</td>
+</tr>
+</tbody></table>
+
+<h2 id="cash-withdrawal-change-sender-name">Cash Withdrawal Change Sender Name</h2>
+
+<blockquote>
+<p>The string returned by the API looks like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"XYZ123"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Change the sender name of a previously created cash-out order.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST https://api.bitso.com/v3/withdrawal_cash_change_sender/</code></p>
+
+<h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>key</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>signature</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>nonce</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+</tbody></table>
+
+<h3 id="body-parameters">Body Parameters</h3>
+
+<p>Body parameters should be JSON encoded and should be exactly the same
+as the JSON payload used to construct the signature.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>reference</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The reference code for the cash-out order</td>
+</tr>
+<tr>
+<td><strong>new_name</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The new name for the sender</td>
+</tr>
+<tr>
+<td><strong>reason</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The reason for change</td>
+</tr>
+</tbody></table>
+
+<h3 id="json-response-payload">JSON Response Payload</h3>
+
+<p>Returns a JSON object representing the order:</p>
+
+<table><thead>
+<tr>
+<th>Field Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Units</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>reference</strong></td>
+<td>String</td>
+<td>Reference of the order in question</td>
+<td>-</td>
+</tr>
+</tbody></table>
+
+<h2 id="cash-payout-locations">Cash Payout Locations</h2>
+
+<blockquote>
+<p>The string returned by the API looks like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w">
+        </span><span class="p">[</span><span class="w">
+          </span><span class="p">{</span><span class="nt">"ID"</span><span class="p">:</span><span class="mi">1234</span><span class="p">,</span><span class="nt">"city"</span><span class="p">:</span><span class="s2">"Ciudad de Rafael Lara Grajales"</span><span class="p">,</span><span class="nt">"state"</span><span class="p">:</span><span class="s2">"Puebla"</span><span class="p">,</span><span class="nt">"payer"</span><span class="p">:</span><span class="s2">"Payer Name"</span><span class="p">,</span><span class="nt">"address"</span><span class="p">:</span><span class="s2">"Payer Address"</span><span class="p">,</span><span class="nt">"zipCode"</span><span class="p">:</span><span class="s2">"Payer ZIP"</span><span class="p">,</span><span class="nt">"reference"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span><span class="nt">"phoneNumber"</span><span class="p">:</span><span class="s2">"Payer Phone"</span><span class="p">,</span><span class="nt">"currency"</span><span class="p">:</span><span class="s2">"PESOS"</span><span class="p">,</span><span class="nt">"paymentLimit"</span><span class="p">:</span><span class="mi">300</span><span class="p">,</span><span class="nt">"monday"</span><span class="p">:</span><span class="s2">"10:00 a 18:00"</span><span class="p">,</span><span class="nt">"tuesday"</span><span class="p">:</span><span class="s2">"10:00 a 18:00"</span><span class="p">,</span><span class="nt">"wednesday"</span><span class="p">:</span><span class="s2">"10:00 a 18:00"</span><span class="p">,</span><span class="nt">"thursday"</span><span class="p">:</span><span class="s2">"10:00 a 18:00"</span><span class="p">,</span><span class="nt">"friday"</span><span class="p">:</span><span class="s2">"10:00 a 18:00"</span><span class="p">,</span><span class="nt">"saturday"</span><span class="p">:</span><span class="s2">"11:00 a 17:00"</span><span class="p">,</span><span class="nt">"sunday"</span><span class="p">:</span><span class="s2">"11:00 a 17:00"</span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="nt">"ID"</span><span class="p">:</span><span class="mi">1235</span><span class="p">,</span><span class="nt">"city"</span><span class="p">:</span><span class="s2">"Santa Maria La Alta"</span><span class="p">,</span><span class="nt">"state"</span><span class="p">:</span><span class="s2">"Puebla"</span><span class="p">,</span><span class="nt">"payer"</span><span class="p">:</span><span class="s2">"Payer Name"</span><span class="p">,</span><span class="nt">"address"</span><span class="p">:</span><span class="s2">"Payer Address"</span><span class="p">,</span><span class="nt">"zipCode"</span><span class="p">:</span><span class="s2">"Payer ZIP"</span><span class="p">,</span><span class="nt">"reference"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span><span class="nt">"phoneNumber"</span><span class="p">:</span><span class="s2">"Payer Phone"</span><span class="p">,</span><span class="nt">"currency"</span><span class="p">:</span><span class="s2">"PESOS"</span><span class="p">,</span><span class="nt">"paymentLimit"</span><span class="p">:</span><span class="mi">500</span><span class="p">,</span><span class="nt">"monday"</span><span class="p">:</span><span class="s2">"09:00 a 18:00"</span><span class="p">,</span><span class="nt">"tuesday"</span><span class="p">:</span><span class="s2">"09:00 a 18:00"</span><span class="p">,</span><span class="nt">"wednesday"</span><span class="p">:</span><span class="s2">"09:00 a 18:00"</span><span class="p">,</span><span class="nt">"thursday"</span><span class="p">:</span><span class="s2">"09:00 a 18:00"</span><span class="p">,</span><span class="nt">"friday"</span><span class="p">:</span><span class="s2">"09:00 a 18:00"</span><span class="p">,</span><span class="nt">"saturday"</span><span class="p">:</span><span class="s2">"09:00 a 18:00"</span><span class="p">,</span><span class="nt">"sunday"</span><span class="p">:</span><span class="s2">"CERRADO"</span><span class="p">}</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Get a list of all available cash payout locations.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST https://api.bitso.com/v3/cashout_locations/</code></p>
+
+<h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>key</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>signature</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+<tr>
+<td><strong>nonce</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
+</tr>
+</tbody></table>
+
+<h3 id="body-parameters">Body Parameters</h3>
+
+<p>Body parameters should be JSON encoded and should be exactly the same
+as the JSON payload used to construct the signature.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>state</strong></td>
+<td>-</td>
+<td>No</td>
+<td>Limit results to a particular state.</td>
+</tr>
+<tr>
+<td><strong>city</strong></td>
+<td>-</td>
+<td>No</td>
+<td>Limit results to a particular city.</td>
+</tr>
+<tr>
+<td><strong>zipcode</strong></td>
+<td>-</td>
+<td>No</td>
+<td>Limit results to a particular ZIP code.</td>
+</tr>
+</tbody></table>
+
+<h3 id="json-response-payload">JSON Response Payload</h3>
+
+<p>Returns a JSON array containing all of the available payout locations meeting the criteria:</p>
+
+<table><thead>
+<tr>
+<th>Field Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Units</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>ID</strong></td>
+<td>String</td>
+<td>The unique ID for the payout location for use in specifying a new cash-out order</td>
+<td>-</td>
+</tr>
+</tbody></table>
 
 <h1 id="account-creation-api">Account Creation API</h1>
 
