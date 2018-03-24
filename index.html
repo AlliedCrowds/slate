@@ -3323,10 +3323,10 @@ as the JSON payload used to construct the signature.</p>
 </tr>
 </tbody></table>
 
-<h2 id="bitcoin-withdrawal">Bitcoin Withdrawal</h2>
+<h2 id="crypto-withdrawals">Crypto Withdrawals</h2>
 
 <blockquote>
-<p>The string returned by the API looks like this:</p>
+<p>The string returned by the API looks like this (example for BTC):</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
     </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
@@ -3345,11 +3345,15 @@ as the JSON payload used to construct the signature.</p>
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>Triggers a bitcoin withdrawal from the user&rsquo;s account</p>
+<p>The following endpoints are available for making a cryptocurrency withdrawal from the user&rsquo;s account:</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">POST https://api.bitso.com/v3/bitcoin_withdrawal/</code></p>
+<p><code class="prettyprint">POST https://api.bitso.com/v3/bitcoin_withdrawal/</code> (btc)
+<code class="prettyprint">POST https://api.bitso.com/v3/ether_withdrawal/</code> (eth)
+<code class="prettyprint">POST https://api.bitso.com/v3/ripple_withdrawal/</code> (xrp)
+<code class="prettyprint">POST https://api.bitso.com/v3/bcash_withdrawal/</code> (bch)
+<code class="prettyprint">POST https://api.bitso.com/v3/litecoin_withdrawal/</code> (ltc)</p>
 
 <h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
 
@@ -3398,13 +3402,19 @@ as the JSON payload used to construct the signature.</p>
 <td><strong>amount</strong></td>
 <td>-</td>
 <td>Yes</td>
-<td>The amount of BTC to withdraw from your account</td>
+<td>The amount of the asset to withdraw from your account</td>
 </tr>
 <tr>
 <td><strong>address</strong></td>
 <td>-</td>
 <td>Yes</td>
-<td>The Bitcoin address to send the amount to</td>
+<td>The address to send that amount to</td>
+</tr>
+<tr>
+<td><strong>destination_tag</strong></td>
+<td>-</td>
+<td>No</td>
+<td>Destination Tag (Ripple XRP only, optional)</td>
 </tr>
 </tbody></table>
 
@@ -3441,161 +3451,20 @@ as the JSON payload used to construct the signature.</p>
 <tr>
 <td><strong>currency</strong></td>
 <td>String</td>
-<td>Currency specified for this withdrawal (BTC)</td>
+<td>Currency specified for this withdrawal (e.g. BTC)</td>
 <td>-</td>
 </tr>
 <tr>
 <td><strong>method</strong></td>
 <td>String</td>
-<td>Method for this withdrawal (BTC).</td>
+<td>Method for this withdrawal (e.g. BTC).</td>
 <td>-</td>
 </tr>
 <tr>
 <td><strong>amount</strong></td>
 <td>String</td>
 <td>Amount to withdraw.</td>
-<td>BTC</td>
-</tr>
-<tr>
-<td><strong>details</strong></td>
-<td>String</td>
-<td>Method specific details for this withdrawal</td>
-<td>-</td>
-</tr>
-</tbody></table>
-
-<h2 id="ether-withdrawal">Ether Withdrawal</h2>
-
-<blockquote>
-<p>The string returned by the API looks like this:</p>
-</blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"wid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"c5b8d7f0768ee91d3b33bee648318698"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pending"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eth"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eth"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10.00"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"withdrawal_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x55f03a62acc946dedcf8a0c47f16ec3892b29e6d"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"tx_hash"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-<p>Triggers an Ethereum withdrawal from the user&rsquo;s account </p>
-
-<h3 id="http-request">HTTP Request</h3>
-
-<p><code class="prettyprint">POST https://api.bitso.com/v3/ether_withdrawal/</code></p>
-
-<h3 id="authorization-header-parameters">Authorization Header Parameters</h3>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><strong>key</strong></td>
-<td>-</td>
-<td>Yes</td>
-<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
-</tr>
-<tr>
-<td><strong>signature</strong></td>
-<td>-</td>
-<td>Yes</td>
-<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
-</tr>
-<tr>
-<td><strong>nonce</strong></td>
-<td>-</td>
-<td>Yes</td>
-<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
-</tr>
-</tbody></table>
-
-<h3 id="body-parameters">Body Parameters</h3>
-
-<p>Body parameters should be JSON encoded and should be exactly the same
-as the JSON payload used to construct the signature.</p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><strong>amount</strong></td>
-<td>-</td>
-<td>Yes</td>
-<td>The amount of ETH to send to the destination account. A fixed fee on top of the amount specified will be deducted from your balance as indicated in the <a href="https://bitso.com/fees?l=en">fees</a> page. This fee will be used to help cover blockchain network transaction fees.</td>
-</tr>
-<tr>
-<td><strong>address</strong></td>
-<td>-</td>
-<td>Yes</td>
-<td>The ETH address to send the amount to</td>
-</tr>
-</tbody></table>
-
-<h3 id="json-response-payload">JSON Response Payload</h3>
-
-<p>Returns a JSON object representing the order:</p>
-
-<table><thead>
-<tr>
-<th>Field Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Units</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><strong>wid</strong></td>
-<td>String</td>
-<td>Unique Withdrawal ID</td>
-<td>-</td>
-</tr>
-<tr>
-<td><strong>status</strong></td>
-<td>String</td>
-<td>Status of the withdrawal request (pending, complete)</td>
-<td>-</td>
-</tr>
-<tr>
-<td><strong>created_at</strong></td>
-<td>String</td>
-<td>Timestamp at which the withdrawal request was created</td>
-<td>ISO 8601 timestamp</td>
-</tr>
-<tr>
-<td><strong>currency</strong></td>
-<td>String</td>
-<td>Currency specified for this withdrawal (ETH)</td>
-<td>-</td>
-</tr>
-<tr>
-<td><strong>method</strong></td>
-<td>String</td>
-<td>Method for this withdrawal (ETH).</td>
-<td>-</td>
-</tr>
-<tr>
-<td><strong>amount</strong></td>
-<td>String</td>
-<td>Amount to withdraw.</td>
-<td>ETH</td>
+<td>units of e.g. BTC</td>
 </tr>
 <tr>
 <td><strong>details</strong></td>
