@@ -218,7 +218,7 @@ error categories, the last two digits define specific errors.</p>
 <li>0316: Invalid Ripple currency</li>
 <li>0317: Invalid SPEI number</li>
 <li>0318: Invalid SPEI numeric_ref</li>
-<li>0319: Invalid SPEI notes_ref </li>
+<li>0319: Invalid SPEI notes_ref</li>
 <li>0320: Invalid pagination parameters</li>
 <li>0321: Incorrect TID (non-existent)</li>
 <li>0322: Not a Valid URL</li>
@@ -1079,7 +1079,7 @@ the following form:</p>
     </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="nt">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1234"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Claude"</span><span class="p">,</span><span class="w"> 
+        </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Claude"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w">  </span><span class="s2">"Shannon"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"daily_limit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5300.00"</span><span class="p">,</span><span class="w">
@@ -1252,7 +1252,7 @@ status, documents uploaded, and transaction limits.</p>
 <p>The JSON object returned by the API looks like this:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> 
+    </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span><span class="p">}</span><span class="w">
 
 </span></code></pre>
@@ -1341,7 +1341,7 @@ as the JSON payload used to construct the signature.</p>
 </span></code></pre>
 
 <p>This endpoint is used to register Mobile phone number for
-verification. </p>
+verification.</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
@@ -2185,8 +2185,8 @@ a specific operation type.</p>
 <tr>
 <td><strong>status</strong></td>
 <td>String</td>
-<td>The status for this withdrawal (pending, processing, complete, cancelled)</td>
-<td></td>
+<td>The status for this withdrawal (pending, processing, complete, failed)</td>
+<td>-</td>
 </tr>
 <tr>
 <td><strong>created_at</strong></td>
@@ -2338,8 +2338,8 @@ a specific operation type.</p>
 <tr>
 <td><strong>status</strong></td>
 <td>String</td>
-<td>The status for this funding (pending, complete, cancelled)</td>
-<td>currency</td>
+<td>The status for this funding (pending, complete, failed)</td>
+<td>-</td>
 </tr>
 <tr>
 <td><strong>created_at</strong></td>
@@ -3782,7 +3782,7 @@ as the JSON payload used to construct the signature.</p>
 
 <p>Triggers a Debit Cards withdrawal from your account.
 These <strong>withdrawals are immediate</strong> during banking hours for some
-banks (M-F 9:00AM - 5:00PM Mexico City Time), 24 hours for others. </p>
+banks (M-F 9:00AM - 5:00PM Mexico City Time), 24 hours for others.</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
@@ -3950,7 +3950,7 @@ as the JSON payload used to construct the signature.</p>
 number must be registered for SPEI Transfers with their corresponding bank)
 These <strong>withdrawals are immediate</strong> during banking hours for some
 banks (M-F 9:00AM - 5:00PM Mexico City Time), 24 hours for
-others. </p>
+others.</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
@@ -4634,7 +4634,7 @@ as the JSON payload used to construct the signature.</p>
       </span><span class="nt">"qr_img_uri"</span><span class="p">:</span><span class="s2">"https:\/\/chart.googleapis.com\/chart?chl=bitcoin%3AmgKZfNdFJgztvfvhEaGgMTQRQ2iHCadHGa%3Famount%3D0.14965623&amp;chs=400x400&amp;cht=qr&amp;choe=UTF-8&amp;chld=L%7C0"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"user_uri"</span><span class="p">:</span><span class="s2">"https:\/\/api.bitso.com\/v2\/transfer\/9b2a431b98597312e99cbff1ba432cbf"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"wallet_address"</span><span class="p">:</span><span class="s2">"3AmgKZfNdFJgztvfvhEaGgMTQRQ2iHCadHGa"</span><span class="w">
-   </span><span class="p">}</span><span class="w"> 
+   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -4781,7 +4781,7 @@ Access to this API is available on request, and not enabled by default. Users wo
 
 <h2 id="general">General</h2>
 
-<p>Using the Remittance API, partners can generate orders for cash pick-up at payment points across the length and breadth of Mexico. </p>
+<p>Using the Remittance API, partners can generate orders for cash pick-up at payment points across the length and breadth of Mexico.</p>
 
 <h3 id="authentication">Authentication</h3>
 
@@ -4996,7 +4996,7 @@ as the JSON payload used to construct the signature.</p>
 <tr>
 <td><strong>details</strong></td>
 <td>String</td>
-<td>Contains the reference (identifier for cash-out order) and collection_reference (reference for recipient to use)</td>
+<td>Contains the reference identifier for cash-out order, needed to alter the order and for recipient to collect payment.</td>
 <td>-</td>
 </tr>
 </tbody></table>
