@@ -3363,6 +3363,10 @@ as the JSON payload used to construct the signature.</p>
 </tr>
 </thead><tbody>
 <tr>
+<td><strong>all</strong></td>
+<td><code class="prettyprint">POST https://api.bitso.com/v3/crypto_withdrawal/</code></td>
+</tr>
+<tr>
 <td><strong>btc</strong></td>
 <td><code class="prettyprint">POST https://api.bitso.com/v3/bitcoin_withdrawal/</code></td>
 </tr>
@@ -3427,6 +3431,12 @@ as the JSON payload used to construct the signature.</p>
 <th>Description</th>
 </tr>
 </thead><tbody>
+<tr>
+<td><strong>currency</strong></td>
+<td>-</td>
+<td>Yes</td>
+<td>The currency to withdraw (only required for <code class="prettyprint">crypto_currency</code> endpoint)</td>
+</tr>
 <tr>
 <td><strong>amount</strong></td>
 <td>-</td>
