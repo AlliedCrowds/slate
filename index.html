@@ -1633,12 +1633,16 @@ as the JSON payload used to construct the signature.</p>
     </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="nt">"fees"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
             </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btc_mxn"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"fee_decimal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.0001"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"fee_percent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.01"</span><span class="w">
+            </span><span class="nt">"taker_fee_decimal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.0001"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"taker_fee_percent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.01"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"maker_fee_decimal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.0001"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"maker_fee_percent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.01"</span><span class="w">
         </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
             </span><span class="nt">"book"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eth_mxn"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"fee_decimal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.001"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"fee_percent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.1"</span><span class="w">
+            </span><span class="nt">"taker_fee_decimal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.0001"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"taker_fee_percent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.01"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"maker_fee_decimal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.0001"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"maker_fee_percent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.01"</span><span class="w">
         </span><span class="p">}],</span><span class="w">
         </span><span class="nt">"withdrawal_fees"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
             </span><span class="nt">"btc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.001"</span><span class="p">,</span><span class="w">
@@ -1706,15 +1710,39 @@ order books, and withdrawal fees for applicable currencies.</p>
 <td>Major_Minor</td>
 </tr>
 <tr>
+<td><strong>taker_fee_decimal</strong></td>
+<td>String</td>
+<td>Customer taker trading fee as a decimal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>taker_fee_percent</strong></td>
+<td>String</td>
+<td>Customer taker trading fee as a percentage</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>maker_fee_decimal</strong></td>
+<td>String</td>
+<td>Customer maker trading fee as a decimal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>maker_fee_percent</strong></td>
+<td>String</td>
+<td>Customer maker trading fee as a percentage</td>
+<td></td>
+</tr>
+<tr>
 <td><strong>fee_decimal</strong></td>
 <td>String</td>
-<td>Customer trading fee as a decimal</td>
+<td><strong>DEPRECATED</strong> Customer trading fee as a decimal (same as <strong>maker_fee_decimal</strong>). This was the field used before we had a Maker/Taker fee schedule.</td>
 <td></td>
 </tr>
 <tr>
 <td><strong>fee_percent</strong></td>
 <td>String</td>
-<td>Customer trading fee as a percentage</td>
+<td><strong>DEPRECATED</strong> Customer trading fee as a percentage (same as <strong>maker_fee_percent</strong>). This was the field used before we had a Maker/Taker fee schedule.</td>
 <td></td>
 </tr>
 </tbody></table>
