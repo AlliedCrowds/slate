@@ -175,9 +175,10 @@ is <code class="prettyprint">https://api-dev.bitso.com/v3/</code></p>
 
 <h2 id="rate-limits">Rate Limits</h2>
 
-<p>Rate limits are are based on one minute windows. If you do more than
-300 requests in five minutes, you get locked out for one minute. Continuous
-one minute lockouts will result in a 24-hour block.</p>
+<p>Rate limits are are based on one minute windows. For public API requests, the
+limit is 60 requests per minute. For private API requests, the limit is 300
+requests per minute. If you exceed these limits, you will get locked out for
+one minute. Continuous one minute lockouts may result in a 24-hour block.</p>
 
 <h2 id="error-codes">Error Codes</h2>
 
@@ -2372,7 +2373,7 @@ a specific operation type.</p>
 <tr>
 <td><strong>created_at</strong></td>
 <td>String</td>
-<td>Timestamp at which the funding was recieved</td>
+<td>Timestamp at which the funding was received</td>
 <td>ISO 8601 timestamp</td>
 </tr>
 <tr>
@@ -3181,6 +3182,12 @@ as the JSON payload used to construct the signature.</p>
 <td>-</td>
 <td>No</td>
 <td>Price per unit of major. For use only with limit orders</td>
+</tr>
+<tr>
+<td><strong>stop</strong></td>
+<td>-</td>
+<td>No</td>
+<td>Price per unit of major at which to stop and place order. For use only with stop orders.</td>
 </tr>
 </tbody></table>
 
@@ -4208,7 +4215,7 @@ will be acknowledged in the following manner:</p>
 <h3 id="example-implementation">Example Implementation</h3>
 
 <p>Use this example native javascript implementation for your reference:
-<a href="https://bitso.com/ws_demo.html">https://bitso.com/ws_demo.html</a></p>
+<a href="https://bitso.com/demo_ws.html">https://bitso.com/demo_ws.html</a></p>
 
 <h2 id="trades-channel">Trades Channel</h2>
 
@@ -5713,30 +5720,6 @@ for use in the &ldquo;Account Creation&rdquo; endpoint.</p>
 </tr>
 </tbody></table>
 
-<h3 id="body-parameters">Body Parameters</h3>
-
-<p>Body parameters should be JSON encoded and should be exactly the same
-as the JSON payload used to construct the signature.</p>
-
-<p>All parameters as returned by the <a href="#account-required-fields">Account Required
-Fields</a> endpoint in addition to the following optional parameter</p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><strong>webhook_url</strong></td>
-<td></td>
-<td>NO</td>
-<td>Specifies a url that will be hit on events specified in the <a href="#webhooks">Webhooks Section</a></td>
-</tr>
-</tbody></table>
-
 <h3 id="json-response-payload">JSON Response Payload</h3>
 
 <p>Returns descending JSON Array. Every element in the array is a JSON object with the following fields.</p>
@@ -5780,7 +5763,7 @@ Fields</a> endpoint in addition to the following optional parameter</p>
 <h2 id="registering-urls">Registering URLs</h2>
 
 <p>Users can register a callback url that will get hit with payloads
-correspding to certain events described below. [<strong>Coming Soon</strong>]</p>
+corresponding to certain events described below.</p>
 
 <blockquote>
 <p>The JSON object returned by the API looks like this:</p>
@@ -5824,13 +5807,34 @@ correspding to certain events described below. [<strong>Coming Soon</strong>]</p
 </tr>
 </tbody></table>
 
+<h3 id="body-parameters">Body Parameters</h3>
+
+<p>Body parameters should be JSON encoded and should be exactly the same
+as the JSON payload used to construct the signature.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>webhook_url</strong></td>
+<td></td>
+<td>Yes</td>
+<td>Specifies a url that will be hit on events</td>
+</tr>
+</tbody></table>
+
 <h2 id="fundings">Fundings</h2>
 
-<p>Users that register a webhook  will get a POST payload to that URL
-with the following fields on SPEI deposits.  [<strong>Coming Soon</strong>]</p>
+<p>Users that register a webhook will get a POST payload to that URL
+with the following fields on deposits.</p>
 
 <blockquote>
-<p>The JSON Array posted to the webhook URL looks like this</p>
+<p>The JSON Object posted to the webhook URL looks like this</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
     </span><span class="nt">"event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"funding"</span><span class="p">,</span><span class="w">
@@ -5839,7 +5843,7 @@ with the following fields on SPEI deposits.  [<strong>Coming Soon</strong>]</p>
     </span><span class="p">{</span><span class="w">
         </span><span class="nt">"fid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p4u8d7f0768ee91d3b33bee6483132i8"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"complete"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31.000+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31+00:00"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mxn"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sp"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"300.15"</span><span class="p">,</span><span class="w">
@@ -5859,7 +5863,7 @@ with the following fields on SPEI deposits.  [<strong>Coming Soon</strong>]</p>
 
 <h3 id="json-payload">JSON  Payload</h3>
 
-<p>Returns a JSON object with the follwing fields:</p>
+<p>Returns a JSON object with the following fields:</p>
 
 <table><thead>
 <tr>
@@ -5897,10 +5901,10 @@ with the following fields on SPEI deposits.  [<strong>Coming Soon</strong>]</p>
 <td><strong>status</strong></td>
 <td>String</td>
 <td>The status for this funding (pending, complete, cancelled)</td>
-<td>currency</td>
+<td>-</td>
 </tr>
 <tr>
-<td><strong>created_at</strong></td>
+<td><strong>created</strong></td>
 <td>String</td>
 <td>Timestamp at which the funding was received</td>
 <td>ISO 8601 timestamp</td>
@@ -5908,7 +5912,91 @@ with the following fields on SPEI deposits.  [<strong>Coming Soon</strong>]</p>
 <tr>
 <td><strong>details</strong></td>
 <td>JSON object</td>
-<td>Specific funding details</td>
+<td>Specific funding details, may vary depending on funding method</td>
+<td>-</td>
+</tr>
+</tbody></table>
+
+<h2 id="withdrawals">Withdrawals</h2>
+
+<p>Users that register a webhook will get a POST payload to that URL
+with the following fields on withdrawals.</p>
+
+<blockquote>
+<p>The JSON Object posted to the webhook URL looks like this</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"withdrawal"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w">
+
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"wid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p4u8d7f0768ee91d3b33bee6483132i8"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"complete"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-07-09T19:22:38+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xrp"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rp"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"57"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"destination_tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">"64136557"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"ripple_transaction_hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"33EA42FC7A06F062A7B843AF4DC7C0AB00D6644DFDF4C5D354A87C035813D321"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h3 id="json-payload">JSON  Payload</h3>
+
+<p>Returns a JSON object with the follwing fields:</p>
+
+<table><thead>
+<tr>
+<th>Field Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Units</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>wid</strong></td>
+<td>String</td>
+<td>The unique withdrawal ID</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>currency</strong></td>
+<td>String</td>
+<td>Currency withdrawn</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>method</strong></td>
+<td>String</td>
+<td>Method for this withdrawal (btc, eth).</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>amount</strong></td>
+<td>String</td>
+<td>The withdrawal amount</td>
+<td>currency</td>
+</tr>
+<tr>
+<td><strong>status</strong></td>
+<td>String</td>
+<td>The status for this withdrawal (pending, complete, cancelled)</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>created</strong></td>
+<td>String</td>
+<td>Timestamp at which the withdrawal was received</td>
+<td>ISO 8601 timestamp</td>
+</tr>
+<tr>
+<td><strong>details</strong></td>
+<td>JSON object</td>
+<td>Specific withdrawal details, may vary depending on withdrawal method</td>
 <td>-</td>
 </tr>
 </tbody></table>
