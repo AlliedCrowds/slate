@@ -4632,19 +4632,24 @@ as the JSON payload used to construct the signature.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><strong>btc_amount</strong></td>
-<td>No</td>
-<td>Mutually exclusive with amount. Either this, or amount should be present in the request. The total amount in Bitcoins, as provided by the user. NOTE: The amount is in BTC format (900mbtc = .9 BTC).</td>
-</tr>
-<tr>
-<td><strong>amount</strong></td>
-<td>No</td>
-<td>Mutually exclusive with btc_amount. Either this, or btc_amount should be present in the request. The total amount in Fiat currency. Use this if you prefer specifying amounts in fiat instead of BTC.</td>
-</tr>
-<tr>
-<td><strong>currency</strong></td>
+<td><strong>from_currency</strong></td>
 <td>Yes</td>
-<td>An ISO 4217 fiat currency symbol (ie, “MXN”). If btc_amount is provided instead of amount, this is the currency to which the BTC price will be converted into. Otherwise, if amount is specified instead of btc_amount, this is the currency of the specified amount.</td>
+<td>The cryptocurrency that you wish to send. This will be converted to the to_currency fiat currency</td>
+</tr>
+<tr>
+<td><strong>from_amount</strong></td>
+<td>No</td>
+<td>Mutually exclusive with to_amount. Either this, or to_amount should be present in the request. The total amount in Crypto, as provided by the user.</td>
+</tr>
+<tr>
+<td><strong>to_amount</strong></td>
+<td>No</td>
+<td>Mutually exclusive with from_amount. Either this, or from_amount should be present in the request. The total amount in Fiat currency. Use this if you prefer specifying amounts in fiat instead of cryptocurrency.</td>
+</tr>
+<tr>
+<td><strong>to_currency</strong></td>
+<td>Yes</td>
+<td>An ISO 4217 fiat currency symbol (ie, “MXN”). This is the resulting currency from the transfer.</td>
 </tr>
 <tr>
 <td><strong>full</strong></td>
@@ -4661,9 +4666,10 @@ as the JSON payload used to construct the signature.</p>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
    </span><span class="nt">"success"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
    </span><span class="nt">"payload"</span><span class="p">:{</span><span class="w">
-      </span><span class="nt">"btc_amount"</span><span class="p">:</span><span class="s2">"0.14965623"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"btc_pending"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"btc_received"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"from_currency"</span><span class="p">:</span><span class="s2">"BTC"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"from_amount"</span><span class="p">:</span><span class="s2">"0.14965623"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"from_pending"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"from_received"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"confirmation_code"</span><span class="p">:</span><span class="s2">"9b2a4"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"created_at"</span><span class="p">:</span><span class="s2">"2016-04-08T17:52:31.000+00:0"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"currency"</span><span class="p">:</span><span class="s2">"MXN"</span><span class="p">,</span><span class="w">
@@ -4676,8 +4682,9 @@ as the JSON payload used to construct the signature.</p>
       </span><span class="p">},</span><span class="w">
       </span><span class="nt">"id"</span><span class="p">:</span><span class="s2">"9b2a431b98597312e99cbff1ba432cbf"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"payment_outlet_id"</span><span class="p">:</span><span class="s2">"pm"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"status"</span><span class="p">:</span><span class="s2">"pending"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"qr_img_uri"</span><span class="p">:</span><span class="s2">"https:\/\/chart.googleapis.com\/chart?chl=bitcoin%3AmgKZfNdFJgztvfvhEaGgMTQRQ2iHCadHGa%3Famount%3D0.14965623&amp;chs=400x400&amp;cht=qr&amp;choe=UTF-8&amp;chld=L%7C0"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"user_uri"</span><span class="p">:</span><span class="s2">"https:\/\/api.bitso.com\/v2\/transfer\/9b2a431b98597312e99cbff1ba432cbf"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"user_uri"</span><span class="p">:</span><span class="s2">"https:\/\/api.bitso.com\/v3\/transfer\/9b2a431b98597312e99cbff1ba432cbf"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"wallet_address"</span><span class="p">:</span><span class="s2">"3AmgKZfNdFJgztvfvhEaGgMTQRQ2iHCadHGa"</span><span class="w">
    </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -4730,19 +4737,24 @@ as the JSON payload used to construct the signature.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><strong>btc_amount</strong></td>
-<td>No</td>
-<td>Mutually exclusive with amount. Either this, or amount should be present in the request. The total amount in Bitcoins, as provided by the user. NOTE: The amount is in BTC format (900mbtc = .9 BTC).</td>
-</tr>
-<tr>
-<td><strong>amount</strong></td>
-<td>No</td>
-<td>Mutually exclusive with btc_amount. Either this, or btc_amount should be present in the request. The total amount in Fiat currency. Use this if you prefer specifying amounts in fiat instead of BTC.</td>
-</tr>
-<tr>
-<td><strong>currency</strong></td>
+<td><strong>from_currency</strong></td>
 <td>Yes</td>
-<td>An ISO 4217 fiat currency symbol (ie, “MXN”). If btc_amount is provided instead of amount, this is the currency to which the BTC price will be converted into. Otherwise, if amount is specified instead of btc_amount, this is the currency of the specified amount.</td>
+<td>The cryptocurrency that you wish to send. This will be converted to the to_currency fiat currency</td>
+</tr>
+<tr>
+<td><strong>from_amount</strong></td>
+<td>No</td>
+<td>Mutually exclusive with to_amount. Either this, or to_amount should be present in the request. The total amount in Crypto, as provided by the user.</td>
+</tr>
+<tr>
+<td><strong>to_amount</strong></td>
+<td>No</td>
+<td>Mutually exclusive with from_amount. Either this, or from_amount should be present in the request. The total amount in Fiat currency. Use this if you prefer specifying amounts in fiat instead of cryptocurrency.</td>
+</tr>
+<tr>
+<td><strong>to_currency</strong></td>
+<td>Yes</td>
+<td>An ISO 4217 fiat currency symbol (ie, “MXN”). This is the resulting currency from the transfer.</td>
 </tr>
 <tr>
 <td><strong>rate</strong></td>
