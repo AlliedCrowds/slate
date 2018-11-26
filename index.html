@@ -208,8 +208,8 @@ error categories, the last two digits define specific errors.</p>
 <li>0305: Invalid SMS code (would also apply to correct code but not-correct client id)</li>
 <li>0306: Order side not in (buy, sell)</li>
 <li>0307: Order type not in (limit, market)</li>
-<li>0308: Order request included both minor and major</li>
-<li>0309: Order request does not include neither minor or major</li>
+<li>0308: Order request cannot include both minor and major</li>
+<li>0309: Order request must include either minor or major</li>
 <li>0310: Incorrect WID (non-existent or does not belong to user)</li>
 <li>0311: Incorrect FID (non-existent or does not belong to user)</li>
 <li>0312: Incorrect OID (non-existent or does not belong to user)</li>
@@ -226,6 +226,10 @@ error categories, the last two digits define specific errors.</p>
 <li>0323: No associated country code</li>
 <li>0324: Number already in use</li>
 <li>0325: Phone already verified</li>
+<li>0326: Quote is expired or invalid</li>
+<li>0327: Service unavailable for requesting location</li>
+<li>0328: Service unavailable for requesting country</li>
+<li>0329: Market order type must be in (maj, min)</li>
 </ul>
 
 <h3 id="system-limit-errors-04-http-400">System Limit Errors: 04 (HTTP 400)</h3>
