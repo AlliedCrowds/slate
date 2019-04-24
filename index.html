@@ -196,6 +196,9 @@ error categories, the last two digits define specific errors.</p>
 
 <ul>
 <li>0201: Invalid Nonce or Invalid Credentials</li>
+<li>0202: Your account is currently suspended.</li>
+<li>0203: Login token is invalid or expired</li>
+<li>0204: Incorrect PIN</li>
 </ul>
 
 <h3 id="validation-errors-03-http-400">Validation Errors: 03 (HTTP 400)</h3>
@@ -230,6 +233,18 @@ error categories, the last two digits define specific errors.</p>
 <li>0327: Service unavailable for requesting location</li>
 <li>0328: Service unavailable for requesting country</li>
 <li>0329: Market order type must be in (maj, min)</li>
+<li>0330: Withdrawals locked for this account</li>
+<li>0331: Invalid referral code for Bitso Transfer</li>
+<li>0332: Empty PIN</li>
+<li>0333: PIN locked. Too many attempts</li>
+<li>0334: Bitso Transfers need either an email, phone_number, or refcode specified</li>
+<li>0335: Invalid SPEI recipient name</li>
+<li>0336: No data found for CURP</li>
+<li>0337: No CURP found for data</li>
+<li>0338: Multiple CURPs found for data</li>
+<li>0339: Email is already in use</li>
+<li>0340: Not supported country</li>
+<li>0341: Invalid postal code</li>
 </ul>
 
 <h3 id="system-limit-errors-04-http-400">System Limit Errors: 04 (HTTP 400)</h3>
@@ -257,10 +272,18 @@ error categories, the last two digits define specific errors.</p>
 <li>0602: Not enough mxn funds</li>
 </ul>
 
+<h3 id="errors-related-to-an-account-07-http-400">Errors related to an account: 07 (HTTP 400)</h3>
+
+<ul>
+<li>0701: Action not permitted for unverified account</li>
+<li>0702: Action not permitted for unverified business account</li>
+</ul>
+
 <h3 id="throttling-errors-08-http-420">Throttling Errors: 08 (HTTP 420)</h3>
 
 <ul>
 <li>0801: You have hit the request rate-limit</li>
+<li>0802: Too many attempts to perform an operation</li>
 </ul>
 
 <h3 id="unsupported-http-method-400-error">Unsupported HTTP method (400 error)</h3>
@@ -2177,6 +2200,24 @@ a specific operation type.</p>
 <td>No</td>
 <td>Specifies number of objects to return. (Max is 100)</td>
 </tr>
+<tr>
+<td><strong>marker</strong></td>
+<td>-</td>
+<td>No</td>
+<td>Returns objects that are older than the object with this WID (for pagination)</td>
+</tr>
+<tr>
+<td><strong>status</strong></td>
+<td>-</td>
+<td>No</td>
+<td>Restricts the withdrawals to those of the specified status (pending, processing, complete, failed)</td>
+</tr>
+<tr>
+<td><strong>method</strong></td>
+<td>-</td>
+<td>No</td>
+<td>Restricts the withdrawals to those of the specified method (SP, BTC, ETH, &hellip;)</td>
+</tr>
 </tbody></table>
 
 <h3 id="json-response-payload">JSON Response Payload</h3>
@@ -2200,13 +2241,13 @@ a specific operation type.</p>
 <tr>
 <td><strong>currency</strong></td>
 <td>String</td>
-<td>Currency withdrawn</td>
+<td>Currency of the withdrawal</td>
 <td>-</td>
 </tr>
 <tr>
 <td><strong>method</strong></td>
 <td>String</td>
-<td>Method for this withdrawal (MXN, BTC, ETH).</td>
+<td>Method for this withdrawal (SP, BTC, ETH, &hellip;).</td>
 <td>-</td>
 </tr>
 <tr>
@@ -2329,6 +2370,24 @@ a specific operation type.</p>
 <td>25</td>
 <td>No</td>
 <td>Specifies number of objects to return. (Max is 100)</td>
+</tr>
+<tr>
+<td><strong>marker</strong></td>
+<td>-</td>
+<td>No</td>
+<td>Returns objects that are older than the object with this FID (for pagination)</td>
+</tr>
+<tr>
+<td><strong>status</strong></td>
+<td>-</td>
+<td>No</td>
+<td>Restricts the fundings to those of the specified status (pending, in_progress, complete, failed)</td>
+</tr>
+<tr>
+<td><strong>method</strong></td>
+<td>-</td>
+<td>No</td>
+<td>Restricts the fundings to those of the specified method (SP, BTC, ETH, &hellip;)</td>
 </tr>
 </tbody></table>
 
@@ -5688,9 +5747,10 @@ with the following fields on deposits.</p>
     </span><span class="p">{</span><span class="w">
         </span><span class="nt">"fid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p4u8d7f0768ee91d3b33bee6483132i8"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"complete"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-08T17:52:31+00:00"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mxn"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sp"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"method_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Transferencia SPEI"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"300.15"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
             </span><span class="nt">"sender_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"HUGO HERNANDEZ MANZANO"</span><span class="p">,</span><span class="w">
@@ -5737,6 +5797,12 @@ with the following fields on deposits.</p>
 <td>-</td>
 </tr>
 <tr>
+<td><strong>method_name</strong></td>
+<td>String</td>
+<td>Long name for the method</td>
+<td>-</td>
+</tr>
+<tr>
 <td><strong>amount</strong></td>
 <td>String</td>
 <td>The funding amount</td>
@@ -5749,7 +5815,7 @@ with the following fields on deposits.</p>
 <td>-</td>
 </tr>
 <tr>
-<td><strong>created</strong></td>
+<td><strong>created_at</strong></td>
 <td>String</td>
 <td>Timestamp at which the funding was received</td>
 <td>ISO 8601 timestamp</td>
@@ -5777,9 +5843,10 @@ with the following fields on withdrawals.</p>
     </span><span class="p">{</span><span class="w">
         </span><span class="nt">"wid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p4u8d7f0768ee91d3b33bee6483132i8"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"complete"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-07-09T19:22:38+00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-07-09T19:22:38+00:00"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xrp"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rp"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"method_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ripple"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"57"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
             </span><span class="nt">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59"</span><span class="p">,</span><span class="w">
@@ -5821,6 +5888,12 @@ with the following fields on withdrawals.</p>
 <td>-</td>
 </tr>
 <tr>
+<td><strong>method_name</strong></td>
+<td>String</td>
+<td>Long name for the method</td>
+<td>-</td>
+</tr>
+<tr>
 <td><strong>amount</strong></td>
 <td>String</td>
 <td>The withdrawal amount</td>
@@ -5833,7 +5906,7 @@ with the following fields on withdrawals.</p>
 <td>-</td>
 </tr>
 <tr>
-<td><strong>created</strong></td>
+<td><strong>created_at</strong></td>
 <td>String</td>
 <td>Timestamp at which the withdrawal was received</td>
 <td>ISO 8601 timestamp</td>
