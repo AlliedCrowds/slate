@@ -175,8 +175,7 @@ is <code class="prettyprint">https://api-dev.bitso.com/v3/</code></p>
 
 <h2 id="rate-limits">Rate Limits</h2>
 
-<p>Rate limits are based on one minute windows. For public API requests, the
-limit is 60 requests per minute. For private API requests, the limit is 300
+<p>Rate limits are based on one minute windows. For public API requests, the limit is by IP address and allows 60 requests per minute. For private API requests, the limit is by user and allows 300
 requests per minute. If you exceed these limits, you will get locked out for
 one minute. Continuous one minute lockouts may result in a 24-hour block.</p>
 
@@ -245,6 +244,19 @@ error categories, the last two digits define specific errors.</p>
 <li>0339: Email is already in use</li>
 <li>0340: Not supported country</li>
 <li>0341: Invalid postal code</li>
+<li>0342: Invalid CVU</li>
+<li>0343: Incorrect amount</li>
+<li>0344: Invalid BIND recipient name</li>
+<li>0345: Error processing Bind Transfer request</li>
+<li>0346: Invalid setting identifier</li>
+<li>0347: Too many attempts to validate CURP</li>
+<li>0348: CURP data did not match with user data</li>
+<li>0349: Already in use</li>
+<li>0350: Cannot disable a currency with positive balance</li>
+<li>0351: Unable to generate CVU for user</li>
+<li>0352: Disposable email not allowed</li>
+<li>0353: Current withdrawal fee is higher than specified maximum</li>
+<li>0354: No defined legal operation entity</li>
 </ul>
 
 <h3 id="system-limit-errors-04-http-400">System Limit Errors: 04 (HTTP 400)</h3>
@@ -263,6 +275,7 @@ error categories, the last two digits define specific errors.</p>
 
 <ul>
 <li>0501: Exceeds user limit for withdrawals</li>
+<li>0502: Exceeds user limit for deposits</li>
 </ul>
 
 <h3 id="funds-error-06-http-400">Funds Error: 06 (HTTP 400)</h3>
@@ -3546,6 +3559,12 @@ as the JSON payload used to construct the signature.</p>
 <td>-</td>
 <td>Yes</td>
 <td>The address to send that amount to</td>
+</tr>
+<tr>
+<td><strong>max_fee</strong></td>
+<td>-</td>
+<td>No</td>
+<td>The maximum withdrawal you are willing to pay</td>
 </tr>
 <tr>
 <td><strong>destination_tag</strong></td>
