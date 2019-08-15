@@ -177,7 +177,7 @@ is <code class="prettyprint">https://api-dev.bitso.com/v3/</code></p>
 
 <p>Rate limits are based on one minute windows. For public API requests, the limit is by IP address and allows 60 requests per minute. For private API requests, the limit is by user and allows 300
 requests per minute. If you exceed these limits, you will get locked out for
-one minute. Continuous one minute lockouts may result in a 24-hour block.</p>
+one minute. Continuous one minute lockouts may result in a 24-hour block. Order cancellations aren’t subject to API rate limiting.</p>
 
 <h2 id="error-codes">Error Codes</h2>
 
@@ -257,6 +257,7 @@ error categories, the last two digits define specific errors.</p>
 <li>0352: Disposable email not allowed</li>
 <li>0353: Current withdrawal fee is higher than specified maximum</li>
 <li>0354: No defined legal operation entity</li>
+<li>0355: Incorrect hash (non-existent or does not belong to user)</li>
 </ul>
 
 <h3 id="system-limit-errors-04-http-400">System Limit Errors: 04 (HTTP 400)</h3>
@@ -3209,7 +3210,7 @@ a specific operation type.</p>
 <td><strong>nonce</strong></td>
 <td>-</td>
 <td>Yes</td>
-<td>See [Creating and Signing Requests](#creating-and-signing-</td>
+<td>See <a href="#creating-and-signing-requests">Creating and Signing Requests</a></td>
 </tr>
 </tbody></table>
 
@@ -3267,6 +3268,12 @@ as the JSON payload used to construct the signature.</p>
 <td>-</td>
 <td>No</td>
 <td>Price per unit of major at which to stop and place order. For use only with stop orders.</td>
+</tr>
+<tr>
+<td><strong>time_in_force</strong></td>
+<td>-</td>
+<td>No</td>
+<td>Indicates how long a limit order will remain active before it is executed or expires (goodtillcancelled, fillorkill, immediateorcancel)</td>
 </tr>
 </tbody></table>
 
